@@ -18,3 +18,9 @@ Elágazásoknál a járművek véletlenszerűen választanak a lehetőségek kö
 Az utak egyirányúak és minden szabály ki van táblázva (nincs jobbkezes kereszteződés).
 
 A bankrablók speciálisan tuningolt autója kivétel a szabály alól, ők szabadon közlekedhetnek a városban, minden szabályt áthágva. Miközben megpróbálnak eljutni a banktól a rejtekhelyig, ügyelni kell, hogy ne ütközzenek más autóval és az üldöző rendőr se érje el őket. 
+
+
+
+http://kfarkas.iit.bme.hu/~szglab4/
+
+http://kfarkas.iit.bme.hu/~szglab4/viiia220.pdf
