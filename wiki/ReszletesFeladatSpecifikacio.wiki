@@ -5,8 +5,11 @@
 == 2.1 Követelmény definíció ==
 
 A feladat egy városban az utak felépítése, és azon autók vezérlése. Az autók engedelmeskednek a jól definiált szabályoknak (megáll piros lámpánál, stop táblánál, elsőbbséget ad, stb.).
+
 Elágazásoknál véletlenszerűen választ egy autó azon utak közül, ahová behajthat. Az autók a város határánál jelennek meg, és tűnnek el (hajtanak ki a városból) a határánál. Sebességeik különbözőek, de nem előznek, türelmesen haladnak a lassabb (előttük haladó) jármű mögött.
+
 Minden út egyirányú, nincsen jobbkezes kereszteződés (_minden le van táblázva_).
+
 Van egy különleges autó, a bankrablók autója. Ők nem tartanak be semmi szabályt, bármerre közlekedhetnek. A banktól próbálnak meg eljutni a rejtekhelyig, s ügyelni kell arra, hogy ne ütközzenek össze más autóval, valamint az üldöző rendőr se érje utol őket.
 
 == 2.2 Projektterv ==
