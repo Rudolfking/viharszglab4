@@ -2,7 +2,7 @@
 
 = 2. Követelmény, projekt, funkcionalitás =
 
-== 2.1 Követelmény definíció
+== 2.1 Követelmény definíció ==
 
 A feladat egy városban az utak felépítése, és azon autók vezérlése. Az autók engedelmeskednek a jól definiált szabályoknak (megáll piros lámpánál, stop táblánál, elsőbbséget ad, stb.).
 Elágazásoknál véletlenszerűen választ egy autó azon utak közül, ahová behajthat. Az autók a város határánál jelennek meg, és tűnnek el (hajtanak ki a városból) a határánál. Sebességeik különbözőek, de nem előznek, türelmesen haladnak a lassabb (előttük haladó) jármű mögött.
