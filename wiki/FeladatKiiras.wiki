@@ -39,3 +39,4 @@ http://subclipse.tigris.org/update_1.6.x
 http://download.eclipse.org/modeling/mdt/updates/releases/
 
 http://www.visual-paradigm.com/download/vpuml.jsp?edition=ce
+comunity edition!! visual paradigm for uml, sde 5.2 for eclipse
