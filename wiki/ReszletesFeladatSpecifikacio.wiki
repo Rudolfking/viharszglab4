@@ -23,12 +23,12 @@ A végleges, elkészült szoftver irányítása az egér, billentyűzet segíts�
 === 2.1.3 A program futtatásához szükséges rendszerkövetelmények ===
 
 A futtatás szükségességét a következő szoftverek teszik ki:
-* JRE (Java Runtime Environment)
+ * JRE (Java Runtime Environment)
 
 Az ehhez szükséges minimum konfiguráció (ld. SUN által meghatározva)
-* 32 MB memória
-* 125 MB szabad lemezterület
-* 166 MHz, vagy annál gyorsabb processzor
+ * 32 MB memória
+ * 125 MB szabad lemezterület
+ * 166 MHz, vagy annál gyorsabb processzor
 
 == 2.2 Projektterv ==
 
