@@ -4,6 +4,8 @@
 
 == 2.1 Követelmény definíció ==
 
+=== 2.1.1 A program célja és alapvető ellátandó feladatai ===
+
 A feladat egy városban az utak felépítése, és azon autók vezérlése. Az autók engedelmeskednek a jól definiált szabályoknak (megáll piros lámpánál, stop táblánál, elsőbbséget ad, stb.).
 
 Elágazásoknál véletlenszerűen választ egy autó azon utak közül, ahová behajthat. Az autók a város határánál jelennek meg, és tűnnek el (hajtanak ki a városból) a határánál. Sebességeik különbözőek, de nem előznek, türelmesen haladnak a lassabb (előttük haladó) jármű mögött.
@@ -12,9 +14,15 @@ Minden út egyirányú, nincsen jobbkezes kereszteződés (_minden le van tábl�
 
 Van egy különleges autó, a bankrablók autója. Ők nem tartanak be semmi szabályt, bármerre közlekedhetnek. A banktól próbálnak meg eljutni a rejtekhelyig, s ügyelni kell arra, hogy ne ütközzenek össze más autóval, valamint az üldöző rendőr se érje utol őket.
 
+A fejlesztőcsapatunk célja egy olyan kész program előállítása, mely teljes mértékben kielégíti a specifikációban megkövetelteket, és ami minden olyan rendszeren lefordítható, futtatható, mely megfelel a későbbiekben pontosan megfogalmazott követelményeknek.
+
+=== 2.1.2 A felhasználói felület (UI) ===
+
+A végleges, elkészült szoftver irányítása az egér, billentyűzet segítségével lesz elérhető
+
 == 2.2 Projektterv ==
 
-...
+
 
 == 2.3 Feladatkiírás ==
 
