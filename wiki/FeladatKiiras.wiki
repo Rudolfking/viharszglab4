@@ -35,4 +35,7 @@ hartungi@gmail.com
 http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/galileo/SR1/eclipse-jee-galileo-SR1-win32.zip
 
 http://subclipse.tigris.org/update_1.6.x
+
 http://download.eclipse.org/modeling/mdt/updates/releases/
+
+http://www.visual-paradigm.com/download/vpuml.jsp?edition=ce
