@@ -30,6 +30,24 @@ Az ehhez szükséges minimum konfiguráció (ld. SUN által meghatározva)
  * 125 MB szabad lemezterület
  * 166 MHz, vagy annál gyorsabb processzor
 
+=== 1.1.4 A szoftver fejlesztésével kapcsolatos alapkövetelmények, elvek, célok ===
+
+*Modellhűség*
+
+A kész szoftvernél kiemelkedően fontos, hogy szigorúan elégítse ki a részletes specifikációban meghatározott követelményeket. Mindannyian teljes mértékben ennek alárendelve alakítjuk ki gondolkodásmódunkat a tervezéssel, és a megvalósítással kapcsolatban is.
+
+*Továbbfejleszthetőség*
+
+Az elkészült szoftver minden szempontból tökéletesen, maradéktalanul és hiánytalanul megérthető a mellékelt részletes dokumentáció segítségével. Mindannyian figyelembe vettük azt az elengedhetetlen tényezőt, hogy a szoftver továbbfejlesztése minden problémától mentes, gördülékeny, akadálymentes, és egyszerű legyen.
+
+*Moduláris megoldások*
+
+A tervezés során különösen hatékony tervezési minták felhasználásával értük el, hogy a projekten belül a szoftver jól elkülöníthető részegységekre tagolható legyen. Ennek segítségével egyszerűbbé válik a tesztelés, a fejlesztés, a megértése a kódnak, valamint külön-külön felhasználhatóak az egyes modulok. A közöttük fellépő kapcsolatokat minimalizálni kell.
+
+*Teljesítmény, optimalizáció, algoritmusok*
+
+
+
 == 2.2 Projektterv ==
 
 
