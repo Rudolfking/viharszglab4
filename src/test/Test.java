@@ -9,5 +9,7 @@ public class Test {
 		System.out.println("Hello World Changed by Szilveszter");
 		System.out.println("Szerintem is Changed by Balázs");
 		System.out.println("Szerintem is Changed by szsz");//király, kommentelem is :)
+
+		System.out.println("pici valtoztats");
 	}
 }
