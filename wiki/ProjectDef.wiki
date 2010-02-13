@@ -1,3 +1,4 @@
+#summary Projekt definíció, kapcsolat, feladatkiírások, beadandók, egyszóval féléves leírás az elvégzendő feladatokról.
 Szoftver labor 4
 
 Projekt definíció
