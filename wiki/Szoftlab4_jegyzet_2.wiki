@@ -1,0 +1,18 @@
+#summary SZoftlab 4 konzultáció jegyzet 2010.02.19.
+
+== Előző heti micsodák ==
+ * Ne legyünk poénosak
+ * Rendszerkövetelmények nem jók (HSZK gépeken fusson el)
+ * Hivatalos doksi!
+
+= Mostani leadandó =
+ * Ez az alapja, nagyon fontos
+ * A progi vázát határozzuk meg (objektumok, kommunikáció)
+ * Nagyon fontos
+
+== Egyes pontkra bontva a beadandót (2.)
+ * Osztályok leírása _hosszú lista_(összes attribútum, összes függvény, leírás
+ * Absztrakt osztályok, interfészek is látszódjanak, ki kinek ősosztálya
+ * Objektum-katalógus (mire való, mit reprezentál, _"ez a rablójátékos, stb."_)
+ * *Magyar, vagy angol legyen a programopzás nyelve?* (nekünk _angol_ basszus)
+ * Statikus struktúra-diagramok: Nagy-nagy osztálydiagramm (class diagram)
