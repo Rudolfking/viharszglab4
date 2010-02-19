@@ -38,6 +38,7 @@
 
 = Modellezés =
  * Mit várunk egy modelltől? Pontozás a gyakvezér által (így nincs koherencia a gyakvezérek között)
+ * Csak magának a játékmodellnek a működése (se _menü, highscores, help, egér, mouse controller, bármilyen irányítás_ nem lehet benne) alkotja a modellt, ez kib@&%+#tt fontos - még az se, aki irányítja a játékot (óra)
  * Néhány irányelv: Felejtsük el a _folytonos_ modelleket: pl. nyomva tartom a gombot, gyorsul az autó (ezek grafika!)
  * Sokkal inkább OO szemlélet, diszkrét modell (mező, mezőn az autó, nincsen autó a mezők között)
  * Szálkezelés: Tesztelni kell! Meg kell, hogy legyen határozva, hogy ki mikor milyen módon, hogyan lép (tehát irányítani nem fogunk mi semmit a grafikus verzióig)
@@ -46,3 +47,16 @@
  * Ha van egy autó, csak ő tudja a saját sebességét (ez egy példa az előző pontra)
  * Ha van egy mező, tudja, milyen autó áll rajta, de egyetlen másik autóról sem tud semmit
  * Lehetőleg tesztelésnél négyszögletű kanyarok legyenek, meg ilyenek - így érthető és tiszta a modell és tesztelése (más _valid_ modell is jó)
+
+= Modell-fejlesztési minták =
+
+== Strategy ==
+ * Hogy képzeljük el pl. az autók mozgatását (az autó tudja az irányát és mozgatását. Pl.: kereszteződésbe behajthat-e? Valami külső objektum *NEM* határozhatja meg, kereszteződés vizsgálja meg (nem olyan szép), autó tudja (ez a szép megoldás), mert ugye a rabló sz.rik az egészre
+ * *Egyszóval a döntést az autó hozza meg, ne a kereszteződés*
+ * Ütközés-detekció hogyan történjen: Autó _dönjti el_, átlépnek másik cellára
+
+== Visitor-acceptor ==
+ * Neten ne nézzünk utána, mert bonyolultabb
+ * Autó dönti el az ütközést: Rá akar lépni egy mezőre (pl. mező.visit() függvény - ami visszaad valami más objektumot (ami rajta van, ha nincs, akkor pl. null) - meghívja az autó.Accept() függvényt => ebből többféle van, van, ami null-t vár, autót, rendőrt, meg ilyeneket és itt kezeljük le, hogy mit tegyen az előtte lévő objektummal (rendőr rendőrt elüt-e, bankrabló esetén ugye belerongyolunk, az objektum "továbbenged")
+ * *INSTANCEOF TILOOOOS* nem szabad, lásd fentebbi megoldást
+ * minden különbség külön függvényt igényel (és ne legyen _ki vagyok én_ függvény)
