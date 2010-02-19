@@ -9,6 +9,11 @@
  * Ez az alapja, nagyon fontos
  * A progi vázát határozzuk meg (objektumok, kommunikáció)
  * Nagyon fontos
+ * Módosítási lehetőség a dokumentációban: Év végén leadott dokumentáció koherens, nincs benne hiba (!), *tilos* az utolsó hétre hagyni. Le kell követni a hibákat, és majdan kijavítani
+ * Változtatott doksit intelligensebb újra leadni
+ * Nem kell feltétlenül jelezni egy változtatást (3 beadanós speciális óra: egymás programjait kipróbáljuk, leteszteljük, ledokumentáljuk - ilyenkorra kell a friss doksi)
+ * Ragaszkodjunk az e-mailben elküldéshez (_is_)
+ * 0. pontnak *_Melléklet_* -ként adjuk meg a változtatásokat!
 
 == Egyes pontkra bontva a beadandót (2.) ==
  * Osztályok leírása _hosszú lista_(összes attribútum, összes függvény, leírás
@@ -43,10 +48,12 @@
  * Sokkal inkább OO szemlélet, diszkrét modell (mező, mezőn az autó, nincsen autó a mezők között)
  * Szálkezelés: Tesztelni kell! Meg kell, hogy legyen határozva, hogy ki mikor milyen módon, hogyan lép (tehát irányítani nem fogunk mi semmit a grafikus verzióig)
  * Sebesség az most mit jelent? _Km/h? Hány lépésenként kapunk lépésutasítást?_
- * *Nincs isten-objektum*! Egyben minden és ő mozgat mindent
+ * *Nincs isten-objektum*! (Jelentése: egyben minden és ő mozgat mindent)
  * Ha van egy autó, csak ő tudja a saját sebességét (ez egy példa az előző pontra)
  * Ha van egy mező, tudja, milyen autó áll rajta, de egyetlen másik autóról sem tud semmit
  * Lehetőleg tesztelésnél négyszögletű kanyarok legyenek, meg ilyenek - így érthető és tiszta a modell és tesztelése (más _valid_ modell is jó)
+ * Legyen meg attribútumban, hogy akkor most mi van (3szög alakú pálya, 4szög alakú pálya, anyámkinnya stb.)
+
 
 = Modell-fejlesztési minták =
 
@@ -58,5 +65,5 @@
 == Visitor-acceptor ==
  * Neten ne nézzünk utána, mert bonyolultabb
  * Autó dönti el az ütközést: Rá akar lépni egy mezőre (pl. mező.visit() függvény - ami visszaad valami más objektumot (ami rajta van, ha nincs, akkor pl. null) - meghívja az autó.Accept() függvényt => ebből többféle van, van, ami null-t vár, autót, rendőrt, meg ilyeneket és itt kezeljük le, hogy mit tegyen az előtte lévő objektummal (rendőr rendőrt elüt-e, bankrabló esetén ugye belerongyolunk, az objektum "továbbenged")
- * *INSTANCEOF TILOOOOS* nem szabad, lásd fentebbi megoldást
+ * *INSTANCEOF TILOOOOS* nem szabad, lásd fentebbi megoldást, kiraknak érte a laborról :)
  * minden különbség külön függvényt igényel (és ne legyen _ki vagyok én_ függvény)
