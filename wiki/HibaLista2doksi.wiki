@@ -30,7 +30,7 @@
  * Nem a Game ellenőrzi, mondtam máááááááár
 
 === Bankrabló mozgatása ===
- * a chooseFrom nincs leírva, mit csinál
+ * a chooseFrom nincs leírva, mit csinál, specifikálni kell
  * Szerintünk az egész szar
 
 === Vehicle move ===
@@ -42,3 +42,5 @@ Innen még hiányzott a következő state chart: Lámpa léptetése, sebességek
  * Egyszerűbben is elég lett volna
 
 Autóknak kell még egy state chart.
+
+Visitor acceptor pattern hiányzik... Pedig beleraktuk :) vagy mégsem? Deeee, az a sok accept(micsodák) mi e? De nem így kell? De igen? De?
