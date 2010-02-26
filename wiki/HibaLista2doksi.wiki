@@ -43,4 +43,20 @@ Innen még hiányzott a következő state chart: Lámpa léptetése, sebességek
 
 Autóknak kell még egy state chart.
 
-Visitor acceptor pattern hiányzik... Pedig beleraktuk :) vagy mégsem? Deeee, az a sok accept(micsodák) mi e? De nem így kell? De igen? De?
+Visitor acceptor pattern hiányzik...
+
+= Javítások =
+ * osztálydiagramot most megcsináljuk, maradék Szilveszteré
+ * játék inicializálását Máté javítja
+ * check events töröljük
+ * Robber vs Hiding place Máté reszortja
+ * On the same road Balázs alkotása
+ * Vehicle generáció Máté profilja
+ * Vehicle city exit Balázs challenge
+ * Robber és vehicle move Szilveszter kihívása
+ * Lámpaléptetést Máté generálja
+ * Sebességeknek alkotása Balázs kihívása
+ * Jármű state-chartja Máté küldetése
+ * Robber meets car Máténak kiosztva
+
+Hogy tetszenek a különböző kifejezések?:)
