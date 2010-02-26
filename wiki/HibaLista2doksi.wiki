@@ -1,0 +1,44 @@
+#summary 2. beadott házi hibalistája 20100226
+
+= Hibák =
+
+== Class diagram ==
+ * "UML?"
+
+== Szekvencia-diagramok ==
+
+=== Inicializálás ===
+ * Az utolsó cellát nem az első cella, hanem az út gyártja le
+ * Vehicle elhelyezése látszódjon, hogy hova rakódik le, hogyan
+
+=== Időegységek léptetéseinek szimulálása ===
+ * Tick Sign-hoz út vagy game által?
+
+=== Eseményellenőrzés ===
+ * *NEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEM*, nem a játék ellenőrzi!
+
+=== Robber és policeman egy utcán ===
+ * Ezt se agame ellenőrzi!
+
+=== Robber vs Hiding place ===
+ * Ezt se a game, ihhihihihihi :)
+
+=== Vehicle generation ===
+ * Melyik útra helyezi? A városhatárra kellene helyeznie
+
+=== Vehicle versus City exit ===
+ * Nem a Game ellenőrzi, mondtam máááááááár
+
+=== Bankrabló mozgatása ===
+ * a chooseFrom nincs leírva, mit csinál
+ * Szerintünk az egész szar
+
+=== Vehicle move ===
+ * accept (nv as nextvehicle) ki kell fejteni
+
+Innen még hiányzott a következő state chart: Lámpa léptetése, sebességek
+
+== State-chartok ==
+ * Egyszerűbben is elég lett volna
+
+Autóknak kell még egy state chart.
