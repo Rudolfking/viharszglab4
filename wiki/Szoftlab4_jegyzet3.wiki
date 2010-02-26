@@ -1,9 +1,6 @@
 #summary Szoftlab 4 3. jegyzet konzultáción
 #labels Phase-Implementacio
 
-= Introduction =
-
-Add your content here.
 
 
 == Hibalisták, szekvencia-diagram ==
