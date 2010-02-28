@@ -57,6 +57,9 @@ Visitor acceptor pattern hiányzik...
  * Lámpaléptetést Máté generálja
  * Sebességeknek alkotása Balázs kihívása
  * Jármű state-chartja Máté küldetése
- * Robber meets car Máténak kiosztva
+ * Robber meets car Máténak kiosztva (én megcsináltam, (Szilveszter))
+
+A végleges kiosztást nézzétek meg a szpreadsheet Szekvencia diagrammok fülében
+
 
 Hogy tetszenek a különböző kifejezések?:)
