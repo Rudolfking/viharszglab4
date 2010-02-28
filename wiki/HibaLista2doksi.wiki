@@ -46,6 +46,9 @@ Autóknak kell még egy state chart.
 Visitor acceptor pattern hiányzik...
 
 = Javítások =
+
+TELJESEN MEGVÁLTOZOTT H KI MIT CSINÁL
+VOLT KÉT HASONLÓ FELADAT AMIT KÜLÖNBÖZŐ EMBER CSINÁL AZT MOST EGY stb
  * osztálydiagramot most megcsináljuk, maradék Szilveszteré
  * játék inicializálását Máté javítja
  * check events töröljük
