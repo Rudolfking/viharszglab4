@@ -49,7 +49,7 @@ Visitor acceptor pattern hiányzik...
  * osztálydiagramot most megcsináljuk, maradék Szilveszteré
  * játék inicializálását Máté javítja
  * check events töröljük
- * Robber vs Hiding place Máté reszortja
+ * Robber vs Hiding place Máté reszortja (én megcsináltam, (Szilveszter))
  * On the same road Balázs alkotása
  * Vehicle generáció Máté profilja
  * Vehicle city exit Balázs challenge
