@@ -44,8 +44,9 @@
  * Itt ezt hogyan lehet előhozni, ez a szekvenciák tesztelése, amit korábban megoldottunk
 
 Pontozás: Terv (0-20 pont), aztán a beadás (0-20 pont) ahol a saját specifikációnak kell tökéletesen megfelelni
-
-Feladatok:
+----
+----
+= Feladatok: =
 
 *Szilveszter*: _"Én nem csinálok semmit!"_
 *Krisztián*: -
