@@ -11,6 +11,8 @@
  * Kiír valamit (ezt szépen *kell* megcsinálni)! Kit hívott meg, ki, milyen paraméterekkel, valamint be lehet tabolni mélységileg
  * Egyezés a szekvenciadiagramokkal 100%-os legyen!
 
+----
+
 == Tippek az elkészítéshez ==
  * Generálni, vagy szerkezetet írni
  * Metódusok létrehozása
@@ -19,6 +21,8 @@
  * döntések helyére kérdéseket tesz fel a felhasználó felé (menü, melyik döntés mit jelent, ő meg választhat)
  * Új osztály, mini metódus: Skeleton. Ebben felépítünk egy kis játékrészt (*KICSIT!*), ott pedig lejátszunk valamit (2 mező, autó lép egyet, aztán ennyi)
  * Eszerint az összes szekvenciát és use-case-t tesztelni kell
+
+----
 
 === A szkeleton modell valóságos use-case-ei ===
  * Haonlít a valóságra, nem egyszerű
@@ -40,7 +44,3 @@
  * Itt ezt hogyan lehet előhozni, ez a szekvenciák tesztelése, amit korábban megoldottunk
 
 Pontozás: Terv (0-20 pont), aztán a beadás (0-20 pont) ahol a saját specifikációnak kell tökéletesen megfelelni
-----
-{{{
-csak a metódusok kellenek
-}}}
