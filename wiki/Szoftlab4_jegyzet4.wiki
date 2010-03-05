@@ -49,7 +49,11 @@ Pontozás: Terv (0-20 pont), aztán a beadás (0-20 pont) ahol a saját specifik
 = Feladatok: =
 
 *Szilveszter*: _"Én nem csinálok semmit!"_
+
 *Krisztián*: -
+
 *Balázs*: Kódgenerálás, rizsafőzés
+
 *Máté*: Ősszes teszteset részletes, pontos kidolgozása az előre specifikáltaknak megfeleően minden szekvenciára lefedve, valamint kódol
+
 Időjárás: Sok hó esik
