@@ -48,11 +48,11 @@ Pontozás: Terv (0-20 pont), aztán a beadás (0-20 pont) ahol a saját specifik
 ----
 = Feladatok: =
 
-*Szilveszter*: _"Én nem csinálok semmit!"_
+*Szilveszter*: _"Én nem csinálok semmit!"_ amúgy hiba-javítások, Use Case szerkesztése
 
 *Krisztián*: -
 
-*Balázs*: Kódgenerálás, rizsafőzés
+*Balázs*: Kódgenerálás, rizsafőzés, előző doksi javítása
 
 *Máté*: Ősszes teszteset részletes, pontos kidolgozása az előre specifikáltaknak megfeleően minden szekvenciára lefedve, valamint kódol
 
