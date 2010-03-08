@@ -1,0 +1,17 @@
+package InitialClassDiagram;
+
+public class LogActor {
+private String nameOfObject;
+private String nameOfClass;
+private int objectId;
+public LogActor(String oname, String oClass, int id)
+{
+	nameOfObject=oname;
+	nameOfClass=oClass;
+	objectId=id;
+}
+public String toString()
+{
+	return nameOfObject+"|"+nameOfClass+"|"+objectId;
+}
+}
