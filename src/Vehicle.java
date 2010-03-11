@@ -1,9 +1,18 @@
-public abstract class Vehicle implements ITickable {
+public abstract class Vehicle implements INamedObject {
 
 	private int ticksLeft;
 	private Cell cell;
 	private int inverseSpeed;
 	private Game game;
+	String name;
+	
+	public String getName() {
+		return name; 
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	/**
 	 * 

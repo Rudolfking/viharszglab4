@@ -1,6 +1,6 @@
 public class Robber extends Vehicle {
 
-	private bool isGoingForward;
+	private boolean isGoingForward;
 	private int minimumInverseSpeed;
 	private int maximumInverseSpeed;
 	private Cell preferredCell;
