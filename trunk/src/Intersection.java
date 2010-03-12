@@ -1,4 +1,4 @@
-package InitialClassDiagram;
+//package InitialClassDiagram;
 
 public class Intersection extends Cell {
 
