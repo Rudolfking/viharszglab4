@@ -1,4 +1,4 @@
-import InitialClassDiagram.*;
+//import InitialClassDiagram.*;
 
 public class CityExit extends Intersection {
 

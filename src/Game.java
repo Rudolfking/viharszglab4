@@ -1,6 +1,6 @@
-import InitialClassDiagram.*;
+//import InitialClassDiagram.*;
 
-public class Game {
+public class Game implements INamedObject {
 
 	private CivilCar[] cars;
 	private Policeman[] policemen;
@@ -11,13 +11,32 @@ public class Game {
 	private int minPolice;
 	private int minCivilCar;
 	private Bank bank;
+	
+	private String name;
+	private ILogger logger;
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setLogger(ILogger logger) {
+		this.logger = logger;
+	}
 
 	/**
 	 * 
 	 * @return 
 	 */
 	public void tick() {
-		throw new UnsupportedOperationException();
+		for(Road r : roads) {
+			logger.logCall(this, r, "tick()");
+			r.tick();
+			logger.logReturn(this, r, "tick()", null);
+		}
 	}
 
 	/**
@@ -33,7 +52,18 @@ public class Game {
 	 * @return 
 	 */
 	public void generateLevel() {
-		throw new UnsupportedOperationException();
+		
+		// TESZT!!
+		
+		final int nRoads = 4;
+		
+		roads = new Road[nRoads];
+		for(int i = 0; i < nRoads; i++) {
+			roads[i] = new Road();
+			roads[i].setName("road" + Integer.toString(i));
+		}
+		
+		// ---
 	}
 
 	/**

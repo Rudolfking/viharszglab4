@@ -1,9 +1,19 @@
-import InitialClassDiagram.*;
-import RoadCell.*;
+//import InitialClassDiagram.*;
+//import RoadCell.*;
 
-public abstract class Cell {
+public abstract class Cell implements INamedObject {
 
+	private String name;
 	private Vehicle vehicle;
+	
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	/**
 	 * 

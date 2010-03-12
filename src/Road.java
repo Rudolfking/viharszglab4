@@ -1,10 +1,20 @@
-package InitialClassDiagram;
+//package InitialClassDiagram;
 
-public class Road {
+public class Road implements INamedObject {
 
 	private int cells;
 	private Intersection entry;
 	private Intersection exit;
+	
+	private String name;
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	/**
 	 * 
@@ -44,7 +54,7 @@ public class Road {
 	 * @return 
 	 */
 	public void tick() {
-		throw new UnsupportedOperationException();
+		
 	}
 
 }
