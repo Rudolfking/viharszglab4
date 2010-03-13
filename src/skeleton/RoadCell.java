@@ -1,3 +1,4 @@
+package skeleton;
 import java.io.*;
 
 public class RoadCell extends Cell {

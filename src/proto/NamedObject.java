@@ -1,3 +1,4 @@
+package proto;
 public class NamedObject implements INamedObject {
 
 	private String name;

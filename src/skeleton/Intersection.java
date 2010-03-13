@@ -1,5 +1,5 @@
 //package InitialClassDiagram;
-
+package skeleton;
 public class Intersection extends Cell {
 
 	private Cell[] nextCells;

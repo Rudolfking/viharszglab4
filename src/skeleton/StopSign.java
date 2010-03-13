@@ -1,5 +1,5 @@
 //import RoadCell.*;
-
+package skeleton;
 public class StopSign extends NamedObject implements ISign {
 
 	private int waitTime;

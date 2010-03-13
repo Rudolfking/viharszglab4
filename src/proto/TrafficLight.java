@@ -1,5 +1,5 @@
 //import RoadCell.*;
-
+package proto;
 public class TrafficLight extends NamedObject implements ISign {
 
 	private int redTime;

@@ -1,3 +1,4 @@
+package proto;
 public interface INamedObject {
 
 	String getName();

@@ -1,5 +1,5 @@
 //package InitialClassDiagram;
-
+package proto;
 public class Road extends NamedObject {
 
 	private Cell[] cells;

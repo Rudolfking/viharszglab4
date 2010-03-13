@@ -1,3 +1,4 @@
+package proto;
 public class Robber extends Vehicle {
 
 	private boolean isGoingForward;

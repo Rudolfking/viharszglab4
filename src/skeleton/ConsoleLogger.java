@@ -1,3 +1,4 @@
+package skeleton;
 public class ConsoleLogger extends Logger {
 		
 	public void logMessage(String message) {

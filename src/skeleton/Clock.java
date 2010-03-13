@@ -1,3 +1,4 @@
+package skeleton;
 public class Clock extends NamedObject {
 
 	public Clock(String name) {

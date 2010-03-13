@@ -1,3 +1,4 @@
+package skeleton;
 public class Robber extends Vehicle {
 
 	private boolean isGoingForward;

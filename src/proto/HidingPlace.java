@@ -1,5 +1,5 @@
 //import InitialClassDiagram.*;
-
+package proto;
 public class HidingPlace extends Intersection {
 	
 	public HidingPlace(String name) {
