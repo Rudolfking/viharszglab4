@@ -1,5 +1,5 @@
 
-public interface ISign {
+public interface ISign extends INamedObject {
 	
 	boolean isBlocking();
 	void vehicleEntered();

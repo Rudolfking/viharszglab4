@@ -1,18 +1,12 @@
 //import InitialClassDiagram.*;
 //import RoadCell.*;
 
-public abstract class Cell implements INamedObject {
-
-	private String name;
+public abstract class Cell extends NamedObject {
+	
 	private Vehicle vehicle;
 	
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
+	public Cell(String name) {
+		super(name);
 	}
 
 	/**

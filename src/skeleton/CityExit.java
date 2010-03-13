@@ -2,6 +2,10 @@
 
 public class CityExit extends Intersection {
 
+	public CityExit(String name) {
+		super(name);
+	}
+	
 	/**
 	 * 
 	 * @param p

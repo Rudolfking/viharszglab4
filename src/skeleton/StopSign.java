@@ -1,9 +1,13 @@
 //import RoadCell.*;
 
-public class StopSign implements ISign {
+public class StopSign extends NamedObject implements ISign {
 
 	private int waitTime;
 	private int tickAmount;
+	
+	public StopSign(String name) {
+		super(name);
+	}
 	
 	public boolean isBlocking() {
 		return true;
