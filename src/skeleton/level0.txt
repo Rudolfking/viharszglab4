@@ -1,0 +1,15 @@
+# comments begin with #
+#
+# number of intersections:
+2
+# number of roads:
+1
+# 1st road entry
+0
+# 1st road exit
+1
+# 1st road cell number
+1
+# place sign on 1st road's 1st cell
+# (1/2/3 - Stop/TrafLight/no)
+3

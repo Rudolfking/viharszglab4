@@ -108,7 +108,7 @@ public class Game extends NamedObject {
 				int l = Integer.valueOf(input.readLine());
 
 				roads[i] = new Road("road" + Integer.toString(i),
-						intersections[j], intersections[k], l, logger, input);
+						intersections[j], intersections[k], l, logger);
 				logger.logCreated(this, roads[i]);
 
 			} catch (IOException e) {
