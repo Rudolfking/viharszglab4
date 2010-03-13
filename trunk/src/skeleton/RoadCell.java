@@ -45,7 +45,7 @@ public class RoadCell extends Cell {
 	 * @return
 	 */
 	public void setNeighbourCells(Cell prev, Cell next) {
-		throw new UnsupportedOperationException();
+		
 	}
 
 }

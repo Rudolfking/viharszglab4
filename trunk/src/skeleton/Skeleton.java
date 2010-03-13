@@ -21,6 +21,19 @@ public class Skeleton {
 		// kommenteket (#-val kezdődő sor) nem veszi figyelembe
 		CustomReader input = new CustomReader(logger);
 
+		// parancssori paraméterek elemzése
+		boolean silent = false; // silent módban automatikus tesztelésnél nem írja ki a kérdéseket
+		String fileName = "";	// tesztelés bemeneteként használt input fájl neve
+		if (args.length > 0) 
+			for(String str : args) {
+				if(str.charAt(0)=='-') {
+					if((str.length()>1)&&(str.charAt(1)=='s'))
+						silent = true;
+				} else {
+					fileName = str;
+				}
+			}
+
 		// program fejléc kiírása
 		logger.logMessage("Software laboratory 4");
 		logger.logMessage("Team vihar");
@@ -30,11 +43,12 @@ public class Skeleton {
 		// input forrásának meghatározása
 		try {
 
-			// ha adtunk meg parancssori paramétert, azt bemeneti fájlnak veszi
-			if (args.length > 0) {
+			// ha adtunk meg parancssori paraméterként fájlt, beállítjuk bemenetnek
+			if (fileName.compareTo("") != 0) {
 				logger.logMessage("Input file given as command line argument.");
-				input.setInput(new BufferedReader(new FileReader(args[0])));
-				input.setEcho(true);
+				input.setInput(new BufferedReader(new FileReader(fileName)));
+				if(!silent)
+					input.setEcho(true);
 				// ha nem, akkor választhatunk konzol és fájl közül
 			} else {
 				// a választ konzolról olvassuk, ehhez a reader
@@ -65,14 +79,14 @@ public class Skeleton {
 					System.out
 							.println("You've chosen to give input via a text file.");
 					System.out
-							.print("Please enter the name of the input file: ");
-					String fileName = "";
+							.print("Please enter the name of the input file: ");					
 					try {
 						while (fileName == "")
 							fileName = in.readLine();
 						input.setInput(new BufferedReader(new FileReader(
 								fileName)));
-						input.setEcho(true);
+						if(!silent)
+							input.setEcho(true);
 					} catch (IOException e) {
 						e.printStackTrace();
 						System.exit(1);
@@ -83,15 +97,19 @@ public class Skeleton {
 					logger.logMessage("Your choice is not valid.");
 					logger.logMessage("Console assumed.");
 				}
-			}			
-			
+			}	
+
+			logger.setSilent(silent);		
+						
 			// teszteset kiválasztása
 			logger.logMessage("Please choose a test case:");
 			logger.logMessage("");
-			logger.logMessage("1- initialization");
+			logger.logMessage("1- initialization");			
 			
 			// teszteset lefuttatása
 			test(Integer.valueOf(input.readLine()),logger,input);
+
+			logger.setSilent(false);
 
 			logger.logMessage("---");
 			logger.logMessage("Skeleton test finished succesfully!");
@@ -114,16 +132,25 @@ public class Skeleton {
 
 			// pálya adatainak bekérése
 
-			// útelágazások száma
+			// bejáratok száma			
+			logger.logMessage("Please specify the number of city entries:");
+			int nEntries = Integer.valueOf(input.readLine());
+			// kijáratok száma			
+			logger.logMessage("Please specify the number of city exits:");
+			int nExits = Integer.valueOf(input.readLine());
+			// útelágazások száma			
 			logger.logMessage("Please specify the number of intersections:");
 			int nIntersections = Integer.valueOf(input.readLine());
-			// utak száma
+			// utak száma			
 			logger.logMessage("Please specify the number of roads:");
 			int nRoads = Integer.valueOf(input.readLine());
+			// autók száma			
+			logger.logMessage("Please specify the number of civil cars:");
+			int nCivilCars = Integer.valueOf(input.readLine());
 
 			// pálya legenerálása
-			logger.logMessage("Calling game.generateLevel(int nIntersections, int nRoads)");
-			game.generateLevel(nIntersections, nRoads);
+			logger.logMessage("Calling game.generateLevel(int nEntries, int nExits, int nIntersections, int nRoads, int nCivilCars)");
+			game.generateLevel(nEntries, nExits, nIntersections, nRoads, nCivilCars);
 			break;
 		default:
 			logger.logMessage("There is no such test case.");

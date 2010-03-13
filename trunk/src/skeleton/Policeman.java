@@ -3,6 +3,10 @@ public class Policeman extends Vehicle {
 
 	private Robber wanted;
 
+	public Policeman(String name) {
+		super(name);
+	}
+
 	/**
 	 * 
 	 * @param v
