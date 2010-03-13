@@ -1,3 +1,4 @@
+package skeleton;
 import java.io.*;
 
 public class Skeleton {
@@ -52,13 +53,13 @@ public class Skeleton {
 				input.setInput(new BufferedReader(new InputStreamReader(
 						System.in)));
 
-				if (str == "1") {
+				if (str.compareTo("1")==0) {
 					// ha konzolt választottunk
 					System.out
 							.println("You've chosen to give input manually from command line.");
 				} else
 
-				if (str == "2") {
+				if (str.compareTo("2")==0) {
 					// ha fájlt választottunk, bekérjük a nevét
 					System.out
 							.println("You've chosen to give input via a text file.");

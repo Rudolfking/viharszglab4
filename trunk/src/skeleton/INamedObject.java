@@ -1,3 +1,4 @@
+package skeleton;
 public interface INamedObject {
 
 	String getName();

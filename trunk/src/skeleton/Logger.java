@@ -1,3 +1,4 @@
+package skeleton;
 public abstract class Logger {
 	
 	protected int level;

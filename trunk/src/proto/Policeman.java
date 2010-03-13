@@ -1,3 +1,4 @@
+package proto;
 public class Policeman extends Vehicle {
 
 	private Robber wanted;

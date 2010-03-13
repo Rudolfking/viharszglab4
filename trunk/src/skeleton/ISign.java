@@ -1,4 +1,4 @@
-
+package skeleton;
 public interface ISign extends INamedObject {
 	
 	boolean isBlocking();

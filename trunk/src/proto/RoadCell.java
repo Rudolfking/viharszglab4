@@ -1,5 +1,5 @@
 //import InitialClassDiagram.*;
-
+package proto;
 public class RoadCell extends Cell {
 
 	private Cell nextCell;

@@ -1,5 +1,5 @@
 //import InitialClassDiagram.*;
-
+package proto;
 public class CityExit extends Intersection {
 
 	public CityExit(String name) {

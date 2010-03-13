@@ -1,3 +1,4 @@
+package skeleton;
 public abstract class Vehicle implements INamedObject {
 
 	private int ticksLeft;

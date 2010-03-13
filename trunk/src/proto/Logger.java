@@ -1,3 +1,4 @@
+package proto;
 public abstract class Logger {
 	
 	protected int level;

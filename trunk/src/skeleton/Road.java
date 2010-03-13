@@ -1,5 +1,5 @@
 //package InitialClassDiagram;
-
+package skeleton;
 public class Road extends NamedObject {
 
 	private Cell[] cells;

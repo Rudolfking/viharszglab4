@@ -1,5 +1,5 @@
 //package InitialClassDiagram;
-
+package proto;
 public class Intersection extends Cell {
 
 	private Cell[] nextCells;

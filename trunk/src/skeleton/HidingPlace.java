@@ -1,5 +1,5 @@
 //import InitialClassDiagram.*;
-
+package skeleton;
 public class HidingPlace extends Intersection {
 	
 	public HidingPlace(String name) {

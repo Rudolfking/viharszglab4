@@ -1,3 +1,4 @@
+package skeleton;
 public class Policeman extends Vehicle {
 
 	private Robber wanted;
