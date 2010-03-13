@@ -1,10 +1,14 @@
 //import RoadCell.*;
 
-public class TrafficLight implements ISign {
+public class TrafficLight extends NamedObject implements ISign {
 
 	private int redTime;
 	private int greenTime;
 	private int offset;
+	
+	public TrafficLight(String name) {
+		super(name);
+	}
 	
 	public boolean isBlocking() {
 		return true;
