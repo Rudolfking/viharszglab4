@@ -22,6 +22,8 @@ Create project from existing source | Directory: <src/skeleton mappa> | Next
 ...
 Majd a Skeleton.java-t kell kijelölni, és úgy nyomni egy futtatást.
 
+eclipsben workspacenek be kell allitatni az src mappat, legalabbis nekem mashogy nem engedte (sz)
+
 =======================================
 2 Dokumentáció készítése
 =======================================
