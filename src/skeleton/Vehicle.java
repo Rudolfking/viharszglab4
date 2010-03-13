@@ -1,19 +1,15 @@
 package skeleton;
-public abstract class Vehicle implements INamedObject {
+public abstract class Vehicle extends NamedObject {
 
 	private int ticksLeft;
 	private Cell cell;
 	private int inverseSpeed;
 	private Game game;
 	String name;
-	
-	public String getName() {
-		return name; 
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
+
+	public Vehicle(String name) {
+		super(name);
+	}	
 
 	/**
 	 * 

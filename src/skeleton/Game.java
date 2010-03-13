@@ -59,16 +59,16 @@ public class Game extends NamedObject {
 	 * 
 	 * @return
 	 */
-	public void generateLevel(int nIntersections, int nRoads) {
+	public void generateLevel(int nEntries, int nExits, int nIntersections, int nRoads, int nCivilCars) {
 
 		logger.logCall(this, this,
-				"generateMap(int nIntersections, int nRoads)");
-		generateMap(nIntersections, nRoads);
+				"generateMap(int nEntries, int nExits, int nIntersections, int nRoads)");
+		generateMap(nEntries,nExits,nIntersections, nRoads);
 		logger.logReturn(this, this,
-				"generateMap(int nIntersections, int nRoads)", null);
+				"generateMap(int nEntries, int nExits, int nIntersections, int nRoads)", null);
 
 		logger.logCall(this, this, "generateVehicles()");
-		generateVehicles();
+		generateVehicles(nCivilCars);
 		logger.logReturn(this, this, "generateVehicles()", null);
 
 	}
@@ -77,20 +77,37 @@ public class Game extends NamedObject {
 	 * 
 	 * @return
 	 */
-	private void generateMap(int nIntersections, int nRoads) {
+	private void generateMap(int nEntries, int nExits, int nIntersections, int nRoads) {
 
+		// bank legenerálása
 		logger.logCreate(this, "Bank");
 		bank = new Bank("bank");
-		logger.logCreated(this, bank);
+		logger.logCreated(this, bank);		
 
-		intersections = new Intersection[nIntersections];
-		intersections[0] = bank;
-		for (int i = 1; i < nIntersections; i++) {
+		intersections = new Intersection[nIntersections+nEntries+nExits];
+		// bejáratok legenerálása
+		for (int i = 0; i < nEntries; i++) {
+			logger.logCreate(this, "CityEntry");
+			intersections[i] = new CityEntry("cityEntry"
+					+ Integer.toString(i));
+			logger.logCreated(this, intersections[i]);
+		}
+		// kijáratok legenerálása
+		for (int i = nEntries; i < nEntries+nExits; i++) {
+			logger.logCreate(this, "CityExit");
+			intersections[i] = new CityExit("cityExit"
+					+ Integer.toString(i));
+			logger.logCreated(this, intersections[i]);
+		}
+		// útkereszteződések legenerálása	
+		logger.logMessage("Setting bank as intersection at index " + Integer.toString(nEntries+nExits));	
+		intersections[nEntries+nExits] = bank;
+		for (int i = nEntries+nExits+1; i < nEntries+nExits+nIntersections; i++) {
 			logger.logCreate(this, "Intersection");
 			intersections[i] = new Intersection("intersection"
 					+ Integer.toString(i));
 			logger.logCreated(this, intersections[i]);
-		}
+		}		
 
 		roads = new Road[nRoads];
 		for (int i = 0; i < nRoads; i++) {
@@ -99,11 +116,11 @@ public class Game extends NamedObject {
 			try {
 				logger.logMessage("Enter index of entry intersection for road"
 						+ Integer.toString(i) + " (0-"
-						+ Integer.toString(nIntersections - 1) + "):");
+						+ Integer.toString(nIntersections + nEntries + nExits - 1) + "):");
 				int j = Integer.valueOf(input.readLine());
 				logger.logMessage("Enter index of exit intersection for road"
 						+ Integer.toString(i) + " (0-"
-						+ Integer.toString(nIntersections - 1) + "):");
+						+ Integer.toString(nIntersections + nEntries + nExits - 1) + "):");
 				int k = Integer.valueOf(input.readLine());
 				logger.logMessage("Enter number of cells for road"
 						+ Integer.toString(i) + " (1-n):");
@@ -123,8 +140,26 @@ public class Game extends NamedObject {
 	 * 
 	 * @return
 	 */
-	private void generateVehicles() {
+	private void generateVehicles(int nCivilCars) {
 
+		// rendőr legenerálása
+		policemen = new Policeman[1];
+		logger.logCreate(this, "Policeman");
+		policemen[0] = new Policeman("policeman");
+		logger.logCreated(this, policemen[0]);		
+
+		// autók legenerálása
+		cars = new CivilCar[nCivilCars];
+		for (int i = 0; i < nCivilCars; i++) {
+			logger.logCreate(this, "CivilCar");
+			cars[i] = new CivilCar("car" + Integer.toString(i));
+			logger.logCreated(this, cars[i]);		
+		}
+
+		// rabló legenerálása
+		logger.logCreate(this, "Robber");
+		player = new Robber("player");
+		logger.logCreated(this, player);		
 	}
 
 	/**

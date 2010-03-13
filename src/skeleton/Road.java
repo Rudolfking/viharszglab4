@@ -12,32 +12,9 @@ public class Road extends NamedObject {
 		this.entry = entry;
 		this.exit = exit;
 
-		cells = new RoadCell[nCells];
-
-		logger.logCreate(this, "RoadCell");
-		cells[0] = new RoadCell(name + "_cell0", (nCells==1), logger, input);
-		logger.logCreated(this, cells[0]);
-		logger.logCall(this, entry, "addNextCell(Cell c)");
-		entry.addNextCell(cells[0]);
-		logger.logReturn(this, entry, "addNextCell(Cell c)", null);
-
-		if (nCells > 1) {
-			for (int i = 1; i < nCells - 1; i++) {
-				logger.logCreate(this, "RoadCell");
-				cells[i] = new RoadCell(name + "_cell" + Integer.toString(i),
-						false, logger, input);
-				logger.logCreated(this, cells[i]);
-			}
-
-			logger.logCreate(this, "RoadCell");
-			cells[nCells - 1] = new RoadCell(name + "_cell"
-					+ Integer.toString(nCells - 1), true, logger, input);
-			logger.logCreated(this, cells[nCells - 1]);
-		}
-		logger.logCall(this, exit, "addPreviousCell(Cell c)");
-		entry.addPreviousCell(cells[nCells - 1]);
-		logger.logReturn(this, exit, "addPreviousCell(Cell c)", null);
-
+		logger.logCall(this, this, "generateCells(Intersection entry, Intersection exit, int nCells, Logger logger, CustomReader input)");
+		generateCells(entry, exit, nCells, logger, input);
+		logger.logReturn(this, this, "generateCells(Intersection entry, Intersection exit, int nCells, Logger logger, CustomReader input)", null);
 	}
 
 	/**
@@ -60,8 +37,66 @@ public class Road extends NamedObject {
 	 * 
 	 * @return
 	 */
-	public void generateCells() {
-		throw new UnsupportedOperationException();
+	public void generateCells(Intersection entry, Intersection exit, int nCells,
+			Logger logger, CustomReader input) {
+
+		cells = new RoadCell[nCells];
+
+
+		// első cella létrehozása
+		logger.logCreate(this, "RoadCell");
+		cells[0] = new RoadCell(getName() + "_cell0", (nCells==1), logger, input);
+		logger.logCreated(this, cells[0]);
+		// bejárat-kereszteződéshez első cella bekötése
+		logger.logCall(this, entry, "addNextCell(Cell c)");
+		entry.addNextCell(cells[0]);
+		logger.logReturn(this, entry, "addNextCell(Cell c)", null);
+		
+		// más a helyzet, ha több cellánk van
+		if (nCells > 1) {
+			// köztes cellák létrehozása
+			for (int i = 1; i < nCells - 1; i++) {
+				logger.logCreate(this, "RoadCell");
+				cells[i] = new RoadCell(getName() + "_cell" + Integer.toString(i),
+						false, logger, input);
+				logger.logCreated(this, cells[i]);
+			}
+
+			// utolsó cella létrehozása
+			logger.logCreate(this, "RoadCell");
+			cells[nCells - 1] = new RoadCell(getName() + "_cell"
+					+ Integer.toString(nCells - 1), true, logger, input);
+			logger.logCreated(this, cells[nCells - 1]);		
+
+			// utolsó cella szomszédainak bekötése
+			logger.logCall(this, cells[nCells-1], "setNeighbourCells(Cell prev, Cell next)");
+			((RoadCell)cells[nCells-1]).setNeighbourCells(cells[nCells-2], exit);
+			logger.logReturn(this, cells[nCells-1], "setNeighbourCells(Cell prev, Cell next)", null);
+		} else {
+			// egyetlen cella szomszédainak bekötése
+			logger.logCall(this, cells[0], "setNeighbourCells(Cell prev, Cell next)");
+			((RoadCell)cells[0]).setNeighbourCells(entry, exit);
+			logger.logReturn(this, cells[0], "setNeighbourCells(Cell prev, Cell next)", null);
+		}
+
+		// kijárat-kereszteződéshez utolsó cella bekötése
+		logger.logCall(this, exit, "addPreviousCell(Cell c)");
+		entry.addPreviousCell(cells[nCells - 1]);
+		logger.logReturn(this, exit, "addPreviousCell(Cell c)", null);
+
+		if (nCells > 1) {
+			// első cella szomszédainak bekötése
+			logger.logCall(this, cells[0], "setNeighbourCells(Cell prev, Cell next)");
+			((RoadCell)cells[0]).setNeighbourCells(entry, cells[1]);
+			logger.logReturn(this, cells[0], "setNeighbourCells(Cell prev, Cell next)", null);
+		}
+
+		// köztes cellák egymáshoz kötése
+		for (int i = 1; i < nCells - 1; i++) {
+			logger.logCall(this, cells[i], "setNeighbourCells(Cell prev, Cell next)");
+			((RoadCell)cells[i]).setNeighbourCells(cells[i-1], cells[i+1]);
+			logger.logReturn(this, cells[i], "setNeighbourCells(Cell prev, Cell next)", null);
+		}
 	}
 
 	/**

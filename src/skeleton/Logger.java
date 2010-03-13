@@ -1,11 +1,16 @@
 package skeleton;
 public abstract class Logger {
-	
+		
 	protected int level;
 	protected final int spacePerLevel = 2;
+	protected boolean silent;
 	
 	public void setLevel(int level) {
 		this.level = level;
+	}
+
+	public void setSilent(boolean silent) {
+		this.silent = silent;
 	}
 
 	private static String className(Object o) {
@@ -13,11 +18,16 @@ public abstract class Logger {
 		String[] splitName = (fullName[0]).split("\\.");
 		return splitName[splitName.length-1];
 	}
+
+	public abstract void log(String message);
 	
-	public abstract void logMessage(String message);
+	public void logMessage(String message) {
+		if(!silent)
+			log(message);
+	}
 	
 	public void logCall(INamedObject caller, INamedObject called, String function) {		
-		logMessage("[" + caller.getName() + "|" + className(caller) + "|" + caller.hashCode() + "] -> [" 
+		log("[" + caller.getName() + "|" + className(caller) + "|" + caller.hashCode() + "] -> [" 
 				+ called.getName() + "|" + className(called) + "|" + called.hashCode() + "] . " + function + "|CALL");
 		level++;
 	}
@@ -29,17 +39,17 @@ public abstract class Logger {
 		if(result != null) {						
 			message += " [" + result.getName() + "|" + className(result) + "|" + result.hashCode() + "]";
 		}
-		logMessage(message);
+		log(message);
 	}
 	
 	public void logCreate(INamedObject caller, String newClassName) {		
-		logMessage("[" + caller.getName() + "|" + className(caller) + "|" + caller.hashCode() + "] -> creates new [" + newClassName + "]");
+		log("[" + caller.getName() + "|" + className(caller) + "|" + caller.hashCode() + "] -> creates new [" + newClassName + "]");
 		level++;
 	}
 	
 	public void logCreated(INamedObject caller, INamedObject created) {
 		level--;		
-		logMessage("[" + caller.getName() + "|" + className(caller) + "|" + caller.hashCode() + "] -> has created [" 
+		log("[" + caller.getName() + "|" + className(caller) + "|" + caller.hashCode() + "] -> has created [" 
 				+ created.getName() + "|" + className(created) + "|" + created.hashCode() + "]");
 	}
 	
