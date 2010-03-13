@@ -8,9 +8,9 @@ Az SVN szerverre csak a forráskód (.java fájlok) kerül fel.
 1.1 Parancssorból
 ---------------------------------------
 
-cd <a forrás mappája>
-javac Skeleton.java
-java Skeleton
+cd <src mappa>
+javac skeleton/*.java
+java skeleton/Skeleton
 
 ---------------------------------------
 1.2 Eclipse-ből

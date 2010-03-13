@@ -1,5 +1,7 @@
 # comments begin with #
 #
+# test case number
+1
 # number of intersections:
 2
 # number of roads:

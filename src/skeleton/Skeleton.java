@@ -19,7 +19,7 @@ public class Skeleton {
 		// saját bemeneti olvasó osztály: konzolról és fájlból is tud sort
 		// olvasni,
 		// kommenteket (#-val kezdődő sor) nem veszi figyelembe
-		CustomReader input = new CustomReader();
+		CustomReader input = new CustomReader(logger);
 
 		// program fejléc kiírása
 		logger.logMessage("Software laboratory 4");
@@ -34,6 +34,7 @@ public class Skeleton {
 			if (args.length > 0) {
 				logger.logMessage("Input file given as command line argument.");
 				input.setInput(new BufferedReader(new FileReader(args[0])));
+				input.setEcho(true);
 				// ha nem, akkor választhatunk konzol és fájl közül
 			} else {
 				// a választ konzolról olvassuk, ehhez a reader
@@ -71,6 +72,7 @@ public class Skeleton {
 							fileName = in.readLine();
 						input.setInput(new BufferedReader(new FileReader(
 								fileName)));
+						input.setEcho(true);
 					} catch (IOException e) {
 						e.printStackTrace();
 						System.exit(1);
@@ -81,11 +83,35 @@ public class Skeleton {
 					logger.logMessage("Your choice is not valid.");
 					logger.logMessage("Console assumed.");
 				}
-			}
-
-			// játék onjektum létrehozása
-			Game game = new Game("game", logger, input);
+			}			
 			
+			// teszteset kiválasztása
+			logger.logMessage("Please choose a test case:");
+			logger.logMessage("");
+			logger.logMessage("1- initialization");
+			
+			// teszteset lefuttatása
+			test(Integer.valueOf(input.readLine()),logger,input);
+
+			logger.logMessage("---");
+			logger.logMessage("Skeleton test finished succesfully!");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private static void test(int testCase, Logger logger, CustomReader input) throws IOException {		
+
+		switch(testCase) {
+		// első teszteset: inicializálás
+		case 1:
+			// játék objektum létrehozása
+			logger.logMessage("Creating game object...");
+			Game game = new Game("game", logger, input);
+			logger.logMessage("[" + game.getName() + "|Game|" + game.hashCode() + "] successfully created.");
+
 			// pálya adatainak bekérése
 
 			// útelágazások száma
@@ -96,14 +122,12 @@ public class Skeleton {
 			int nRoads = Integer.valueOf(input.readLine());
 
 			// pálya legenerálása
+			logger.logMessage("Calling game.generateLevel(int nIntersections, int nRoads)");
 			game.generateLevel(nIntersections, nRoads);
-
-			logger.logMessage("---");
-			logger.logMessage("Skeleton test finished succesfully!");
-
-		} catch (IOException e) {
-			e.printStackTrace();
+			break;
+		default:
+			logger.logMessage("There is no such test case.");
+			break;
 		}
-
 	}
 }
