@@ -1,0 +1,34 @@
+Az SVN szerverre csak a forráskód (.java fájlok) kerül fel.
+
+=======================================
+1 A projekt fordítása és futtatása:
+=======================================
+
+---------------------------------------
+1.1 Parancssorból
+---------------------------------------
+
+cd <a forrás mappája>
+javac Skeleton.java
+java Skeleton
+
+---------------------------------------
+1.2 Eclipse-ből
+---------------------------------------
+
+File > New > Project
+Java Project | Next
+Create project from existing source | Directory: <src/skeleton mappa> | Next
+...
+Majd a Skeleton.java-t kell kijelölni, és úgy nyomni egy futtatást.
+
+=======================================
+2 Dokumentáció készítése
+=======================================
+
+---------------------------------------
+2.1 Parancssorból
+---------------------------------------
+
+cd <a forrás mappája>
+javadoc -d javadoc *.java
