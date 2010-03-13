@@ -7,42 +7,40 @@ public abstract class Logger {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+
+	private static String className(Object o) {
+		String[] fullName = o.toString().split("@");
+		String[] splitName = (fullName[0]).split("\\.");
+		return splitName[splitName.length-1];
+	}
 	
 	public abstract void logMessage(String message);
 	
-	public void logCall(INamedObject caller, INamedObject called, String function) {
-		String[] callerClass = caller.toString().split("@");
-		String[] calledClass = called.toString().split("@");
-		logMessage("[" + caller.getName() + "|" + callerClass[0] + "|" + caller.hashCode() + "] -> [" 
-				+ called.getName() + "|" + calledClass[0] + "|" + called.hashCode() + "] . " + function + "|CALL");
+	public void logCall(INamedObject caller, INamedObject called, String function) {		
+		logMessage("[" + caller.getName() + "|" + className(caller) + "|" + caller.hashCode() + "] -> [" 
+				+ called.getName() + "|" + className(called) + "|" + called.hashCode() + "] . " + function + "|CALL");
 		level++;
 	}
 	
 	public void logReturn(INamedObject caller, INamedObject called, String function, INamedObject result) {
-		level--;
-		String[] callerClass = caller.toString().split("@");
-		String[] calledClass = called.toString().split("@");
-		String message = "[" + caller.getName() + "|" + callerClass[0] + "|" + caller.hashCode() + "] <- [" 
-			+ called.getName() + "|" + calledClass[0] + "|" + called.hashCode() + "] . " + function + "|RETURN";
-		if(result != null) {			
-			String[] resultClass = result.toString().split("@");
-			message += " [" + result.getName() + "|" + resultClass[0] + "|" + result.hashCode() + "]";
+		level--;		
+		String message = "[" + caller.getName() + "|" + className(caller) + "|" + caller.hashCode() + "] <- [" 
+			+ called.getName() + "|" + className(called) + "|" + called.hashCode() + "] . " + function + "|RETURN";
+		if(result != null) {						
+			message += " [" + result.getName() + "|" + className(result) + "|" + result.hashCode() + "]";
 		}
 		logMessage(message);
 	}
 	
-	public void logCreate(INamedObject caller, String className) {
-		String[] callerClass = caller.toString().split("@");
-		logMessage("[" + caller.getName() + "|" + callerClass[0] + "|" + caller.hashCode() + "] -> creates new [" + className + "]");
+	public void logCreate(INamedObject caller, String newClassName) {		
+		logMessage("[" + caller.getName() + "|" + className(caller) + "|" + caller.hashCode() + "] -> creates new [" + newClassName + "]");
 		level++;
 	}
 	
 	public void logCreated(INamedObject caller, INamedObject created) {
-		level--;
-		String[] callerClass = caller.toString().split("@");
-		String[] createdClass = created.toString().split("@");
-		logMessage("[" + caller.getName() + "|" + callerClass[0] + "|" + caller.hashCode() + "] -> has created [" 
-				+ created.getName() + "|" + createdClass[0] + "|" + created.hashCode() + "]");
+		level--;		
+		logMessage("[" + caller.getName() + "|" + className(caller) + "|" + caller.hashCode() + "] -> has created [" 
+				+ created.getName() + "|" + className(created) + "|" + created.hashCode() + "]");
 	}
 	
 }

@@ -84,7 +84,8 @@ public class Game extends NamedObject {
 		logger.logCreated(this, bank);
 
 		intersections = new Intersection[nIntersections];
-		for (int i = 0; i < nIntersections; i++) {
+		intersections[0] = bank;
+		for (int i = 1; i < nIntersections; i++) {
 			logger.logCreate(this, "Intersection");
 			intersections[i] = new Intersection("intersection"
 					+ Integer.toString(i));

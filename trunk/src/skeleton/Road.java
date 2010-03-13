@@ -15,7 +15,7 @@ public class Road extends NamedObject {
 		cells = new RoadCell[nCells];
 
 		logger.logCreate(this, "RoadCell");
-		cells[0] = new RoadCell(name + "_cell0", false, logger, input);
+		cells[0] = new RoadCell(name + "_cell0", (nCells==1), logger, input);
 		logger.logCreated(this, cells[0]);
 		logger.logCall(this, entry, "addNextCell(Cell c)");
 		entry.addNextCell(cells[0]);
