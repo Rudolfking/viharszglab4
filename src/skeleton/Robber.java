@@ -6,8 +6,8 @@ public class Robber extends Vehicle {
 	private int maximumInverseSpeed;
 	private Cell preferredCell;
 
-	public Robber(String name) {
-		super(name);
+	public Robber(String name,Cell cell, int ispeed) {
+		super(name,cell,ispeed);
 	}	
 
 	/**

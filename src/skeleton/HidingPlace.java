@@ -2,8 +2,10 @@
 package skeleton;
 public class HidingPlace extends Intersection {
 	
-	public HidingPlace(String name) {
-		super(name);
+	public HidingPlace(String name,Logger logger,
+			CustomReader input) {
+		super(name,logger,
+				input);
 	}
 
 	/**

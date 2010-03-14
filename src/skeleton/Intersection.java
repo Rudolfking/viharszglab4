@@ -5,8 +5,10 @@ public class Intersection extends Cell {
 	private Cell[] nextCells;
 	private Cell[] previousCells;
 
-	public Intersection(String name) {
-		super(name);
+	public Intersection(String name,Logger logger,
+			CustomReader input) {
+		super(name,logger,
+				input);
 	}
 
 	/**

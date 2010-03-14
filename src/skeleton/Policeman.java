@@ -3,8 +3,8 @@ public class Policeman extends Vehicle {
 
 	private Robber wanted;
 
-	public Policeman(String name) {
-		super(name);
+	public Policeman(String name,Cell cell, int ispeed) {
+		super(name,cell,ispeed);
 	}
 
 	/**
