@@ -8,12 +8,12 @@ public class Road extends NamedObject {
 
 	public Road(String name, Intersection entry, Intersection exit, int nCells,
 			Logger logger, CustomReader input) {
-		super(name);
+		super(name,logger,input);
 		this.entry = entry;
 		this.exit = exit;
 
 		logger.logCall(this, this, "generateCells(Intersection entry, Intersection exit, int nCells, Logger logger, CustomReader input)");
-		generateCells(entry, exit, nCells, logger, input);
+		generateCells(entry, exit, nCells);
 		logger.logReturn(this, this, "generateCells(Intersection entry, Intersection exit, int nCells, Logger logger, CustomReader input)", null);
 	}
 
@@ -37,8 +37,7 @@ public class Road extends NamedObject {
 	 * 
 	 * @return
 	 */
-	public void generateCells(Intersection entry, Intersection exit, int nCells,
-			Logger logger, CustomReader input) {
+	public void generateCells(Intersection entry, Intersection exit, int nCells) {
 
 		cells = new RoadCell[nCells];
 

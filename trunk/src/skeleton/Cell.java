@@ -4,14 +4,10 @@ package skeleton;
 public abstract class Cell extends NamedObject {
 	
 	private Vehicle vehicle;
-	protected CustomReader input;
-	protected Logger logger;
 	
 	public Cell(String name, Logger logger,
 			CustomReader input) {
-		super(name);
-		this.logger=logger;
-		this.input=input;
+		super(name,logger,input);
 	}
 
 	/**

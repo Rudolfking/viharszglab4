@@ -8,13 +8,10 @@ public class TrafficLight extends NamedObject implements ISign {
 	private int redTime;
 	private int greenTime;
 	private int offset;
-	protected CustomReader input;
-	protected Logger logger;
 	
 	public TrafficLight(String name, Logger logger, CustomReader input) {
-		super(name);
-		this.logger=logger;
-		this.input=input;
+		super(name,logger,
+				input);
 	}
 	
 	public boolean isBlocking() {
