@@ -1,8 +1,10 @@
 package skeleton;
 public class Clock extends NamedObject {
 
-	public Clock(String name) {
-		super(name);
+	public Clock(String name,Logger logger,
+			CustomReader input) {
+		super(name,logger,
+				input);
 	}
 
 	/**

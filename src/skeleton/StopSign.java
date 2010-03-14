@@ -5,13 +5,10 @@ public class StopSign extends NamedObject implements ISign {
 
 	private int waitTime;
 	private int tickAmount;
-	protected CustomReader input;
-	protected Logger logger;
 	
 	public StopSign(String name, Logger logger, CustomReader input) {
-		super(name);
-		this.logger=logger;
-		this.input=input;
+		super(name,logger,
+				input);
 	}
 	
 	public boolean isBlocking() {

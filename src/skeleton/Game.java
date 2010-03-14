@@ -14,25 +14,16 @@ public class Game extends NamedObject {
 	private Bank bank;
 
 	private String name;
-	private Logger logger;
-	private CustomReader input;
 
 	/**
 	 *  
 	 */
 	public Game(String name, Logger logger, CustomReader input) {
 
-		super(name);
-		setLogger(logger);
-		this.input = input;
-
+		super(name,logger,input);
 		logger.logCreate(this, "Clock");
-		clock = new Clock("clock");
+		clock = new Clock("clock",logger,input);
 		logger.logCreated(this, clock);
-	}
-
-	public void setLogger(Logger logger) {
-		this.logger = logger;
 	}
 
 	/**
@@ -145,7 +136,7 @@ public class Game extends NamedObject {
 		// rendőr legenerálása
 		policemen = new Policeman[1];
 		logger.logCreate(this, "Policeman");
-		policemen[0] = new Policeman("policeman",null,10); //TODO cellak speed beallitasa
+		policemen[0] = new Policeman("policeman",null,10,logger,input); //TODO cellak speed beallitasa
 		logger.logCreated(this, policemen[0]);		
 
 		// autók legenerálása
@@ -158,7 +149,7 @@ public class Game extends NamedObject {
 
 		// rabló legenerálása
 		logger.logCreate(this, "Robber");
-		player = new Robber("player",null,10); //TODO cellak speed beallitasa
+		player = new Robber("player",null,10,logger,input); //TODO cellak speed beallitasa
 		logger.logCreated(this, player);		
 	}
 
