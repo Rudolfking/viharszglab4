@@ -25,7 +25,7 @@ public class Skeleton {
 		// parancssori paraméterek elemzése
 		boolean silent = false; // silent módban automatikus tesztelésnél nem
 		// írja ki a kérdéseket
-		String fileName = ""; // tesztelés bemeneteként használt input fájl neve
+		String fileName = ""; // tesztelés bemeneteként használt input fájlok neve
 		if (args.length > 0)
 			for (String str : args) {
 				if (str.charAt(0) == '-') {
@@ -48,7 +48,7 @@ public class Skeleton {
 			// ha adtunk meg parancssori paraméterként fájlt, beállítjuk
 			// bemenetnek
 			if (fileName.compareTo("") != 0) {
-				logger.logMessage("Input file given as command line argument.");
+				logger.logMessage("Input file given as command line argument: " + fileName);
 				input.setInput(new BufferedReader(new FileReader(fileName)));
 				if (!silent)
 					input.setEcho(true);
