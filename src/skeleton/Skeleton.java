@@ -169,7 +169,7 @@ public class Skeleton {
 			game.generateLevel(nEntries, nExits, nIntersections, nRoads,
 					nCivilCars);
 			break;
-		case 2:
+		case 2: //TODO valsztani lehet civilcar es rendor kozott
 			logger.logMessage("Generating test map");
 			logger.setSuperSilent(true);
 			RoadCell cell0=new RoadCell("cell0",false,logger,input);
