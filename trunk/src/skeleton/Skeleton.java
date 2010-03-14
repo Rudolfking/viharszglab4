@@ -185,7 +185,7 @@ public class Skeleton {
 			{
 				logger.logCall(car0, sign, "isBlocking()");
 				boolean blocking=sign.isBlocking();
-				logger.logReturn(car0, sign, "isBlocking()", null); //TODO mivan, ha nem named object a return pl bool ?
+				logger.logReturn(car0, sign, "isBlocking()", new NamedObject((new Boolean(blocking)).toString())); //TODO mivan, ha nem named object a return pl bool ? Erre gondoltam
 				if (blocking==true) logger.logMessage("Cell is blocked"); else logger.logMessage("Cell is free.");
 			}
 			else
