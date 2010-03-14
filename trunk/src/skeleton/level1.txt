@@ -1,0 +1,6 @@
+#test case number
+2
+#sign type [1stop2trafic3none]
+2
+#isblocking? [0false1true]
+1

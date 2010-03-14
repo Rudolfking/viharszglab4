@@ -1,9 +1,10 @@
 //import InitialClassDiagram.*;
 package skeleton;
 public class CityExit extends Intersection {
-
-	public CityExit(String name) {
-		super(name);
+	public CityExit(String name,Logger logger,
+			CustomReader input) {
+		super(name,logger,
+				input);
 	}
 	
 	/**

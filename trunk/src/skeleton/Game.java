@@ -81,7 +81,7 @@ public class Game extends NamedObject {
 
 		// bank legenerálása
 		logger.logCreate(this, "Bank");
-		bank = new Bank("bank");
+		bank = new Bank("bank",logger,input);
 		logger.logCreated(this, bank);		
 
 		intersections = new Intersection[nIntersections+nEntries+nExits];
@@ -89,14 +89,14 @@ public class Game extends NamedObject {
 		for (int i = 0; i < nEntries; i++) {
 			logger.logCreate(this, "CityEntry");
 			intersections[i] = new CityEntry("cityEntry"
-					+ Integer.toString(i));
+					+ Integer.toString(i),logger,input);
 			logger.logCreated(this, intersections[i]);
 		}
 		// kijáratok legenerálása
 		for (int i = nEntries; i < nEntries+nExits; i++) {
 			logger.logCreate(this, "CityExit");
 			intersections[i] = new CityExit("cityExit"
-					+ Integer.toString(i));
+					+ Integer.toString(i),logger,input);
 			logger.logCreated(this, intersections[i]);
 		}
 		// útkereszteződések legenerálása	
@@ -105,7 +105,7 @@ public class Game extends NamedObject {
 		for (int i = nEntries+nExits+1; i < nEntries+nExits+nIntersections; i++) {
 			logger.logCreate(this, "Intersection");
 			intersections[i] = new Intersection("intersection"
-					+ Integer.toString(i));
+					+ Integer.toString(i),logger,input);
 			logger.logCreated(this, intersections[i]);
 		}		
 
@@ -145,20 +145,20 @@ public class Game extends NamedObject {
 		// rendőr legenerálása
 		policemen = new Policeman[1];
 		logger.logCreate(this, "Policeman");
-		policemen[0] = new Policeman("policeman");
+		policemen[0] = new Policeman("policeman",null,10); //TODO cellak speed beallitasa
 		logger.logCreated(this, policemen[0]);		
 
 		// autók legenerálása
 		cars = new CivilCar[nCivilCars];
 		for (int i = 0; i < nCivilCars; i++) {
 			logger.logCreate(this, "CivilCar");
-			cars[i] = new CivilCar("car" + Integer.toString(i));
+			cars[i] = new CivilCar("car" + Integer.toString(i),null,10,logger,input);
 			logger.logCreated(this, cars[i]);		
 		}
 
 		// rabló legenerálása
 		logger.logCreate(this, "Robber");
-		player = new Robber("player");
+		player = new Robber("player",null,10); //TODO cellak speed beallitasa
 		logger.logCreated(this, player);		
 	}
 

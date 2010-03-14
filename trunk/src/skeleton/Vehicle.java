@@ -7,7 +7,7 @@ public abstract class Vehicle extends NamedObject {
 	private Game game;
 	String name;
 
-	public Vehicle(String name) {
+	public Vehicle(String name, Cell cell, int ispeed) {
 		super(name);
 	}	
 

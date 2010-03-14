@@ -4,9 +4,14 @@ package skeleton;
 public abstract class Cell extends NamedObject {
 	
 	private Vehicle vehicle;
+	protected CustomReader input;
+	protected Logger logger;
 	
-	public Cell(String name) {
+	public Cell(String name, Logger logger,
+			CustomReader input) {
 		super(name);
+		this.logger=logger;
+		this.input=input;
 	}
 
 	/**
@@ -39,7 +44,7 @@ public abstract class Cell extends NamedObject {
 	 * @return 
 	 */
 	public void setVehicle(Vehicle v) {
-		throw new UnsupportedOperationException();
+		//TODO kiiras
 	}
 
 	/**
@@ -58,13 +63,6 @@ public abstract class Cell extends NamedObject {
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public ISign getSign() {
-		throw new UnsupportedOperationException();
-	}
 
 	/**
 	 * 
