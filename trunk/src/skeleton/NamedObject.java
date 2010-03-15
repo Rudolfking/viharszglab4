@@ -1,7 +1,7 @@
 package skeleton;
 
 public class NamedObject implements INamedObject {
-    private String name;
+    protected String name;
     protected CustomReader input;
     protected Logger logger;
 

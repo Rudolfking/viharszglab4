@@ -170,35 +170,35 @@ public class Skeleton {
 			logger.logMessage("Test case 2: Check blocking signs");
 			logger.logMessage("***");
             logger.setSilent(mainSilent);
-			logger.logMessage("Generating test map");     //tesztpályát generálunk
-            logger.setSuperSilent(true);
-            RoadCell cell0 = new RoadCell("cell0", null, false, logger, input);  //egy üres cella
-            RoadCell cell1 = new RoadCell("cell1", null, true, logger, input);    //egy táblás cella
+			//tesztpályát generálunk
+			logger.logMessage("Generating test map");     
+            logger.setSuperSilent(true);			
+			//egy táblás cella
+            RoadCell cell0 = new RoadCell("cell0", null, true, logger, input);  
+			//egy üres cella
+            RoadCell cell1 = new RoadCell("cell1", null, false, logger, input);    
             cell0.setNeighbourCells(null, cell1);
             cell1.setNeighbourCells(cell0, null);
-            logger.logMessage("Policeman or CivilCar?");      //választhatunk, hogy rendőr, vagy civil
+			//választhatunk, hogy rendőr, vagy civil
+            logger.logMessage("What kind of vehicle do you want to test?");      
             logger.logMessage("0 - CivilCar");
             logger.logMessage("1 - Policeman");
+			logger.logMessage("2 - Robber");
             Vehicle car0;            
-                String str2 = input.readLine();
-                if (str2.compareTo("1") == 0) {
-                    car0 = new Policeman("policeman0", cell0, 10, logger, input);
-                } else {
-                    car0 = new CivilCar("civilcar0", cell0, 10, logger, input);
-                }            
+            int choice = input.readInt(0,2);
+			switch(choice) {
+            default:
+				car0 = new CivilCar("civilcar", cell0, 10, logger, input);
+				break;
+			case 1:
+                car0 = new Policeman("policeman", cell0, 10, logger, input);
+				break;
+			case 2:
+				car0 = new Robber("robber", null, cell0, 10, logger, input);
+				break;
+            }            
             logger.setSuperSilent(false);
-            logger.logCall(car0, cell1, "getSign()");
-            ISign sign = cell1.getSign();                   //lekérjük a cella tábláját.
-            logger.logReturn(car0, cell1, "getSign()", sign);
-            if (sign != null) {
-                logger.logCall(car0, sign, "isBlocking()");
-                boolean blocking = sign.isBlocking();         //ha van blokkol-e
-                logger.logReturn(car0, sign, "isBlocking()", new NamedObject((Boolean.valueOf(blocking)).toString(), logger, input));
-                if (blocking) logger.logMessage("Cell is blocked");
-                else logger.logMessage("Cell is free.");
-            } else {
-                logger.logMessage("No blocking signs on next cell");
-            }
+            car0.tick();
             break;
 		// =============================================================================
 		// harmadik teszteset: bankrabló elkapása
@@ -211,15 +211,25 @@ public class Skeleton {
 			logger.logMessage("Generating test map");
 			//logger.setSuperSilent(true);
 			//logger.setSilent(true);
+			// játék objektum létrehozása
+			game = new Game("game", logger, input);
+			// két útkereszteződés
 			Intersection i1 = new Intersection("i1", logger, input);
 			Intersection i2 = new Intersection("i2", logger, input);
+			// közöttük egy út
 			Road r = new Road("r", i1, i2, 2, false, logger, input);
+			// egy rendőr áll az első útkereszteződésen
 			Policeman p = new Policeman("p",null,10,logger,input);
 			i1.setVehicle(p);
 			p.setCell(i1);
-			Robber robber = new Robber("robber",null,10,logger,input);
+			// a rabló az út második celláján áll
+			Robber robber = new Robber("robber",game,null,10,logger,input);
 			r.placeCar(robber,1);
-			robber.setCell(i2);
+			// a rendőr a rablót akarja elkapni
+			p.setWanted(robber);
+
+			// teszteset indítása
+			p.tick();			
 			
 			break;
 		// =============================================================================
@@ -237,7 +247,8 @@ public class Skeleton {
 			logger.setSilent(mainSilent);
 			logger.setSuperSilent(false);
 			logger.logCall(game,game,"regenerateKilledVehicles()");
-            game.regenerateKilledVehicles();                             //visszatesszuk az eltavozott autokat a varoshatarra
+            game.regenerateKilledVehicles();                             
+			//visszatesszuk az eltavozott autokat a varoshatarra
             logger.logReturn(game,game,"regenerateKilledVehicles()",null);
 			break;
 		// =============================================================================
@@ -257,7 +268,7 @@ public class Skeleton {
                 logger.logMessage("Policeman or CivilCar?");         //Policeman vagy CivilCar?
                 logger.logMessage("0 - CivilCar");
                 logger.logMessage("1 - Policeman");                
-                    str2 = input.readLine();
+                    String str2 = input.readLine();
                     if (str2.compareTo("1") == 0) {
                         car0 = new Policeman("policeman0", cell0, 10, logger, input);
                     } else {
@@ -311,7 +322,7 @@ public class Skeleton {
                 Vehicle v=cell1.getVehicle();                       //kovetkezo cellan allo esetleges auto lekerdezese
                 logger.logReturn(car0,cell1,"getVehicle()",v);
                 logger.logCall(car0,car0,"accept(Vehicle v)");
-                car0.accept(v);                                    //auto megnezi, hogy áll-e ott valaki. (vagy null vagy auto)
+                //car0.accept(v);                                    //auto megnezi, hogy áll-e ott valaki. (vagy null vagy auto)
                 logger.logReturn(car0,car0,"accept(Vehicle v)",null);
                 break;
             // =============================================================================
@@ -346,7 +357,7 @@ public class Skeleton {
                         v=cell1.getVehicle();
                         logger.logReturn(p,cell1,"getVehicle()",v);
                         logger.logCall(p,p,"accept(Vehicle v)");
-                        p.accept(v);
+                        //p.accept(v);
                         logger.logReturn(p,p,"accept(Vehicle v)",null);
                         logger.logCall(p,cell0,"leave()");
                         cell0.leave();                                    //aktualis cella elhagyasa
@@ -365,7 +376,7 @@ public class Skeleton {
                         v=cell1.getVehicle();
                         logger.logReturn(cv,cell1,"getVehicle()",v);
                         logger.logCall(cv,cv,"accept(Vehicle v)");
-                        cv.accept(v);
+                        //cv.accept(v);
                         logger.logReturn(cv,cv,"accept(Vehicle v)",null);
                         logger.logCall(cv,cell0,"leave()");
                         cell0.leave();                                    //aktualis cella elhagyasa
