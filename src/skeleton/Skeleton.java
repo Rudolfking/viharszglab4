@@ -210,8 +210,9 @@ public class Skeleton {
 			logger.logMessage("Generating test map");
 			//logger.setSuperSilent(true);
 			//logger.setSilent(true);
-			game = new Game("game", logger, input);
-			game.generateLevel(0, 0, 2, 1, 0);
+			Intersection intersection1 = new Intersection("intersection1", logger, input);
+			Intersection intersection2 = new Intersection("intersection2", logger, input);
+			Road road = new Road("road", intersection1, intersection2, 2, false, logger, input);
 			break;
 		// =============================================================================
 		// negyedik teszteset: új autó érkezése

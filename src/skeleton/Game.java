@@ -101,6 +101,7 @@ public class Game extends NamedObject {
 			logger.logCreated(this, intersections[i]);
 		}		
 
+		// utak legenerálása
 		roads = new Road[nRoads];
 		for (int i = 0; i < nRoads; i++) {
 			logger.logCreate(this, "Road");
@@ -119,7 +120,7 @@ public class Game extends NamedObject {
 				int l = input.readInt();
 
 				roads[i] = new Road("road" + Integer.toString(i),
-						intersections[j], intersections[k], l, logger, input);
+						intersections[j], intersections[k], l, true, logger, input);
 				logger.logCreated(this, roads[i]);
 		
 		}
