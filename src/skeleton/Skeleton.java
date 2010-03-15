@@ -179,18 +179,13 @@ public class Skeleton {
             logger.logMessage("Policeman or CivilCar?");      //választhatunk, hogy rendőr, vagy civil
             logger.logMessage("0 - CivilCar");
             logger.logMessage("1 - Policeman");
-            Vehicle car0;
-            try {
+            Vehicle car0;            
                 String str2 = input.readLine();
                 if (str2.compareTo("1") == 0) {
                     car0 = new Policeman("policeman0", cell0, 10, logger, input);
                 } else {
                     car0 = new CivilCar("civilcar0", cell0, 10, logger, input);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                car0 = null;
-            }
+                }            
             logger.setSuperSilent(false);
             logger.logCall(car0, cell1, "getSign()");
             ISign sign = cell1.getSign();                   //lekérjük a cella tábláját.
@@ -222,7 +217,10 @@ public class Skeleton {
 			Policeman p = new Policeman("p",null,10,logger,input);
 			i1.setVehicle(p);
 			p.setCell(i1);
-			//Robber robber = new Robber("robber",logger,input);
+			Robber robber = new Robber("robber",null,10,logger,input);
+			r.placeCar(robber,1);
+			robber.setCell(i2);
+			
 			break;
 		// =============================================================================
 		// negyedik teszteset: új autó érkezése
@@ -258,18 +256,13 @@ public class Skeleton {
                 logger.setSilent(mainSilent);
                 logger.logMessage("Policeman or CivilCar?");         //Policeman vagy CivilCar?
                 logger.logMessage("0 - CivilCar");
-                logger.logMessage("1 - Policeman");
-                try {
-                    String str2 = input.readLine();
+                logger.logMessage("1 - Policeman");                
+                    str2 = input.readLine();
                     if (str2.compareTo("1") == 0) {
                         car0 = new Policeman("policeman0", cell0, 10, logger, input);
                     } else {
                         car0 = new CivilCar("civilcar0", cell0, 10, logger, input);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    car0 = null;
-                }
+                    }                
                 cell0.setVehicle(car0);
                 logger.setSuperSilent(false);
                 logger.logCall(o,car0,"die()");
@@ -295,32 +288,22 @@ public class Skeleton {
                 Vehicle car1;
                 logger.logMessage("Car on cell0 is Policeman or CivilCar?");  //elso auto rendor vagy civil?
                 logger.logMessage("0 - CivilCar");
-                logger.logMessage("1 - Policeman");
-                try {
-                    String str2 = input.readLine();
+                logger.logMessage("1 - Policeman");                
+                    str2 = input.readLine();
                     if (str2.compareTo("1") == 0) {
                         car0 = new Policeman("cell0_policeman", cell0, 10, logger, input);
                     } else {                                                                  //auto letrehozasa
                         car0 = new CivilCar("cell0_civilcar", cell0, 10, logger, input);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    car0 = null;
-                }
+                    }                
                 logger.logMessage("Car on cell1 is Policeman or CivilCar?");    //masodik auto rendor vagy civil?
                 logger.logMessage("0 - CivilCar");
-                logger.logMessage("1 - Policeman");
-                try {
-                    String str2 = input.readLine();
+                logger.logMessage("1 - Policeman");                
+                    str2 = input.readLine();
                     if (str2.compareTo("1") == 0) {
                         car1 = new Policeman("cell1_policeman", cell0, 10, logger, input);
                     } else {                                                                   //auto letrehozasa
                         car1 = new CivilCar("cell1_civilcar", cell0, 10, logger, input);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    car1 = null;
-                }
+                    }                
                 cell0.setVehicle(car0);                             //autok elhelyezese a cellan
                 cell1.setVehicle(car1);
                 logger.setSuperSilent(false);

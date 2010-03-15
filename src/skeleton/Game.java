@@ -175,14 +175,12 @@ public class Game extends NamedObject {
         while (str.compareTo("0") != 0) {
             logger.logMessage("Is there missing vehicle?");   //valaszhatunk, hogy hianyzik-e meg auto
             logger.logMessage("0 - no");
-            logger.logMessage("1 - yes");
-            try {
+            logger.logMessage("1 - yes");            
                 str = input.readLine();
                 if (str.compareTo("1") == 0) {
                     logger.logMessage("Policeman or CivilCar?");     //ha hianyzik, mi az? Policeman vagy CivilCar?
                     logger.logMessage("0 - CivilCar");
-                    logger.logMessage("1 - Policeman");
-                    try {
+                    logger.logMessage("1 - Policeman");                    
                         String str2 = input.readLine();
                         if (str2.compareTo("1") == 0) {
                             logger.logCreate(this, "Policeman");
@@ -205,18 +203,12 @@ public class Game extends NamedObject {
                             logger.logCall(this, c, "setVehicle(Vehicle v)");
                             c.setVehicle(cc);                                       //auto lehelyezese
                             logger.logReturn(this, c, "setVehicle(Vehicle v)", null);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                        }                    
                 } else if (str.compareTo("0") == 0) ;
                 else {
                     logger.logMessage("not valid - no assumed");
                     str = "0";                                                     //mar nem kell tobb auto
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                }            
         }
     }
 

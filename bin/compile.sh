@@ -18,8 +18,16 @@ echo "Compiling Skeleton..."
 # a "-d ." paraméter azért kell, hogy ide a bin mappába tegye 
 # a class fájlokat, ne a forrás mellé
 if $VERBOSE; then
-javac ../src/skeleton/*.java -verbose -d .
+	if	javac ../src/skeleton/*.java -verbose -d . ; then
+		echo "Compilation done."
+	else
+		echo "There were some errors during compilation!"
+	fi
 else
-javac ../src/skeleton/*.java -d .
+	if	javac ../src/skeleton/*.java -d . ; then
+		echo "Compilation done."
+	else
+		echo "There were some errors during compilation!"
+	fi
 fi
-echo "Compilation done."
+

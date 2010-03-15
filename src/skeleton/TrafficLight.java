@@ -15,14 +15,10 @@ public class TrafficLight extends NamedObject implements ISign {
     public boolean isBlocking() {
         logger.logMessage("Is Stop Sign - " + getName() + " - is blocking?");
         logger.logMessage("0 - false");
-        logger.logMessage("1 - true");
-        try {
+        logger.logMessage("1 - true");        
             String str = input.readLine();
             if (str.compareTo("0") == 0) return false;
-            if (str.compareTo("1") == 0) return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            if (str.compareTo("1") == 0) return true;        
         return false;
     }
 

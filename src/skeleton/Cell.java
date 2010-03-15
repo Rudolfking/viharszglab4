@@ -73,4 +73,6 @@ public abstract class Cell extends NamedObject {
     public void enter(Policeman p) {
         throw new UnsupportedOperationException();
     }
+
+	public abstract ISign getSign();
 }

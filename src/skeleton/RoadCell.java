@@ -15,8 +15,7 @@ public class RoadCell extends Cell {
             logger.logMessage("What kind of traffic sign do you want to place on " + name + "?");
             logger.logMessage("1- Stop sign");
             logger.logMessage("2- Traffic light");
-            logger.logMessage("3- nothing");
-            try {
+            logger.logMessage("3- nothing");            
                 String str = input.readLine();
                 if (str.compareTo("1") == 0) {
                     logger.logCreate(this, "StopSign");
@@ -26,10 +25,7 @@ public class RoadCell extends Cell {
                     logger.logCreate(this, "TrafficLight");
                     sign = new TrafficLight(name + "_trafficlight", logger, input);
                     logger.logCreated(this, sign);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                }            
         }
     }
 
