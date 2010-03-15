@@ -24,11 +24,13 @@ echo "Running skeleton test cases..."
 if $SILENT; then
 # a teljes automatizálás még nem működik
 # java skeleton/Skeleton -s ./level*.txt
-java skeleton/Skeleton -s ./level0.txt
-java skeleton/Skeleton -s ./level1.txt
+java skeleton/Skeleton -s ./testcases/level0.txt
+java skeleton/Skeleton -s ./testcases/level1.txt
+java skeleton/Skeleton -s ./testcases/level3.txt
 else
 # a teljes automatizálás még nem működik
 # java skeleton/Skeleton ./level*.txt
-java skeleton/Skeleton ./level0.txt
-java skeleton/Skeleton ./level1.txt
+java skeleton/Skeleton ./testcases/level0.txt
+java skeleton/Skeleton ./testcases/level1.txt
+java skeleton/Skeleton ./testcases/level3.txt
 fi

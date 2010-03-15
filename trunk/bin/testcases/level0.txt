@@ -10,14 +10,22 @@
 2
 # number of roads:
 1
-# number if cars:
-0
+# number of cars:
+1
 # 1st road entry:
 0
 # 1st road exit:
 1
 # 1st road cell number:
-1
-# place sign on 1st road's 1st cell
+2
+# place sign on 1st road's last cell
 # (1/2/3 - Stop/TrafLight/no):
-3
+1
+# road of Policeman
+0
+# cell of policeman
+0
+# road of car
+0
+# cell of car
+1
