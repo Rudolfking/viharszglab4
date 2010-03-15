@@ -49,4 +49,8 @@ public class RoadCell extends Cell {
     public ISign getSign() {
         return sign;
     }
+
+	public Road getRoad() {
+		return road;
+	}
 }

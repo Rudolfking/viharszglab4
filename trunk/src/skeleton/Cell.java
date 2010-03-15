@@ -27,7 +27,7 @@ public abstract class Cell extends NamedObject {
      * @return
      */
     public Vehicle getVehicle() {
-        throw new UnsupportedOperationException();
+        return vehicle;
     }
 
     /**
@@ -35,14 +35,13 @@ public abstract class Cell extends NamedObject {
      * @return
      */
     public void setVehicle(Vehicle v) {
+		vehicle = v;		
     }
 
     /**
      * @return
      */
-    public Road getRoad() {
-        throw new UnsupportedOperationException();
-    }
+    public abstract Road getRoad();
 
     /**
      * @return

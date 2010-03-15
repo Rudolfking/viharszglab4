@@ -22,4 +22,8 @@ public class Intersection extends Cell {
      */
     public void addPreviousCell(Cell c) {
     }
+
+	public Road getRoad() {
+		return null;
+	}
 }

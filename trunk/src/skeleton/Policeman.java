@@ -3,6 +3,10 @@ package skeleton;
 public class Policeman extends Vehicle {
     private Robber wanted;
 
+	public Policeman(String name, Logger logger, CustomReader input) {
+        super(name, logger, input);
+    }
+
     public Policeman(String name, Cell cell, int ispeed, Logger logger, CustomReader input) {
         super(name, cell, ispeed, logger, input);
     }
@@ -11,7 +15,7 @@ public class Policeman extends Vehicle {
      * @param v
      * @return
      */
-    public void onTheSameRoad(Vehicle v) {
+    public boolean onTheSameRoad(Vehicle v) {
         throw new UnsupportedOperationException();
     }
 }

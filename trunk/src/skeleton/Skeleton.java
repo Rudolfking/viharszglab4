@@ -216,9 +216,13 @@ public class Skeleton {
 			logger.logMessage("Generating test map");
 			//logger.setSuperSilent(true);
 			//logger.setSilent(true);
-			Intersection intersection1 = new Intersection("intersection1", logger, input);
-			Intersection intersection2 = new Intersection("intersection2", logger, input);
-			Road road = new Road("road", intersection1, intersection2, 2, false, logger, input);
+			Intersection i1 = new Intersection("i1", logger, input);
+			Intersection i2 = new Intersection("i2", logger, input);
+			Road r = new Road("r", i1, i2, 2, false, logger, input);
+			Policeman p = new Policeman("p",logger,input);
+			i1.setVehicle(p);
+			p.setCell(i1);
+			//Robber robber = new Robber("robber",logger,input);
 			break;
 		// =============================================================================
 		// negyedik teszteset: új autó érkezése
