@@ -219,7 +219,7 @@ public class Skeleton {
 			Intersection i1 = new Intersection("i1", logger, input);
 			Intersection i2 = new Intersection("i2", logger, input);
 			Road r = new Road("r", i1, i2, 2, false, logger, input);
-			Policeman p = new Policeman("p",logger,input);
+			Policeman p = new Policeman("p",null,10,logger,input);
 			i1.setVehicle(p);
 			p.setCell(i1);
 			//Robber robber = new Robber("robber",logger,input);
@@ -276,10 +276,65 @@ public class Skeleton {
                 car0.die();
                 logger.logReturn(o,car0,"die()",null);
                 break;
-		// =============================================================================
-		// érvénytelen választás
-		default:
-			logger.logMessage("There is no such test case.");
+            // =============================================================================
+            // tizedik teszteset: Car slows down behind an other one
+            case 10:
+                logger.setSilent(false);
+                logger.logMessage("***");
+                logger.logMessage("Test case 10: Car slows down behind an other one");
+                logger.logMessage("***");
+                logger.setSilent(mainSilent);
+                logger.logMessage("Generating test map");
+                logger.setSuperSilent(true);
+                logger.setSilent(true);
+                cell0 = new RoadCell("cell0", null, false, logger, input);
+                cell1 = new RoadCell("cell1", null, false, logger, input);
+                cell0.setNeighbourCells(null, cell1);
+                cell1.setNeighbourCells(cell0, null);
+                logger.setSilent(mainSilent);
+                Vehicle car1;
+                logger.logMessage("Car on cell0 is Policeman or CivilCar?");
+                logger.logMessage("0 - CivilCar");
+                logger.logMessage("1 - Policeman");
+                try {
+                    String str2 = input.readLine();
+                    if (str2.compareTo("1") == 0) {
+                        car0 = new Policeman("cell0_policeman", cell0, 10, logger, input);
+                    } else {
+                        car0 = new CivilCar("cell0_civilcar", cell0, 10, logger, input);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    car0 = null;
+                }
+                logger.logMessage("Car on cell1 is Policeman or CivilCar?");
+                logger.logMessage("0 - CivilCar");
+                logger.logMessage("1 - Policeman");
+                try {
+                    String str2 = input.readLine();
+                    if (str2.compareTo("1") == 0) {
+                        car1 = new Policeman("cell1_policeman", cell0, 10, logger, input);
+                    } else {
+                        car1 = new CivilCar("cell1_civilcar", cell0, 10, logger, input);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    car1 = null;
+                }
+                cell0.setVehicle(car0);
+                cell1.setVehicle(car1);
+                logger.setSuperSilent(false);
+                logger.logCall(car0,cell1,"getVehicle()");
+                Vehicle v=cell1.getVehicle();
+                logger.logReturn(car0,cell1,"getVehicle()",v);
+                logger.logCall(car0,car0,"accept(Vehicle v)");
+                car0.accept(v);
+                logger.logReturn(car0,car0,"accept(Vehicle v)",null);
+                break;
+            // =============================================================================
+            // érvénytelen választás
+            default:
+                logger.logMessage("There is no such test case.");
 			break;
 		}
 	}
