@@ -39,7 +39,9 @@ public class Game extends NamedObject {
      * @return
      */
     public void gameOver() {
-        throw new UnsupportedOperationException();
+        logger.logMessage("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		logger.logMessage("%%%         GAME OVER         %%%");
+		logger.logMessage("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
     }
 
     /**
@@ -105,7 +107,7 @@ public class Game extends NamedObject {
         // rendőr legenerálása
         policemen = new Policeman[1];
         logger.logCreate(this, "Policeman");
-        policemen[0] = new Policeman("policeman", null, 10, logger, input); //TODO cellak speed beallitasa
+        policemen[0] = new Policeman("policeman", null, 10, logger, input); 
         logger.logCreated(this, policemen[0]);
         // rendőr elhelyezése egy cellára
         logger.logMessage("Please choose a road to place " + policemen[0].getName() + " on (0-" + Integer.toString(roads.length - 1) + "):");
@@ -128,8 +130,14 @@ public class Game extends NamedObject {
         }
         // rabló legenerálása
         logger.logCreate(this, "Robber");
-        player = new Robber("player", null, 10, logger, input); //TODO cellak speed beallitasa
+        player = new Robber("player", this, null, 10, logger, input); 
         logger.logCreated(this, player);
+		// rendőrök ráállítása a rablóra
+		for (Policeman p : policemen) {
+			logger.logCall(this, p, "setWanted(Robber r)");
+			p.setWanted(player);
+			logger.logReturn(this, p, "setWanted(Robber r)", null);
+		}
         // rabló elhelyezése a bankra
         logger.logCall(this, bank, "setVehicle(Vehicle v)");
         bank.setVehicle(player);
@@ -164,44 +172,50 @@ public class Game extends NamedObject {
      * @return
      */
     public void kill(Robber r) {
-        throw new UnsupportedOperationException();
+        
     }
 
     /**
      * Hianyzo autok (rendorok es civilek) ujrageneralasat vegzo metodus
      */
     public void regenerateKilledVehicles() {
+
         String str = "";
         while (str.compareTo("0") != 0) {
-            logger.logMessage("Is there missing vehicle?");   //valaszhatunk, hogy hianyzik-e meg auto
-            logger.logMessage("0 - no");
-            logger.logMessage("1 - yes");            
+			//valaszhatunk, hogy hianyzik-e meg auto
+            logger.logMessage("Are there any vehicles missing? (y/n)");               
                 str = input.readLine();
-                if (str.compareTo("1") == 0) {
-                    logger.logMessage("Policeman or CivilCar?");     //ha hianyzik, mi az? Policeman vagy CivilCar?
+                if (str.compareTo("y") == 0) {
+					//ha hianyzik, mi az? Policeman vagy CivilCar?
+                    logger.logMessage("Policeman or CivilCar?");     
                     logger.logMessage("0 - CivilCar");
                     logger.logMessage("1 - Policeman");                    
-                        String str2 = input.readLine();
-                        if (str2.compareTo("1") == 0) {
-                            logger.logCreate(this, "Policeman");
-                            Policeman p = new Policeman("policeman0", null, 10, logger, input);    //uj rendor generalasa
+                        int choice = input.readInt(0,1);
+                        if (choice == 1) {
+							//uj rendor generalasa
+                            logger.logCreate(this, "Policeman");							
+                            Policeman p = new Policeman("policeman0", null, 10, logger, input);    
                             logger.logCreated(this, p);
-                            logger.logCall(this, this, "getEmptyCityEntry()");
-                            CityEntry c = getEmptyCityEntry();                              //ures varoshatar lekerese
+							//ures varoshatar lekerese
+                            logger.logCall(this, this, "getEmptyCityEntry()");							
+                            CityEntry c = getEmptyCityEntry();                              
                             logger.logReturn(this, this, "getEmptyCityEntry()", c);
+							//auto lehelyezese
                             logger.logCall(this, c, "setVehicle(Vehicle v)");
-                            c.setVehicle(p);                                                //auto lehelyezese
+                            c.setVehicle(p);                                                
                             logger.logReturn(this, c, "setVehicle(Vehicle v)", null);
-                        } else {
-                            if (str2.compareTo("0") != 0) logger.logMessage("not valid - CivilCar assumed");
+                        } else {  
+							//uj CivilCar generalasa                          
                             logger.logCreate(this, "CivilCar");
-                            CivilCar cc = new CivilCar("civilcar0", null, 10, logger, input);    //uj CivilCar generalasa
+                            CivilCar cc = new CivilCar("civilcar0", null, 10, logger, input);    
                             logger.logCreated(this, cc);
+							//ures varoshatar lekerese
                             logger.logCall(this, this, "getEmptyCityEntry()");
-                            CityEntry c = getEmptyCityEntry();                       //ures varoshatar lekerese
+                            CityEntry c = getEmptyCityEntry();                       
                             logger.logReturn(this, this, "getEmptyCityEntry()", c);
+							//auto lehelyezese
                             logger.logCall(this, c, "setVehicle(Vehicle v)");
-                            c.setVehicle(cc);                                       //auto lehelyezese
+                            c.setVehicle(cc);                                       
                             logger.logReturn(this, c, "setVehicle(Vehicle v)", null);
                         }                    
                 } else if (str.compareTo("0") == 0) ;
@@ -215,7 +229,7 @@ public class Game extends NamedObject {
     /**
      * @return
      */
-    public CityEntry getEmptyCityEntry() { //TODO fontos!!! ez hogy fog működni?
+    public CityEntry getEmptyCityEntry() { 
 		return new CityEntry("cityentry0", logger, input);      //visszaadunk egy random cityentrit, na de hogy találjuk meg??
 		// kiválasztunk egy randomot, aztán onnan addig iterálunk, amíg egy üreshez nem érünk.
 		// tudjuk mennyi van, úgyhogy ha a végére érünk, kezdjük előlről (a cityentrykkel kezdődik

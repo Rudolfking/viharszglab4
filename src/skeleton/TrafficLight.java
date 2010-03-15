@@ -13,7 +13,7 @@ public class TrafficLight extends NamedObject implements ISign {
     }
 
     public boolean isBlocking() {
-        logger.logMessage("Is Stop Sign - " + getName() + " - is blocking?");
+        logger.logMessage("Is FrafficLight " + getName() + " blocking?");
         logger.logMessage("0 - false");
         logger.logMessage("1 - true");        
             String str = input.readLine();

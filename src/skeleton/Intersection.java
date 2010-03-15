@@ -14,6 +14,8 @@ public class Intersection extends Cell {
      * @return
      */
     public void addNextCell(Cell c) {
+		if (nextCells == null)
+			nextCells = new Cell[0];
 		Cell[] nnc = new Cell[nextCells.length+1];
 		System.arraycopy(nextCells, 0, nnc, 0, nextCells.length);
 		nnc[nnc.length-1] = c;
@@ -25,6 +27,8 @@ public class Intersection extends Cell {
      * @return
      */
     public void addPreviousCell(Cell c) {
+		if (previousCells == null)
+			previousCells = new Cell[0];
 		Cell[] npc = new Cell[previousCells.length+1];
 		System.arraycopy(previousCells, 0, npc, 0, previousCells.length);
 		npc[npc.length-1] = c;
