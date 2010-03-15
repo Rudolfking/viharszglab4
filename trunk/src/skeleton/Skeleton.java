@@ -315,8 +315,8 @@ public class Skeleton {
                 logger.logReturn(car0,car0,"accept(Vehicle v)",null);
                 break;
             // =============================================================================
-            // tizedik teszteset: Car moves to next cell
-            case 11:
+            // tizenegyedik teszteset: Car moves to next cell
+            case 11:                                                                      //TODO tickelesnel javitani, hogy kiirja a Sebességek szekvenciát, valamint ha nem léphetünk ne lépjen.
                 logger.setSilent(false);
                 logger.logMessage("***");
                 logger.logMessage("Test case 11: Car moves to next cell");
@@ -377,9 +377,19 @@ public class Skeleton {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    car0 = null;
                 }
                 break;
+             // =============================================================================
+            // tizenkettedik teszteset: Car exits the city        //TODO befejezni
+            case 12:
+                logger.setSilent(false);
+                logger.logMessage("***");
+                logger.logMessage("Test case 12: Car exits the city");
+                logger.logMessage("***");
+                logger.setSilent(mainSilent);
+                logger.logMessage("Generating test map");
+                logger.setSuperSilent(true);
+                logger.setSilent(true);
             // =============================================================================
             // érvénytelen választás
             default:
