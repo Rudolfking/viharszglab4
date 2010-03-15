@@ -1,5 +1,7 @@
 package skeleton;
 
+import java.io.IOException;
+
 public abstract class Vehicle extends NamedObject {
     private int ticksLeft;
     protected Cell cell;
@@ -62,10 +64,21 @@ public abstract class Vehicle extends NamedObject {
      * @return
      */
     public void tick() {
+        logger.logMessage("Lephet? (ticksleft==0)");  //leellenorizzuk, hogy a sebessegebol adodoan lephet-e az auto
+                logger.logMessage("0 - nem");
+                logger.logMessage("1 - igen");
+                try {
+                    String str2 = input.readLine();
+                    if (str2.compareTo("1") == 0) {
+                        logger.logMessage("ticksLeft=inverseSpeed");
+                    } else {
+                         logger.logMessage("ticksLeft--");
+                        logger.setSuperSilent(true);
+                    }
 
-        logger.logMessage("Speed countdown finished? (y/n)");
-		String res = input.readLine();
-				
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
     }
 
 	/**
