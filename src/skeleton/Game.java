@@ -63,6 +63,7 @@ public class Game extends NamedObject {
 		logger.logReturn(this, this, "generateVehicles()", null);
 
 	}
+	
 
 	/**
 	 * 
@@ -192,16 +193,64 @@ public class Game extends NamedObject {
 	 * 
 	 * @return
 	 */
-	private void regenerateKilledVehicles() {
-		throw new UnsupportedOperationException();
+	public void regenerateKilledVehicles() {
+		String str = "";
+		while (str.compareTo("0") != 0) {
+			logger.logMessage("Is there missing vehicle?");
+			logger.logMessage("0 - no");
+			logger.logMessage("1 - yes");
+			try {
+				str = input.readLine();
+				if (str.compareTo("1") == 0) {
+					logger.logMessage("Policeman or CivilCar?");
+					logger.logMessage("0 - CivilCar");
+					logger.logMessage("1 - Policeman");
+					try {
+						String str2 = input.readLine();
+						if (str2.compareTo("1") == 0) {
+							logger.logCreate(this, "Policeman");
+							Policeman p=new Policeman("policeman0", null, 10, logger, input);
+							logger.logCreated(this, p);
+							logger.logCall(this, this, "getEmptyCityEntry()");
+							CityEntry c=getEmptyCityEntry();
+							logger.logReturn(this, this, "getEmptyCityEntry()", c);
+							logger.logCall(this, c, "setVehicle(Vehicle v)");
+							c.setVehicle(p);
+							logger.logReturn(this, c, "setVehicle(Vehicle v)", null);
+						} else 
+						{
+							if (str2.compareTo("0") != 0) logger.logMessage("not valid - CivilCar assumed");
+							logger.logCreate(this, "CivilCar");
+							CivilCar cc=new CivilCar("civilcar0", null, 10, logger, input);
+							logger.logCreated(this, cc);
+							logger.logCall(this, this, "getEmptyCityEntry()");
+							CityEntry c=getEmptyCityEntry();
+							logger.logReturn(this, this, "getEmptyCityEntry()", c);
+							logger.logCall(this, c, "setVehicle(Vehicle v)");
+							c.setVehicle(cc);
+							logger.logReturn(this, c, "setVehicle(Vehicle v)", null);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				} else if (str.compareTo("0") == 0)
+					;
+				else {
+					logger.logMessage("not valid - no assumed");
+					str = "0";
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public void getEmptyCityEntry() {
-		throw new UnsupportedOperationException();
+	public CityEntry getEmptyCityEntry() { //TODO fontos!!! ez hogy fog mûködni?
+		return new CityEntry("cityentry0", logger, input);
 	}
 
 }

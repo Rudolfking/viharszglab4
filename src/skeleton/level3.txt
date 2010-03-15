@@ -1,0 +1,12 @@
+#test case number
+4
+#missing?
+1
+#policeman - 1 civil -0
+0
+#missing?
+1
+#policeman - 1 civil -0
+1
+#missing?
+0
