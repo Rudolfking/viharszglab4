@@ -23,6 +23,7 @@ public abstract class Vehicle extends NamedObject {
      */
     public void accept(Vehicle v) {
 
+		
     }
 
     /**
@@ -30,7 +31,11 @@ public abstract class Vehicle extends NamedObject {
      * @return
      */
     protected Cell chooseFrom(Cell[] c) {
-        throw new UnsupportedOperationException();
+        
+		logger.logMessage("Which next cell should " + name + " choose (0" + Integer.toString(c.length-1) + ")?");
+		int choice = input.readInt(0,c.length-1);
+		return c[choice];
+
     }
 
     /**
@@ -76,13 +81,18 @@ public abstract class Vehicle extends NamedObject {
                         logger.setSuperSilent(true);
                     }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        logger.logMessage("Speed countdown finished? (y/n)");
+		String res = input.readLine();
+		boolean  ready = (res.compareTo("y")==0);
+		if (ready) {
+			logger.logCall(this, this, "step()");
+			step();
+			logger.logReturn(this, this, "step()", null);		
+		}		
     }
 
 	/**
-	 *
+	 * Lépés a következő cellára. Akkor hívjuk meg, ha lejárt a számláló.
 	 */
 	public abstract void step();
 }

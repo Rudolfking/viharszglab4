@@ -217,6 +217,10 @@ public class Game extends NamedObject {
      */
     public CityEntry getEmptyCityEntry() { //TODO fontos!!! ez hogy fog működni?
 		return new CityEntry("cityentry0", logger, input);      //visszaadunk egy random cityentrit, na de hogy találjuk meg??
+		// kiválasztunk egy randomot, aztán onnan addig iterálunk, amíg egy üreshez nem érünk.
+		// tudjuk mennyi van, úgyhogy ha a végére érünk, kezdjük előlről (a cityentrykkel kezdődik
+		// az intersections lista)
+		// ha nincs üres, nullt adunk vissza, és akkor a regenerate nem tesz sehova semmit
 	}
 
 }

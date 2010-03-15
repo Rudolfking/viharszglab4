@@ -14,6 +14,10 @@ public class Intersection extends Cell {
      * @return
      */
     public void addNextCell(Cell c) {
+		Cell[] nnc = new Cell[nextCells.length+1];
+		System.arraycopy(nextCells, 0, nnc, 0, nextCells.length);
+		nnc[nnc.length-1] = c;
+		nextCells = nnc;
     }
 
     /**
@@ -21,7 +25,25 @@ public class Intersection extends Cell {
      * @return
      */
     public void addPreviousCell(Cell c) {
+		Cell[] npc = new Cell[previousCells.length+1];
+		System.arraycopy(previousCells, 0, npc, 0, previousCells.length);
+		npc[npc.length-1] = c;
+		previousCells = npc;
     }
+
+	/**
+     * @return
+     */
+    public Cell[] getNextCells() {
+		return nextCells;
+	}
+
+    /**
+     * @return
+     */
+    public Cell[] getPreviousCells() {
+		return previousCells;
+	}
 
 	public ISign getSign() {
         return null;
