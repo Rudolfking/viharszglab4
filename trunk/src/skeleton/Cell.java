@@ -35,18 +35,6 @@ public abstract class Cell extends NamedObject {
     }
 
     /**
-     * @return
-     */
-    public abstract Road getRoad();
-
-    /**
-     * @return
-     */
-    public void leave() {
-        vehicle = null;
-    }
-
-    /**
      * @param r
      * @return
      */
@@ -80,30 +68,6 @@ public abstract class Cell extends NamedObject {
      */
     public void leave() {
         vehicle = null;
-    }
-
-    /**
-     * @param r
-     * @return
-     */
-    public void enter(Robber r) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @param c
-     * @return
-     */
-    public void enter(CivilCar c) {
-        
-    }
-
-    /**
-     * @param p
-     * @return
-     */
-    public void enter(Policeman p) {
-        throw new UnsupportedOperationException();
     }
 
 	public abstract ISign getSign();
