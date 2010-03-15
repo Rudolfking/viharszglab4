@@ -208,10 +208,10 @@ public class Skeleton {
 			logger.logMessage("Test case 3: Policeman catches robber");
 			logger.logMessage("***");
 			logger.logMessage("Generating test map");
-			logger.setSuperSilent(true);
-			logger.setSilent(true);
+			//logger.setSuperSilent(true);
+			//logger.setSilent(true);
 			game = new Game("game", logger, input);
-			//game.generateLevel(0, 0, 0);
+			game.generateLevel(0, 0, 2, 1, 0);
 			break;
 		// =============================================================================
 		// negyedik teszteset: új autó érkezése
