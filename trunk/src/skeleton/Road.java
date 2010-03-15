@@ -82,17 +82,34 @@ public class Road extends NamedObject {
         }
     }
 
-    /**
-     * @param v
-     * @return
-     */
-    public void placeCar(Vehicle v) {
-        throw new UnsupportedOperationException();
-    }
+		// köztes cellák egymáshoz kötése
+		for (int i = 1; i < nCells - 1; i++) {
+			logger.logCall(this, cells[i], "setNeighbourCells(Cell prev, Cell next)");
+			((RoadCell)cells[i]).setNeighbourCells(cells[i-1], cells[i+1]);
+			logger.logReturn(this, cells[i], "setNeighbourCells(Cell prev, Cell next)", null);
+		}
+	}
 
-    /**
-     * @return
-     */
-    public void tick() {
-    }
+	/**
+	 * Elhelyezi egy járművet az út egyik celláján.
+	 *
+	 * @param v
+	 * 		Az elhelyezendő jármű
+	 */
+	public void placeCar(Vehicle v) {
+		
+		logger.logMessage("Please choose a cell of " + getName() + " to place " + v.getName() + " on (0-" + Integer.toString(cells.length-1) + "):");
+		int cell = input.readInt(0,cells.length-1);
+		logger.logCall(this, cells[cell], "setVehicle(Vehicle v)");
+		cells[cell].setVehicle(v);
+		logger.logReturn(this, cells[cell], "setVehicle(Vehicle v)", null);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public void tick() {
+
+	}
 }
