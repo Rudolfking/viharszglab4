@@ -40,7 +40,6 @@ public abstract class Cell extends NamedObject {
 	 * @return 
 	 */
 	public void setVehicle(Vehicle v) {
-		//TODO kiiras
 	}
 
 	/**

@@ -9,7 +9,11 @@ public abstract class Logger {
 	public void setLevel(int level) {
 		this.level = level;
 	}
-
+	
+	public boolean getSilent(){
+		return silent;
+	}
+	
 	public void setSilent(boolean silent) {
 		this.silent = silent;
 	}

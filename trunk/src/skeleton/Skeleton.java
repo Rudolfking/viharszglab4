@@ -25,7 +25,8 @@ public class Skeleton {
 		// parancssori paraméterek elemzése
 		boolean silent = false; // silent módban automatikus tesztelésnél nem
 		// írja ki a kérdéseket
-		String fileName = ""; // tesztelés bemeneteként használt input fájlok neve
+		String fileName = ""; // tesztelés bemeneteként használt input fájlok
+								// neve
 		if (args.length > 0)
 			for (String str : args) {
 				if (str.charAt(0) == '-') {
@@ -48,7 +49,8 @@ public class Skeleton {
 			// ha adtunk meg parancssori paraméterként fájlt, beállítjuk
 			// bemenetnek
 			if (fileName.compareTo("") != 0) {
-				logger.logMessage("Input file given as command line argument: " + fileName);
+				logger.logMessage("Input file given as command line argument: "
+						+ fileName);
 				input.setInput(new BufferedReader(new FileReader(fileName)));
 				if (!silent)
 					input.setEcho(true);
@@ -75,7 +77,7 @@ public class Skeleton {
 					// ha konzolt választottunk
 					System.out
 							.println("You've chosen to give input manually from command line.");
-					silent=false;
+					silent = false;
 				} else
 
 				if (str.compareTo("2") == 0) {
@@ -123,7 +125,6 @@ public class Skeleton {
 			test(Integer.valueOf(input.readLine()), logger, input);
 
 			logger.setSilent(false);
-
 			logger.logMessage("---");
 			logger.logMessage("Skeleton test finished succesfully!");
 
@@ -136,6 +137,7 @@ public class Skeleton {
 	private static void test(int testCase, Logger logger, CustomReader input)
 			throws IOException {
 		logger.setSuperSilent(false);
+		boolean mainSilent = logger.getSilent();
 		switch (testCase) {
 		// első teszteset: inicializálás
 		case 1:
@@ -169,29 +171,55 @@ public class Skeleton {
 			game.generateLevel(nEntries, nExits, nIntersections, nRoads,
 					nCivilCars);
 			break;
-		case 2: //TODO valsztani lehet civilcar es rendor kozott
+		case 2: 
 			logger.logMessage("Generating test map");
 			logger.setSuperSilent(true);
-			RoadCell cell0=new RoadCell("cell0",false,logger,input);
-			RoadCell cell1=new RoadCell("cell1",true,logger,input);
+			RoadCell cell0 = new RoadCell("cell0", false, logger, input);
+			RoadCell cell1 = new RoadCell("cell1", true, logger, input);
 			cell0.setNeighbourCells(null, cell1);
 			cell1.setNeighbourCells(cell0, null);
-			CivilCar car0=new CivilCar("car0",cell0,10,logger,input);
-			logger.setSuperSilent(false);
-			logger.logCall(car0, cell1,"getSign()");	
-			ISign sign=cell1.getSign();
-			logger.logReturn(car0, cell1, "getSign()", sign);
-			if (sign!=null)
-			{
-				logger.logCall(car0, sign, "isBlocking()");
-				boolean blocking=sign.isBlocking();
-				logger.logReturn(car0, sign, "isBlocking()", new NamedObject((new Boolean(blocking)).toString(),logger,input)); //TODO mivan, ha nem named object a return pl bool ? Erre gondoltam
-				if (blocking==true) logger.logMessage("Cell is blocked"); else logger.logMessage("Cell is free.");
+			logger.logMessage("Policeman or CivilCar?");
+			logger.logMessage("0 - CivilCar");
+			logger.logMessage("1 - Policeman");
+			Vehicle car0;
+			try {
+				String str2 = input.readLine();
+				if (str2.compareTo("1") == 0) {
+					car0 = new Policeman("policeman0", cell0, 10, logger, input);
+				} else 
+				{
+					car0 = new CivilCar("civilcar0", cell0, 10, logger, input);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+				car0=null;
 			}
-			else
-			{
+			logger.setSuperSilent(false);
+			logger.logCall(car0, cell1, "getSign()");
+			ISign sign = cell1.getSign();
+			logger.logReturn(car0, cell1, "getSign()", sign);
+			if (sign != null) {
+				logger.logCall(car0, sign, "isBlocking()");
+				boolean blocking = sign.isBlocking();
+				logger.logReturn(car0, sign, "isBlocking()", new NamedObject(
+						(new Boolean(blocking)).toString(), logger, input)); 
+				if (blocking == true)
+					logger.logMessage("Cell is blocked");
+				else
+					logger.logMessage("Cell is free.");
+			} else {
 				logger.logMessage("No blocking signs on next cell");
 			}
+			break;
+		case 4:
+			logger.logMessage("Generating test map");
+			logger.setSuperSilent(true);
+			logger.setSilent(true);
+			game = new Game("game", logger, input);
+			game.generateLevel(1, 0, 1, 0, 0);
+			logger.setSilent(mainSilent);
+			logger.setSuperSilent(false);
+			game.regenerateKilledVehicles();
 			break;
 		default:
 			logger.logMessage("There is no such test case.");
