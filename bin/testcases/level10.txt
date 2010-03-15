@@ -1,0 +1,6 @@
+# testcase
+11
+#police 1 civil 0
+0
+# can go? yes 1 no 0
+1

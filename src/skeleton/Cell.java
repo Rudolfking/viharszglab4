@@ -63,7 +63,7 @@ public abstract class Cell extends NamedObject {
      * @return
      */
     public void enter(CivilCar c) {
-        throw new UnsupportedOperationException();
+        
     }
 
     /**

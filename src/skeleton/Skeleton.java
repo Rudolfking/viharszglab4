@@ -315,6 +315,72 @@ public class Skeleton {
                 logger.logReturn(car0,car0,"accept(Vehicle v)",null);
                 break;
             // =============================================================================
+            // tizedik teszteset: Car moves to next cell
+            case 11:
+                logger.setSilent(false);
+                logger.logMessage("***");
+                logger.logMessage("Test case 11: Car moves to next cell");
+                logger.logMessage("***");
+                logger.setSilent(mainSilent);
+                logger.logMessage("Generating test map");
+                logger.setSuperSilent(true);
+                logger.setSilent(true);
+                game = new Game("game", logger, input);
+                cell0 = new RoadCell("cell0", null, false, logger, input);   //elso cella letrehozasa
+                cell1 = new RoadCell("cell1", null, false, logger, input);   //masodik cella letrehozasa
+                cell0.setNeighbourCells(null, cell1);                        //szomszedsag beallitasa
+                cell1.setNeighbourCells(cell0, null);
+                logger.setSilent(mainSilent);
+                logger.logMessage("Policeman or CivilCar?");  //rendor vagy civil?
+                logger.logMessage("0 - CivilCar");
+                logger.logMessage("1 - Policeman");
+                try {
+                    str2 = input.readLine();
+                    if (str2.compareTo("1") == 0) {
+                        p = new Policeman("policeman0", cell0, 10, logger, input);
+                        cell0.setVehicle(p);                             //autok elhelyezese a cellan
+                        logger.setSuperSilent(false);
+                        logger.logCall(game,p,"tick()");
+                        p.tick();
+                        logger.logCall(p,cell1,"getVehicle()");
+                        v=cell1.getVehicle();
+                        logger.logReturn(p,cell1,"getVehicle()",v);
+                        logger.logCall(p,p,"accept(Vehicle v)");
+                        p.accept(v);
+                        logger.logReturn(p,p,"accept(Vehicle v)",null);
+                        logger.logCall(p,cell0,"leave()");
+                        cell0.leave();                                    //aktualis cella elhagyasa
+                        logger.logReturn(p,cell0,"leave()",null);
+                        logger.logCall(p,cell1,"enter(Vehicle v");
+                        cell1.enter(p);
+                        logger.logReturn(p,p,"accept(Vehicle v)",null);
+                        logger.logReturn(game,p,"tick()",null);
+                    } else {                                                                  //auto letrehozasa
+                        CivilCar cv = new CivilCar("civilcar0", cell0, 10, logger, input);
+                        cell0.setVehicle(cv);                             //autok elhelyezese a cellan
+                        logger.setSuperSilent(false);
+                        logger.logCall(game,cv,"tick()");
+                        cv.tick();
+                        logger.logCall(cv,cell1,"getVehicle()");
+                        v=cell1.getVehicle();
+                        logger.logReturn(cv,cell1,"getVehicle()",v);
+                        logger.logCall(cv,cv,"accept(Vehicle v)");
+                        cv.accept(v);
+                        logger.logReturn(cv,cv,"accept(Vehicle v)",null);
+                        logger.logCall(cv,cell0,"leave()");
+                        cell0.leave();                                    //aktualis cella elhagyasa
+                        logger.logReturn(cv,cell0,"leave()",null);
+                        logger.logCall(cv,cell1,"enter(Vehicle v");
+                        cell1.enter(cv);
+                        logger.logReturn(cv,cell1,"enter(Vehicle v)",null);
+                        logger.logReturn(game,cv,"tick()",null);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    car0 = null;
+                }
+                break;
+            // =============================================================================
             // érvénytelen választás
             default:
                 logger.logMessage("There is no such test case.");
