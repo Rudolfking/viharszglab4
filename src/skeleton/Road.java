@@ -36,7 +36,7 @@ public class Road extends NamedObject {
         cells = new RoadCell[nCells];
         // első cella létrehozása
         logger.logCreate(this, "RoadCell");
-        cells[0] = new RoadCell(getName() + "_cell0", (nCells == 1), logger, input);
+        cells[0] = new RoadCell(getName() + "_cell0", this, (nCells == 1), logger, input);
         logger.logCreated(this, cells[0]);
         // bejárat-kereszteződéshez első cella bekötése
         logger.logCall(this, entry, "addNextCell(Cell c)");
@@ -47,12 +47,12 @@ public class Road extends NamedObject {
             // köztes cellák létrehozása
             for (int i = 1; i < nCells - 1; i++) {
                 logger.logCreate(this, "RoadCell");
-                cells[i] = new RoadCell(getName() + "_cell" + Integer.toString(i), false, logger, input);
+                cells[i] = new RoadCell(getName() + "_cell" + Integer.toString(i), this, false, logger, input);
                 logger.logCreated(this, cells[i]);
             }
             // utolsó cella létrehozása
             logger.logCreate(this, "RoadCell");
-            cells[nCells - 1] = new RoadCell(getName() + "_cell" + Integer.toString(nCells - 1), true, logger, input);
+            cells[nCells - 1] = new RoadCell(getName() + "_cell" + Integer.toString(nCells - 1), this, true, logger, input);
             logger.logCreated(this, cells[nCells - 1]);
             // utolsó cella szomszédainak bekötése
             logger.logCall(this, cells[nCells - 1], "setNeighbourCells(Cell prev, Cell next)");
@@ -81,14 +81,6 @@ public class Road extends NamedObject {
             logger.logReturn(this, cells[i], "setNeighbourCells(Cell prev, Cell next)", null);
         }
     }
-
-		// köztes cellák egymáshoz kötése
-		for (int i = 1; i < nCells - 1; i++) {
-			logger.logCall(this, cells[i], "setNeighbourCells(Cell prev, Cell next)");
-			((RoadCell)cells[i]).setNeighbourCells(cells[i-1], cells[i+1]);
-			logger.logReturn(this, cells[i], "setNeighbourCells(Cell prev, Cell next)", null);
-		}
-	}
 
 	/**
 	 * Elhelyezi egy járművet az út egyik celláján.

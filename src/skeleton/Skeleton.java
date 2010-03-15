@@ -168,8 +168,8 @@ public class Skeleton {
 			logger.logMessage("***");
 			logger.logMessage("Generating test map");     //tesztpályát generálunk
             logger.setSuperSilent(true);
-            RoadCell cell0 = new RoadCell("cell0", false, logger, input);  //egy üres cella
-            RoadCell cell1 = new RoadCell("cell1", true, logger, input);    //egy táblás cella
+            RoadCell cell0 = new RoadCell("cell0", null, false, logger, input);  //egy üres cella
+            RoadCell cell1 = new RoadCell("cell1", null, true, logger, input);    //egy táblás cella
             cell0.setNeighbourCells(null, cell1);
             cell1.setNeighbourCells(cell0, null);
             logger.logMessage("Policeman or CivilCar?");      //választhatunk, hogy rendőr, vagy civil
@@ -236,7 +236,7 @@ public class Skeleton {
                 logger.logMessage("Generating test map");
                 logger.setSuperSilent(true);
                 logger.setSilent(true);
-                cell0 = new RoadCell("cell0",false,logger,input);
+                cell0 = new RoadCell("cell0",null,false,logger,input);
                 NamedObject o= new NamedObject("object0",logger,input);
                 logger.setSilent(mainSilent);
                                 logger.logMessage("Policeman or CivilCar?");
