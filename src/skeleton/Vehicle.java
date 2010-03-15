@@ -47,14 +47,14 @@ public abstract class Vehicle extends NamedObject {
     }
 
     /**
-     * @return
+     * Az auto letorli magat a cellajarol, mielott felrobban
      */
     public void die() {
         logger.logCall(this,this,"getCell()");
-        Cell cell0=getCell();
+        Cell cell0=getCell();                          //cella lekerdezese
         logger.logReturn(this,this,"getCell()",cell0);
         logger.logCall(this,cell0,"leave()");
-        cell0.leave();
+        cell0.leave();                                //cella elhagyasa
         logger.logReturn(this,cell0,"leave()",null);
     }
 

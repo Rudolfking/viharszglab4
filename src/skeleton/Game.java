@@ -168,42 +168,42 @@ public class Game extends NamedObject {
     }
 
     /**
-     * @return
+     * Hianyzo autok (rendorok es civilek) ujrageneralasat vegzo metodus
      */
     public void regenerateKilledVehicles() {
         String str = "";
         while (str.compareTo("0") != 0) {
-            logger.logMessage("Is there missing vehicle?");
+            logger.logMessage("Is there missing vehicle?");   //valaszhatunk, hogy hianyzik-e meg auto
             logger.logMessage("0 - no");
             logger.logMessage("1 - yes");
             try {
                 str = input.readLine();
                 if (str.compareTo("1") == 0) {
-                    logger.logMessage("Policeman or CivilCar?");
+                    logger.logMessage("Policeman or CivilCar?");     //ha hianyzik, mi az? Policeman vagy CivilCar?
                     logger.logMessage("0 - CivilCar");
                     logger.logMessage("1 - Policeman");
                     try {
                         String str2 = input.readLine();
                         if (str2.compareTo("1") == 0) {
                             logger.logCreate(this, "Policeman");
-                            Policeman p = new Policeman("policeman0", null, 10, logger, input);
+                            Policeman p = new Policeman("policeman0", null, 10, logger, input);    //uj rendor generalasa
                             logger.logCreated(this, p);
                             logger.logCall(this, this, "getEmptyCityEntry()");
-                            CityEntry c = getEmptyCityEntry();
+                            CityEntry c = getEmptyCityEntry();                              //ures varoshatar lekerese
                             logger.logReturn(this, this, "getEmptyCityEntry()", c);
                             logger.logCall(this, c, "setVehicle(Vehicle v)");
-                            c.setVehicle(p);
+                            c.setVehicle(p);                                                //auto lehelyezese
                             logger.logReturn(this, c, "setVehicle(Vehicle v)", null);
                         } else {
                             if (str2.compareTo("0") != 0) logger.logMessage("not valid - CivilCar assumed");
                             logger.logCreate(this, "CivilCar");
-                            CivilCar cc = new CivilCar("civilcar0", null, 10, logger, input);
+                            CivilCar cc = new CivilCar("civilcar0", null, 10, logger, input);    //uj CivilCar generalasa
                             logger.logCreated(this, cc);
                             logger.logCall(this, this, "getEmptyCityEntry()");
-                            CityEntry c = getEmptyCityEntry();
+                            CityEntry c = getEmptyCityEntry();                       //ures varoshatar lekerese
                             logger.logReturn(this, this, "getEmptyCityEntry()", c);
                             logger.logCall(this, c, "setVehicle(Vehicle v)");
-                            c.setVehicle(cc);
+                            c.setVehicle(cc);                                       //auto lehelyezese
                             logger.logReturn(this, c, "setVehicle(Vehicle v)", null);
                         }
                     } catch (IOException e) {
@@ -212,7 +212,7 @@ public class Game extends NamedObject {
                 } else if (str.compareTo("0") == 0) ;
                 else {
                     logger.logMessage("not valid - no assumed");
-                    str = "0";
+                    str = "0";                                                     //mar nem kell tobb auto
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -224,7 +224,7 @@ public class Game extends NamedObject {
      * @return
      */
     public CityEntry getEmptyCityEntry() { //TODO fontos!!! ez hogy fog működni?
-		return new CityEntry("cityentry0", logger, input);
+		return new CityEntry("cityentry0", logger, input);      //visszaadunk egy random cityentrit, na de hogy találjuk meg??
 	}
 
 }

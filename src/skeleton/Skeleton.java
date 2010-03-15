@@ -235,11 +235,11 @@ public class Skeleton {
 			logger.logMessage("Generating test map");
 			logger.setSuperSilent(true);
 			logger.setSilent(true);
-			game = new Game("game", logger, input);
+			game = new Game("game", logger, input);     //tesztpalya epitese
 			logger.setSilent(mainSilent);
 			logger.setSuperSilent(false);
 			logger.logCall(game,game,"regenerateKilledVehicles()");
-            game.regenerateKilledVehicles();
+            game.regenerateKilledVehicles();                             //visszatesszuk az eltavozott autokat a varoshatarra
             logger.logReturn(game,game,"regenerateKilledVehicles()",null);
 			break;
 		// =============================================================================
@@ -253,10 +253,10 @@ public class Skeleton {
                 logger.logMessage("Generating test map");
                 logger.setSuperSilent(true);
                 logger.setSilent(true);
-                cell0 = new RoadCell("cell0",null,false,logger,input);
-                NamedObject o= new NamedObject("object0",logger,input);
+                cell0 = new RoadCell("cell0",null,false,logger,input);   //teszt cella letrehozasa
+                NamedObject o= new NamedObject("object0",logger,input);  //hivo object letrehozasa
                 logger.setSilent(mainSilent);
-                                logger.logMessage("Policeman or CivilCar?");
+                logger.logMessage("Policeman or CivilCar?");         //Policeman vagy CivilCar?
                 logger.logMessage("0 - CivilCar");
                 logger.logMessage("1 - Policeman");
                 try {
@@ -273,7 +273,7 @@ public class Skeleton {
                 cell0.setVehicle(car0);
                 logger.setSuperSilent(false);
                 logger.logCall(o,car0,"die()");
-                car0.die();
+                car0.die();                                 //auto megolese
                 logger.logReturn(o,car0,"die()",null);
                 break;
             // =============================================================================
@@ -287,48 +287,48 @@ public class Skeleton {
                 logger.logMessage("Generating test map");
                 logger.setSuperSilent(true);
                 logger.setSilent(true);
-                cell0 = new RoadCell("cell0", null, false, logger, input);
-                cell1 = new RoadCell("cell1", null, false, logger, input);
-                cell0.setNeighbourCells(null, cell1);
+                cell0 = new RoadCell("cell0", null, false, logger, input);   //elso cella letrehozasa
+                cell1 = new RoadCell("cell1", null, false, logger, input);   //masodik cella letrehozasa
+                cell0.setNeighbourCells(null, cell1);                        //szomszedsag beallitasa
                 cell1.setNeighbourCells(cell0, null);
                 logger.setSilent(mainSilent);
                 Vehicle car1;
-                logger.logMessage("Car on cell0 is Policeman or CivilCar?");
+                logger.logMessage("Car on cell0 is Policeman or CivilCar?");  //elso auto rendor vagy civil?
                 logger.logMessage("0 - CivilCar");
                 logger.logMessage("1 - Policeman");
                 try {
                     String str2 = input.readLine();
                     if (str2.compareTo("1") == 0) {
                         car0 = new Policeman("cell0_policeman", cell0, 10, logger, input);
-                    } else {
+                    } else {                                                                  //auto letrehozasa
                         car0 = new CivilCar("cell0_civilcar", cell0, 10, logger, input);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                     car0 = null;
                 }
-                logger.logMessage("Car on cell1 is Policeman or CivilCar?");
+                logger.logMessage("Car on cell1 is Policeman or CivilCar?");    //masodik auto rendor vagy civil?
                 logger.logMessage("0 - CivilCar");
                 logger.logMessage("1 - Policeman");
                 try {
                     String str2 = input.readLine();
                     if (str2.compareTo("1") == 0) {
                         car1 = new Policeman("cell1_policeman", cell0, 10, logger, input);
-                    } else {
+                    } else {                                                                   //auto letrehozasa
                         car1 = new CivilCar("cell1_civilcar", cell0, 10, logger, input);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                     car1 = null;
                 }
-                cell0.setVehicle(car0);
+                cell0.setVehicle(car0);                             //autok elhelyezese a cellan
                 cell1.setVehicle(car1);
                 logger.setSuperSilent(false);
                 logger.logCall(car0,cell1,"getVehicle()");
-                Vehicle v=cell1.getVehicle();
+                Vehicle v=cell1.getVehicle();                       //kovetkezo cellan allo esetleges auto lekerdezese
                 logger.logReturn(car0,cell1,"getVehicle()",v);
                 logger.logCall(car0,car0,"accept(Vehicle v)");
-                car0.accept(v);
+                car0.accept(v);                                    //auto megnezi, hogy áll-e ott valaki. (vagy null vagy auto)
                 logger.logReturn(car0,car0,"accept(Vehicle v)",null);
                 break;
             // =============================================================================
