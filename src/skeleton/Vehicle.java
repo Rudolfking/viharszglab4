@@ -7,9 +7,15 @@ public abstract class Vehicle extends NamedObject {
     private Game game;
     String name;
 
+	public Vehicle(String name, Logger logger, CustomReader input) {
+        super(name, logger, input);        
+    }
+
     public Vehicle(String name, Cell cell, int ispeed, Logger logger, CustomReader input) {
         super(name, logger, input);
-        this.cell=cell;
+        logger.logCall(this, this, "setCell(Cell c)");
+		setCell(cell);
+		logger.logReturn(this, this, "setCell(Cell c)", null);
         inverseSpeed=ispeed;
     }
 
@@ -41,7 +47,7 @@ public abstract class Vehicle extends NamedObject {
      * @return
      */
     public void setCell(Cell c) {
-        throw new UnsupportedOperationException();
+        cell = c;
     }
 
     /**

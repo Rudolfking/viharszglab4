@@ -108,9 +108,25 @@ public class Road extends NamedObject {
 		
 		logger.logMessage("Please choose a cell of " + getName() + " to place " + v.getName() + " on (0-" + Integer.toString(cells.length-1) + "):");
 		int cell = input.readInt(0,cells.length-1);
+		placeCar(v,cell);
+	}
+
+	/**
+	 * Elhelyezi egy járművet az út megadott celláján.
+	 *
+	 * @param v
+	 * 		Az elhelyezendő jármű
+	 * @param cell
+	 * 		A cella sorszáma
+	 */
+	public void placeCar(Vehicle v, int cell) {
+				
 		logger.logCall(this, cells[cell], "setVehicle(Vehicle v)");
 		cells[cell].setVehicle(v);
 		logger.logReturn(this, cells[cell], "setVehicle(Vehicle v)", null);
+		logger.logCall(this, v, "setCell(Cell c)");
+		v.setCell(cells[cell]);
+		logger.logReturn(this, v, "setCell(Cell c)", null);
 	}
 
 	/**
