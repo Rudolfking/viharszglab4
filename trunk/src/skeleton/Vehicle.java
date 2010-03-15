@@ -1,66 +1,65 @@
 package skeleton;
+
 public abstract class Vehicle extends NamedObject {
+    private int ticksLeft;
+    private Cell cell;
+    private int inverseSpeed;
+    private Game game;
+    String name;
 
-	private int ticksLeft;
-	private Cell cell;
-	private int inverseSpeed;
-	private Game game;
-	String name;
+    public Vehicle(String name, Cell cell, int ispeed, Logger logger, CustomReader input) {
+        super(name, logger, input);
+        this.cell=cell;
+        inverseSpeed=ispeed;
+    }
 
-	public Vehicle(String name, Cell cell, int ispeed,Logger logger,
-			CustomReader input) {
-		super(name,logger,input);
-	}	
+    /**
+     * @param v
+     * @return
+     */
+    private void accept(Vehicle v) {
+        throw new UnsupportedOperationException();
+    }
 
-	/**
-	 * 
-	 * @param v
-	 * @return 
-	 */
-	private void accept(Vehicle v) {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @param c
+     * @return
+     */
+    protected Cell chooseFrom(Cell[] c) {
+        throw new UnsupportedOperationException();
+    }
 
-	/**
-	 * 
-	 * @param c
-	 * @return 
-	 */
-	protected Cell chooseFrom(Cell[] c) {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @return
+     */
+    public Cell getCell() {
+        return cell;
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public Cell getCell() {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @param c
+     * @return
+     */
+    public void setCell(Cell c) {
+        throw new UnsupportedOperationException();
+    }
 
-	/**
-	 * 
-	 * @param c
-	 * @return 
-	 */
-	public void setCell(Cell c) {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @return
+     */
+    public void die() {
+        logger.logCall(this,this,"getCell()");
+        Cell cell0=getCell();
+        logger.logReturn(this,this,"getCell()",cell0);
+        logger.logCall(this,cell0,"leave()");
+        cell0.leave();
+        logger.logReturn(this,cell0,"leave()",null);
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public void die() {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @return 
-	 */
-	public void tick() {
-		throw new UnsupportedOperationException();
-	}
-
+    /**
+     * @return
+     */
+    public void tick() {
+        throw new UnsupportedOperationException();
+    }
 }
