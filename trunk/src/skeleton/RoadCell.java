@@ -39,6 +39,24 @@ public class RoadCell extends Cell {
         nextCell = next;
     }
 
+	/**
+     * @return
+     */
+    public Cell[] getNextCells() {
+		Cell[] res = new Cell[1];
+		res[0] = nextCell;
+		return res;
+	}
+
+    /**
+     * @return
+     */
+    public Cell[] getPreviousCells() {
+		Cell[] res = new Cell[1];
+		res[0] = previousCell;
+		return res;
+	}
+
     /**
      * @return
      */

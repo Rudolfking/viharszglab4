@@ -12,16 +12,12 @@ public abstract class Cell extends NamedObject {
     /**
      * @return
      */
-    public Cell[] getNextCells() {
-        throw new UnsupportedOperationException();
-    }
+    public abstract Cell[] getNextCells();
 
     /**
      * @return
      */
-    public Cell[] getPreviousCells() {
-        throw new UnsupportedOperationException();
-    }
+    public abstract Cell[] getPreviousCells();
 
     /**
      * @return
@@ -36,6 +32,42 @@ public abstract class Cell extends NamedObject {
      */
     public void setVehicle(Vehicle v) {
 		vehicle = v;		
+    }
+
+    /**
+     * @return
+     */
+    public abstract Road getRoad();
+
+    /**
+     * @return
+     */
+    public void leave() {
+        vehicle = null;
+    }
+
+    /**
+     * @param r
+     * @return
+     */
+    public void enter(Robber r) {
+        vehicle = r;
+    }
+
+    /**
+     * @param c
+     * @return
+     */
+    public void enter(CivilCar c) {
+        vehicle = c;
+    }
+
+    /**
+     * @param p
+     * @return
+     */
+    public void enter(Policeman p) {
+        vehicle = p;
     }
 
     /**
