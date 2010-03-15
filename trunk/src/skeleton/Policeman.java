@@ -12,6 +12,13 @@ public class Policeman extends Vehicle {
      * @return
      */
     public boolean onTheSameRoad(Vehicle v) {
-        throw new UnsupportedOperationException();
+        return (getCell().getRoad() == v.getCell().getRoad());
     }
+
+	/**
+	 *
+	 */
+	public void step() {
+
+	}
 }

@@ -2,7 +2,7 @@ package skeleton;
 
 public abstract class Vehicle extends NamedObject {
     private int ticksLeft;
-    private Cell cell;
+    protected Cell cell;
     private int inverseSpeed;
     private Game game;
     String name;
@@ -62,6 +62,14 @@ public abstract class Vehicle extends NamedObject {
      * @return
      */
     public void tick() {
-        throw new UnsupportedOperationException();
+
+        logger.logMessage("Speed countdown finished? (y/n)");
+		String res = input.readLine();
+				
     }
+
+	/**
+	 *
+	 */
+	public abstract void step();
 }

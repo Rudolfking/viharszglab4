@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Ez a szkript lefuttatja a szkeletont, átadva neki az összes talált
-# txt fájlt paraméterként.
+# level*.txt fájlt paraméterként.
 # Ubuntu 9.10 alatt tesztelve
 
 # -s parancsori paraméter esetén silent paraméterrel futtat
@@ -22,15 +22,13 @@ ls ./level*.txt
 echo "Running skeleton test cases..."
 
 if $SILENT; then
-# a teljes automatizálás még nem működik
-# java skeleton/Skeleton -s ./level*.txt
-java skeleton/Skeleton -s ./testcases/level0.txt
-java skeleton/Skeleton -s ./testcases/level1.txt
-java skeleton/Skeleton -s ./testcases/level3.txt
+	for testcase in ./testcases/level*.txt
+	do
+		java skeleton/Skeleton -s "$testcase"
+	done
 else
-# a teljes automatizálás még nem működik
-# java skeleton/Skeleton ./level*.txt
-java skeleton/Skeleton ./testcases/level0.txt
-java skeleton/Skeleton ./testcases/level1.txt
-java skeleton/Skeleton ./testcases/level3.txt
+	for testcase in ./testcases/level*.txt
+	do
+		java skeleton/Skeleton "$testcase"
+	done
 fi

@@ -61,4 +61,11 @@ public class Robber extends Vehicle {
     public void busted() {
         throw new UnsupportedOperationException();
     }
+
+	/**
+	 *
+	 */
+	public void step() {
+
+	}
 }

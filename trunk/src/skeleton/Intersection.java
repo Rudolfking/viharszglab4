@@ -23,6 +23,10 @@ public class Intersection extends Cell {
     public void addPreviousCell(Cell c) {
     }
 
+	public ISign getSign() {
+        return null;
+    }
+
 	public Road getRoad() {
 		return null;
 	}

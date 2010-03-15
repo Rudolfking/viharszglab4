@@ -47,11 +47,16 @@ public class CustomReader {
      *
      * @return a beolvasott sor
      */
-    public String readLine() throws IOException {
-        String result;
-        do {
-            result = input.readLine();
-        } while (result.charAt(0) == '#');
+    public String readLine() {
+        String result = "";
+		try {
+        	do {
+            	result = input.readLine();
+        	} while (result.charAt(0) == '#');
+		} catch (IOException e) {
+			logger.log("Error while reading input!");
+			e.printStackTrace();
+		}
         if (echo) logger.logMessage(result);
         return result;
     }
@@ -70,7 +75,7 @@ public class CustomReader {
             } while (str.charAt(0) == '#');
             result = Integer.valueOf(str);
         } catch (Exception e) {
-            logger.logMessage("Error while reading integer input!");
+            logger.log("Error while reading integer input!");
             e.printStackTrace();
         }
         if (echo) logger.logMessage(str);
