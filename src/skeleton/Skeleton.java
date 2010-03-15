@@ -66,7 +66,7 @@ public class Skeleton {
                     System.out.print("Please enter the name of the input file: ");
                     try {
 						// fájlnév beolvasása
-						while (fileName == "")
+						while (fileName.equals(""))
 							fileName = in.readLine();
 						// beállítás bemenetnek
 						input.setInput(new BufferedReader(new FileReader(
@@ -127,9 +127,11 @@ public class Skeleton {
 		// =============================================================================
 		// első teszteset: inicializálás
 		case 1:
+            logger.setSilent(false);
 			logger.logMessage("***");
 			logger.logMessage("Test case 1: Initialization");
 			logger.logMessage("***");
+            logger.setSilent(mainSilent);
 			// játék objektum létrehozása
 			logger.logMessage("Creating game object...");
 			Game game = new Game("game", logger, input);
@@ -162,10 +164,12 @@ public class Skeleton {
 			break;
 		// =============================================================================
 		// második teszteset: tábla/lámpa blokkolásának ellenőrzése
-		case 2: 
+		case 2:
+            logger.setSilent(false);
 			logger.logMessage("***");
 			logger.logMessage("Test case 2: Check blocking signs");
 			logger.logMessage("***");
+            logger.setSilent(mainSilent);
 			logger.logMessage("Generating test map");     //tesztpályát generálunk
             logger.setSuperSilent(true);
             RoadCell cell0 = new RoadCell("cell0", null, false, logger, input);  //egy üres cella
@@ -204,9 +208,11 @@ public class Skeleton {
 		// =============================================================================
 		// harmadik teszteset: bankrabló elkapása
 		case 3:
+            logger.setSilent(false);
 			logger.logMessage("***");
 			logger.logMessage("Test case 3: Policeman catches robber");
 			logger.logMessage("***");
+            logger.setSilent(mainSilent);
 			logger.logMessage("Generating test map");
 			//logger.setSuperSilent(true);
 			//logger.setSilent(true);
@@ -217,14 +223,15 @@ public class Skeleton {
 		// =============================================================================
 		// negyedik teszteset: új autó érkezése
 		case 4:
+            logger.setSilent(false);
 			logger.logMessage("***");
 			logger.logMessage("Test case 4: Replace vanished car");
 			logger.logMessage("***");
+            logger.setSilent(mainSilent);
 			logger.logMessage("Generating test map");
 			logger.setSuperSilent(true);
 			logger.setSilent(true);
 			game = new Game("game", logger, input);
-			game.generateLevel(1, 0, 1, 0, 0);
 			logger.setSilent(mainSilent);
 			logger.setSuperSilent(false);
 			logger.logCall(game,game,"regenerateKilledVehicles()");
@@ -234,6 +241,11 @@ public class Skeleton {
 		// =============================================================================
 		// kilencedik teszteset: Car removes itself from its cell
 		case 9:
+                logger.setSilent(false);
+            	logger.logMessage("***");
+		    	logger.logMessage("Test case 9: Car removes itself from its cell");
+		    	logger.logMessage("***");
+                logger.setSilent(mainSilent);
                 logger.logMessage("Generating test map");
                 logger.setSuperSilent(true);
                 logger.setSilent(true);
