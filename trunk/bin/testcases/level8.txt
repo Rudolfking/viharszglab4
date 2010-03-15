@@ -1,0 +1,4 @@
+#test case number
+9
+#police 1 civil 0
+0
