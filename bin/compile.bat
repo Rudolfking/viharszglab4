@@ -1,1 +1,1 @@
-C:\Progra~1\Java\jdk1.6.0_18\bin\javac ..\src\skeleton\Skeleton.java -d . -classpath ..\src\
+javac ..\src\skeleton\Skeleton.java -d . -classpath ..\src\
