@@ -47,7 +47,7 @@ public abstract class Cell extends NamedObject {
      * @return
      */
     public void leave() {
-        vehicle=null;
+        vehicle = null;
     }
 
     /**

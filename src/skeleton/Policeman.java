@@ -3,10 +3,6 @@ package skeleton;
 public class Policeman extends Vehicle {
     private Robber wanted;
 
-	public Policeman(String name, Logger logger, CustomReader input) {
-        super(name, logger, input);
-    }
-
     public Policeman(String name, Cell cell, int ispeed, Logger logger, CustomReader input) {
         super(name, cell, ispeed, logger, input);
     }
