@@ -13,6 +13,7 @@ public abstract class Vehicle extends NamedObject {
         logger.logCall(this, this, "setCell(Cell c)");
 		setCell(cell);
 		logger.logReturn(this, this, "setCell(Cell c)", null);
+		
         inverseSpeed=ispeed;
     }
 
@@ -28,9 +29,15 @@ public abstract class Vehicle extends NamedObject {
      */
     protected Cell chooseFrom(Cell[] c) {
         
-		logger.logMessage("Which next cell should " + name + " choose (0-" + Integer.toString(c.length-1) + ")?");
-		int choice = input.readInt(0,c.length-1);
-		return c[choice];
+		if(c.length>1) {
+			logger.logMessage("Which next cell should " + name + " choose?");
+			for (int i = 0; i<c.length; i++)
+				logger.logMessage(Integer.toString(i) + " - " + c[i].getName());
+			int choice = input.readInt(0,c.length-1);
+			return c[choice];
+		} else {
+			return c[0];
+		}
 
     }
 
@@ -76,17 +83,18 @@ public abstract class Vehicle extends NamedObject {
 			logger.logCall(this, cell, "getSign()");
 			ISign s = cell.getSign();
 			logger.logReturn(this, cell, "getSign()", s);
+			boolean blocking = false;
 			if (s != null) {
 				// ha van jelzés, blokkolás lekérdezése
 				logger.logCall(this, s, "isBlocking(Vehicle v)");
-				boolean blocking = s.isBlocking();
-				logger.logReturn(this, s, "isBlocking(Vehicle v)", new NamedObject((Boolean.valueOf(blocking)).toString(), logger, input));				
-				if (!blocking) {
-					// ha nincs blokkolás, léphetünk a következő cellára
-					logger.logCall(this, this, "step()");
-					step();
-					logger.logReturn(this, this, "step()", null);
-				}
+				blocking = s.isBlocking();
+				logger.logReturn(this, s, "isBlocking(Vehicle v)", new NamedObject((Boolean.valueOf(blocking)).toString(), logger, input));								
+			}
+			if (!blocking) {
+				// ha nincs blokkolás, léphetünk a következő cellára
+				logger.logCall(this, this, "step()");
+				step();
+				logger.logReturn(this, this, "step()", null);
 			}		
     	}
 	}	
@@ -96,11 +104,13 @@ public abstract class Vehicle extends NamedObject {
 	 */
 	public void step() {
 		
-		// ha a jelzés nem blokkol, a következő cellák listájának lekérdezése
+		// a következő cellák listájának lekérdezése
 		logger.logCall(this, cell, "getNextCells()");
 		Cell[] nextCells = cell.getNextCells();
-		for (Cell c : nextCells)
+		for (Cell c : nextCells) {
 			logger.logReturn(this, cell, "getNextCells()", c);
+			logger.setLevel(logger.getLevel()+1);
+		}
 		// a listából egy cella kiválasztása
 		logger.logCall(this, this, "chooseFrom(Cell[] cells)");
 		Cell nextCell = chooseFrom(nextCells);

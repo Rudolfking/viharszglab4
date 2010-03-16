@@ -148,7 +148,9 @@ public class Game extends NamedObject {
      * @return
      */
     public void winGame() {
-        throw new UnsupportedOperationException();
+        logger.logMessage(":):):):):):):):):):):):):):):):):)");
+		logger.logMessage(":):)  YOU HAVE WON THE GAME!  :):)");
+		logger.logMessage(":):):):):):):):):):):):):):):):):)");
     }
 
     /**
