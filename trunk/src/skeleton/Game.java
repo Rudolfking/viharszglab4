@@ -15,7 +15,7 @@ public class Game extends NamedObject {
     private String name;
 
     /**
-     *
+     * Konstruktor a naplókimenet és felhasználói bemenet beállításával.
      */
     public Game(String name, Logger logger, CustomReader input) {
         super(name, logger, input);
@@ -25,39 +25,60 @@ public class Game extends NamedObject {
     }
 
     /**
-     * @return
+     * Minden entitás (ami valamilyen formában reagál az időre) léptetése
      */
     public void tick() {
+		// utak léptetése (léptetik a rajtuk lévő jelzőlámpákat, táblákat)
         for (Road r : roads) {
             logger.logCall(this, r, "tick()");
             r.tick();
             logger.logReturn(this, r, "tick()", null);
         }
+		// civil autók léptetése
+		for (CivilCar c : cars) {
+			logger.logCall(this, c, "tick()");
+            c.tick();
+            logger.logReturn(this, c, "tick()", null);
+		}
+		// rendőrök léptetése
+		for (Policeman p : policemen) {
+			logger.logCall(this, p, "tick()");
+            p.tick();
+            logger.logReturn(this, p, "tick()", null);
+		}
+		// bankrabló léptetése
+		logger.logCall(this, player, "tick()");
+        player.tick();
+        logger.logReturn(this, player, "tick()", null);
     }
 
     /**
-     * @return
-     */
-    public void gameOver() {
-        logger.logMessage("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-		logger.logMessage("%%%         GAME OVER         %%%");
-		logger.logMessage("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-    }
-
-    /**
-     * @return
+	 * Pálya (úthálózat + járművek) felépítése a megadott paraméterekkel.
+	 *
+     * @param nEntries város bejáratainak száma
+	 * @param nExits város kijáratainak száma
+	 * @param nIntersections város belső kereszteződéseinek száma (bankot, rejtekhelyet is beleértve)
+	 * @param nRoads utak száma
+	 * @param nCivilCars civil autók száma (rendőrből és betörőből egy van)
      */
     public void generateLevel(int nEntries, int nExits, int nIntersections, int nRoads, int nCivilCars) {
+		// úthálózat felépítése
         logger.logCall(this, this, "generateMap(int nEntries, int nExits, int nIntersections, int nRoads)");
         generateMap(nEntries, nExits, nIntersections, nRoads);
         logger.logReturn(this, this, "generateMap(int nEntries, int nExits, int nIntersections, int nRoads)", null);
+		// járművek létrehozása és elhelyezése
         logger.logCall(this, this, "generateVehicles()");
         generateVehicles(nCivilCars);
         logger.logReturn(this, this, "generateVehicles()", null);
     }
 
     /**
-     * @return
+     * Úthálózat felépítése a megadott paraméterekkel.
+	 *
+     * @param nEntries város bejáratainak száma
+	 * @param nExits város kijáratainak száma
+	 * @param nIntersections város belső kereszteződéseinek száma (bankot, rejtekhelyet is beleértve)
+	 * @param nRoads utak száma
      */
     private void generateMap(int nEntries, int nExits, int nIntersections, int nRoads) {
         // bank legenerálása
@@ -74,7 +95,7 @@ public class Game extends NamedObject {
         // kijáratok legenerálása
         for (int i = nEntries; i < nEntries + nExits; i++) {
             logger.logCreate(this, "CityExit");
-            intersections[i] = new CityExit("cityExit" + Integer.toString(i), logger, input);
+            intersections[i] = new CityExit("cityExit" + Integer.toString(i), this, logger, input);
             logger.logCreated(this, intersections[i]);
         }
         // útkereszteződések legenerálása
@@ -101,7 +122,8 @@ public class Game extends NamedObject {
     }
 
     /**
-     * @return
+	 * Járművek létrehozása és elhelyezése a városban
+     * @param nCivilCars civil autók száma (rendőrből és betörőből egy van)
      */
     private void generateVehicles(int nCivilCars) {
         // rendőr legenerálása
@@ -145,7 +167,7 @@ public class Game extends NamedObject {
     }
 
     /**
-     * @return
+	 * Győzelmi üzenet megjelenítése.
      */
     public void winGame() {
         logger.logMessage(":):):):):):):):):):):):):):):):):)");
@@ -153,86 +175,85 @@ public class Game extends NamedObject {
 		logger.logMessage(":):):):):):):):):):):):):):):):):)");
     }
 
-    /**
-     * @param c
-     * @return
+	/**
+     * Vereség üzenet megjelenítése.
      */
-    public void kill(CivilCar c) {
-        throw new UnsupportedOperationException();
+    public void gameOver() {
+        logger.logMessage("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		logger.logMessage("%%%         GAME OVER         %%%");
+		logger.logMessage("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
     }
 
     /**
-     * @param p
-     * @return
+	 * Ha ezt a függvényt valaki meghívja, tudjuk, hogy egy autóval kevesebb van.
+     * @param c az autó, ami megszűnik     
      */
-    public void kill(Policeman p) {
-        throw new UnsupportedOperationException();
+    public void kill(CivilCar c) {        
     }
 
     /**
-     * @param r
-     * @return
+     * Ha ezt a függvényt valaki meghívja, tudjuk, hogy egy rendőrrel kevesebb van.
+     * @param p a rendőr, ami megszűnik     
      */
-    public void kill(Robber r) {
-        
+    public void kill(Policeman p) {        
     }
 
     /**
-     * Hianyzo autok (rendorok es civilek) ujrageneralasat vegzo metodus
+     * Bankrabló halálakor hívódik meg.     
+     */
+    public void kill(Robber r) {        
+    }
+
+    /**
+     * Hiányzó autók (rendőrök és civilek) újragenerálását végző metódus
      */
     public void regenerateKilledVehicles() {
-
-        String str = "";
-        while (str.compareTo("0") != 0) {
-			//valaszhatunk, hogy hianyzik-e meg auto
-            logger.logMessage("Are there any vehicles missing? (y/n)");               
-                str = input.readLine();
-                if (str.compareTo("y") == 0) {
-					//ha hianyzik, mi az? Policeman vagy CivilCar?
-                    logger.logMessage("Policeman or CivilCar?");     
-                    logger.logMessage("0 - CivilCar");
-                    logger.logMessage("1 - Policeman");                    
-                        int choice = input.readInt(0,1);
-                        if (choice == 1) {
-							//uj rendor generalasa
-                            logger.logCreate(this, "Policeman");							
-                            Policeman p = new Policeman("policeman0", null, 10, logger, input);    
-                            logger.logCreated(this, p);
-							//ures varoshatar lekerese
-                            logger.logCall(this, this, "getEmptyCityEntry()");							
-                            CityEntry c = getEmptyCityEntry();                              
-                            logger.logReturn(this, this, "getEmptyCityEntry()", c);
-							//auto lehelyezese
-                            logger.logCall(this, c, "setVehicle(Vehicle v)");
-                            c.setVehicle(p);                                                
-                            logger.logReturn(this, c, "setVehicle(Vehicle v)", null);
-                        } else {  
-							//uj CivilCar generalasa                          
-                            logger.logCreate(this, "CivilCar");
-                            CivilCar cc = new CivilCar("civilcar0", null, 10, logger, input);    
-                            logger.logCreated(this, cc);
-							//ures varoshatar lekerese
-                            logger.logCall(this, this, "getEmptyCityEntry()");
-                            CityEntry c = getEmptyCityEntry();                       
-                            logger.logReturn(this, this, "getEmptyCityEntry()", c);
-							//auto lehelyezese
-                            logger.logCall(this, c, "setVehicle(Vehicle v)");
-                            c.setVehicle(cc);                                       
-                            logger.logReturn(this, c, "setVehicle(Vehicle v)", null);
-                        }                    
-                } else if (str.compareTo("0") == 0) ;
-                else {
-                    logger.logMessage("not valid - no assumed");
-                    str = "0";                                                     //mar nem kell tobb auto
-                }            
+        
+		// Felhasználói bemenet alapján döntünk, hogy van-e hiány...
+        logger.logMessage("Are there any vehicles missing? (y/n)");               
+        String str = input.readLine();
+        if (str.compareTo("y") == 0) {			
+			// ...és hogy miből			
+            logger.logMessage("The missing vehicle is a...");     
+            logger.logMessage("0 - CivilCar");
+            logger.logMessage("1 - Policeman");                    
+            int choice = input.readInt(0,1);
+			// szabad városhatár lekérése
+            logger.logCall(this, this, "getEmptyCityEntry()");							
+            CityEntry c = getEmptyCityEntry();                              
+            logger.logReturn(this, this, "getEmptyCityEntry()", c);
+            if (choice == 1) {
+				// új rendőr generálása
+                logger.logCreate(this, "Policeman");							
+                Policeman p = new Policeman("policeman" + Integer.toString(policemen.length), c, 10, logger, input);    
+                logger.logCreated(this, p);				
+				// rendőr elhelyezése
+                logger.logCall(this, c, "setVehicle(Vehicle v)");
+                c.setVehicle(p);                                                
+                logger.logReturn(this, c, "setVehicle(Vehicle v)", null);
+            } else {  
+				// új CivilCar generálása                          
+                logger.logCreate(this, "CivilCar");
+				CivilCar cc;
+				if (cars != null)
+                	cc = new CivilCar("civilcar" + Integer.toString(cars.length), c, 10, logger, input);
+				else
+					cc = new CivilCar("civilcar0", c, 10, logger, input);
+                logger.logCreated(this, cc);					
+				// autó elhelyezése
+                logger.logCall(this, c, "setVehicle(Vehicle v)");
+                c.setVehicle(cc);                                       
+                logger.logReturn(this, c, "setVehicle(Vehicle v)", null);
+            }                                            
         }
     }
 
     /**
-     * @return
+     * Egy olyan bejáratot ad vissza, ahol épp nem tartózkodik jármű
+	 * @result a talált üres bejárat
      */
     public CityEntry getEmptyCityEntry() { 
-		return new CityEntry("cityentry0", logger, input);      //visszaadunk egy random cityentrit, na de hogy találjuk meg??
+		return new CityEntry("cityentry0", logger, input);      
 		// kiválasztunk egy randomot, aztán onnan addig iterálunk, amíg egy üreshez nem érünk.
 		// tudjuk mennyi van, úgyhogy ha a végére érünk, kezdjük előlről (a cityentrykkel kezdődik
 		// az intersections lista)

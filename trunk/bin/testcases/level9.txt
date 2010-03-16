@@ -1,6 +1,4 @@
-#test case sn
-10
-#first cell police or civil (1 or 0)
+#test case number
+9
+#police 1 civil 0
 0
-#second cell police or civil (1 or 0)
-1

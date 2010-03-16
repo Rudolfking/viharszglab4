@@ -1,5 +1,8 @@
 package skeleton;
 
+/**
+ * Bankrabló: nem tartja be a közlekedési szabályokat, a bankból próbál meg eljutni a rejtekhelyig.
+ */
 public class Robber extends Vehicle {
     private boolean isGoingForward;
     private int minimumInverseSpeed;
@@ -103,7 +106,7 @@ public class Robber extends Vehicle {
     public void tick() {        
 
 		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő
-        logger.logMessage("Speed countdown finished? (y/n)");
+        logger.logMessage("Speed countdown for " + name + " finished? (y/n)");
 		String res = input.readLine();
 		boolean  ready = (res.compareTo("y")==0);
 		// ha eltelt, megkísérelünk lépni
