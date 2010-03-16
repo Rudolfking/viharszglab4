@@ -1,4 +1,4 @@
-#Skeleton hibák, megjegyzések
+#summary 5. konzultáció jegyzet, Skeleton hibák, megjegyzések
 = Hibák =
 Játékos -> irányítás helyett Rabló -> események
 Use-casek melyik tesztpályán tesztelődnek?
