@@ -1,5 +1,8 @@
 package skeleton;
 
+/**
+ * Rendőr: nem áll meg a lámpáknál, jelzéseknél, ha egy utcára kerül a bankrablóval, elkapja.
+ */
 public class Policeman extends Vehicle {
     private Robber wanted;
 
@@ -25,7 +28,7 @@ public class Policeman extends Vehicle {
     public void tick() {        
 
 		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő
-        logger.logMessage("Speed countdown finished? (y/n)");
+        logger.logMessage("Speed countdown for " + name + " finished? (y/n)");
 		String res = input.readLine();
 		boolean  ready = (res.compareTo("y")==0);
 		// ha eltelt, megkísérelünk lépni

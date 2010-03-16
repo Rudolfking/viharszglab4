@@ -1,0 +1,10 @@
+# test case number
+2
+# sign type [1stop2trafic3none]
+2
+# Policeman or CivilCar
+0
+# countdown finished?
+y
+# is blocking? (0-false 1-true)
+0

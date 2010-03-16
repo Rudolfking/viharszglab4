@@ -1,0 +1,6 @@
+# test case number
+4
+# missing?
+y
+# policeman - 1 civil -0
+0
