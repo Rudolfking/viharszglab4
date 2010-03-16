@@ -170,7 +170,7 @@ public class Skeleton {
 			logger.logMessage("Test case 2: Check blocking signs");
 			logger.logMessage("***");
             logger.setSilent(mainSilent);
-			//tesztpályát generálunk
+			//tesztpálya építése
 			logger.logMessage("Generating test map");     
             logger.setSuperSilent(true);			
 			//egy táblás cella
@@ -243,91 +243,268 @@ public class Skeleton {
 			logger.logMessage("Generating test map");
 			logger.setSuperSilent(true);
 			logger.setSilent(true);
-			game = new Game("game", logger, input);     //tesztpalya epitese
+			//tesztpalya epitese
+			game = new Game("game", logger, input);     
 			logger.setSilent(mainSilent);
 			logger.setSuperSilent(false);
-			logger.logCall(game,game,"regenerateKilledVehicles()");
-            game.regenerateKilledVehicles();                             
 			//visszatesszuk az eltavozott autokat a varoshatarra
+			logger.logCall(game,game,"regenerateKilledVehicles()");
+            game.regenerateKilledVehicles();                             			
             logger.logReturn(game,game,"regenerateKilledVehicles()",null);
 			break;
 		// =============================================================================
+		// ötödik teszteset: rabló következő cellát választ
+		case 5:
+            logger.setSilent(false);
+			logger.logMessage("***");
+			logger.logMessage("Test case 5: Robber chooses next cell");
+			logger.logMessage("***");
+			logger.setSilent(mainSilent);
+			//tesztpálya építése
+			logger.logMessage("Generating test map");     
+            //logger.setSuperSilent(true);				
+			// egy útkereszteződés
+			Intersection i = new Intersection("i", logger, input);
+			// ez a pálya felépíthetősége miatt kell:
+			i2 = new Intersection("i2", logger, input);
+			// két kimenő út
+			Road r1 = new Road("r1", i, i2, 3, false, logger, input);  
+			Road r2 = new Road("r2", i, i2, 3, false, logger, input);  			
+			// egy bemenő út
+			Road r3 = new Road("r3", i2, i, 3, false, logger, input);  			
+			// rabló
+			robber = new Robber("r",null,null,10,logger,input);
+			// rabló elhelyezése
+			logger.logMessage("Where do you want the robber to be placed?");
+			logger.logMessage("1 - i intersection");
+			logger.logMessage("2 - r1 outgoing road");
+			logger.logMessage("3 - r2 outgoing road");
+			logger.logMessage("4 - r3 incoming road");
+			choice = input.readInt(1,4);
+			switch(choice) {
+			case 1:
+				robber.setCell(i);
+				i.setVehicle(robber);
+				break;
+			case 2:
+				r1.placeCar(robber,1);
+				break;
+			case 3:
+				r2.placeCar(robber,1);
+				break;
+			case 4:
+				r3.placeCar(robber,1);
+				break;
+			}
+			logger.logMessage("What would be the preffered cell for the robber?");			
+			logger.logMessage("1 - r1's first cell ");
+			logger.logMessage("2 - r2's first cell");
+			logger.logMessage("3 - r3's last cell");
+			choice = input.readInt(1,3);
+			switch(choice) {
+			case 1:
+				robber.setPreferredCell(r1.getCells()[0]);
+				break;
+			case 2:
+				robber.setPreferredCell(r2.getCells()[0]);
+				break;
+			case 3:
+				robber.setPreferredCell(r3.getCells()[2]);
+				break;			
+			}
+
+
+			// teszteset indítása			
+			robber.tick();
+
+			break;
+		// =============================================================================
+		// hatodik teszteset: rabló autóval ütközik
+		case 6:
+            logger.setSilent(false);
+			logger.logMessage("***");
+			logger.logMessage("Test case 6: Robber crashes into a car");
+			logger.logMessage("***");
+			// tesztpálya építése
+			// játék objektum
+			game = new Game("game", logger, input);
+			// három szomszédos cella
+			cell0 = new RoadCell("cell0", null, false, logger, input);  			
+            cell1 = new RoadCell("cell1", null, false, logger, input);
+			RoadCell cell2 = new RoadCell("cell2", null, false, logger, input);
+			cell0.setNeighbourCells(null, cell1);
+            cell1.setNeighbourCells(cell0, cell2);
+			cell2.setNeighbourCells(cell1, null);
+			// civil autó a harmadik cellán
+			CivilCar car = new CivilCar("car", cell2, 10, logger, input);
+			cell2.setVehicle(car);
+			// rabló a középsőn
+			robber = new Robber("robber", game, cell1, 10, logger, input);
+			cell1.setVehicle(robber);
+			
+			// teszteset indítása
+			robber.tick();
+
+			break;
+		// =============================================================================
+		// hetedik teszteset: rabló elrejtőzik
+		case 7:
+            logger.setSilent(false);
+			logger.logMessage("***");
+			logger.logMessage("Test case 7: Robber reaches hiding place");
+			logger.logMessage("***");
+			// tesztpálya építése
+			// játék objektum
+			game = new Game("game", logger, input);
+			// két szomszédos cella és a rejtekhely
+			cell0 = new RoadCell("cell0", null, false, logger, input);
+			cell1 = new RoadCell("cell1", null, false, logger, input);
+			HidingPlace hp = new HidingPlace("hidingPlace", logger, input);
+			cell0.setNeighbourCells(null, cell1);
+            cell1.setNeighbourCells(cell0, hp);
+			hp.addPreviousCell(cell1);
+			// a rabló a második cellán áll
+			robber = new Robber("robber", game, cell1, 10, logger, input);
+			cell1.setVehicle(robber);
+
+			// teszteset indítása
+			robber.tick();
+		
+			break;			
+		// =============================================================================
+		// nyolcadik teszteset: civil autó következő mezőt választ
+		case 8:
+            logger.setSilent(false);
+			logger.logMessage("***");
+			logger.logMessage("Test case 8: Car chooses next cell");
+			logger.logMessage("***");
+			//tesztpálya építése
+			logger.logMessage("Generating test map");     
+            //logger.setSuperSilent(true);				
+			// egy útkereszteződés
+			i = new Intersection("i", logger, input);
+			// ez a pálya felépíthetősége miatt kell:
+			i2 = new Intersection("i2", logger, input);
+			// két kimenő út
+			r1 = new Road("r1", i, i2, 3, false, logger, input);  
+			r2 = new Road("r2", i, i2, 3, false, logger, input);  			
+			// egy bemenő út
+			r3 = new Road("r3", i2, i, 3, false, logger, input);  			
+			// autó
+			car = new CivilCar("car",null,10,logger,input);
+			// autó elhelyezése
+			logger.logMessage("Where do you want the robber to be placed?");
+			logger.logMessage("1 - i intersection");
+			logger.logMessage("2 - r1 outgoing road");
+			logger.logMessage("3 - r2 outgoing road");
+			logger.logMessage("4 - r3 incoming road");
+			choice = input.readInt(1,4);
+			switch(choice) {
+			case 1:
+				car.setCell(i);
+				i.setVehicle(car);
+				break;
+			case 2:
+				r1.placeCar(car,1);
+				break;
+			case 3:
+				r2.placeCar(car,1);
+				break;
+			case 4:
+				r3.placeCar(car,1);
+				break;
+			}
+			
+			// teszteset indítása			
+			car.tick();		
+
+			break;			
+		// =============================================================================
 		// kilencedik teszteset: Car removes itself from its cell
-		case 9:
-                logger.setSilent(false);
-            	logger.logMessage("***");
-		    	logger.logMessage("Test case 9: Car removes itself from its cell");
-		    	logger.logMessage("***");
-                logger.setSilent(mainSilent);
-                logger.logMessage("Generating test map");
-                logger.setSuperSilent(true);
-                logger.setSilent(true);
-                cell0 = new RoadCell("cell0",null,false,logger,input);   //teszt cella letrehozasa
-                NamedObject o= new NamedObject("object0",logger,input);  //hivo object letrehozasa
-                logger.setSilent(mainSilent);
-                logger.logMessage("Policeman or CivilCar?");         //Policeman vagy CivilCar?
-                logger.logMessage("0 - CivilCar");
-                logger.logMessage("1 - Policeman");                
-                    String str2 = input.readLine();
-                    if (str2.compareTo("1") == 0) {
-                        car0 = new Policeman("policeman0", cell0, 10, logger, input);
-                    } else {
-                        car0 = new CivilCar("civilcar0", cell0, 10, logger, input);
-                    }                
-                cell0.setVehicle(car0);
-                logger.setSuperSilent(false);
-                logger.logCall(o,car0,"die()");
-                car0.die();                                 //auto megolese
-                logger.logReturn(o,car0,"die()",null);
+		case 9:            
+            logger.logMessage("***");
+		    logger.logMessage("Test case 9: Car removes itself from its cell");
+		    logger.logMessage("***");
+            logger.setSilent(mainSilent);
+			//tesztpálya építése
+            logger.logMessage("Generating test map");
+            logger.setSuperSilent(true);
+            logger.setSilent(true);
+			//teszt cella letrehozasa
+            cell0 = new RoadCell("cell0",null,false,logger,input);   
+			//hivo object letrehozasa
+            NamedObject o= new NamedObject("object0",logger,input);  
+            logger.setSilent(mainSilent);
+			//Policeman vagy CivilCar?
+            logger.logMessage("Policeman or CivilCar?");         
+            logger.logMessage("0 - CivilCar");
+            logger.logMessage("1 - Policeman");                
+            choice = input.readInt(0,1);
+            if (choice == 1) {
+            	car0 = new Policeman("policeman", cell0, 10, logger, input);
+            } else {
+            	car0 = new CivilCar("car", cell0, 10, logger, input);
+            }                
+            cell0.setVehicle(car0);
+            logger.setSuperSilent(false);
+			//auto megolese
+            logger.logCall(o,car0,"die()");
+            car0.die();                                 
+            logger.logReturn(o,car0,"die()",null);
                 break;
-            // =============================================================================
-            // tizedik teszteset: Car slows down behind an other one
-            case 10:
-                logger.setSilent(false);
-                logger.logMessage("***");
-                logger.logMessage("Test case 10: Car slows down behind an other one");
-                logger.logMessage("***");
-                logger.setSilent(mainSilent);
-                logger.logMessage("Generating test map");
-                logger.setSuperSilent(true);
-                logger.setSilent(true);
-                cell0 = new RoadCell("cell0", null, false, logger, input);   //elso cella letrehozasa
-                cell1 = new RoadCell("cell1", null, false, logger, input);   //masodik cella letrehozasa
-                cell0.setNeighbourCells(null, cell1);                        //szomszedsag beallitasa
-                cell1.setNeighbourCells(cell0, null);
-                logger.setSilent(mainSilent);
-                Vehicle car1;
-                logger.logMessage("Car on cell0 is Policeman or CivilCar?");  //elso auto rendor vagy civil?
-                logger.logMessage("0 - CivilCar");
-                logger.logMessage("1 - Policeman");                
-                    str2 = input.readLine();
-                    if (str2.compareTo("1") == 0) {
-                        car0 = new Policeman("cell0_policeman", cell0, 10, logger, input);
-                    } else {                                                                  //auto letrehozasa
-                        car0 = new CivilCar("cell0_civilcar", cell0, 10, logger, input);
-                    }                
-                logger.logMessage("Car on cell1 is Policeman or CivilCar?");    //masodik auto rendor vagy civil?
-                logger.logMessage("0 - CivilCar");
-                logger.logMessage("1 - Policeman");                
-                    str2 = input.readLine();
-                    if (str2.compareTo("1") == 0) {
-                        car1 = new Policeman("cell1_policeman", cell0, 10, logger, input);
-                    } else {                                                                   //auto letrehozasa
-                        car1 = new CivilCar("cell1_civilcar", cell0, 10, logger, input);
-                    }                
-                cell0.setVehicle(car0);                             //autok elhelyezese a cellan
-                cell1.setVehicle(car1);
-                logger.setSuperSilent(false);
-                logger.logCall(car0,cell1,"getVehicle()");
-                Vehicle v=cell1.getVehicle();                       //kovetkezo cellan allo esetleges auto lekerdezese
-                logger.logReturn(car0,cell1,"getVehicle()",v);
-                logger.logCall(car0,car0,"accept(Vehicle v)");
-                //car0.accept(v);                                    //auto megnezi, hogy áll-e ott valaki. (vagy null vagy auto)
-                logger.logReturn(car0,car0,"accept(Vehicle v)",null);
+        // =============================================================================
+        // tizedik teszteset: Car slows down behind an other one
+        case 10:
+            logger.setSilent(false);
+            logger.logMessage("***");
+            logger.logMessage("Test case 10: Car slows down behind an other one");
+            logger.logMessage("***");
+            logger.setSilent(mainSilent);
+            logger.logMessage("Generating test map");
+            logger.setSuperSilent(true);
+            logger.setSilent(true);
+			// két szomszédos cella létrehozása
+            cell0 = new RoadCell("cell0", null, false, logger, input);   
+            cell1 = new RoadCell("cell1", null, false, logger, input);   
+            cell0.setNeighbourCells(null, cell1);                        
+            cell1.setNeighbourCells(cell0, null);
+            logger.setSilent(mainSilent);
+            Vehicle car1;
+			//elso auto rendor vagy civil?
+            logger.logMessage("Car on cell0 is Policeman or CivilCar?");  
+            logger.logMessage("0 - CivilCar");
+            logger.logMessage("1 - Policeman");                
+            choice = input.readInt(0,1);
+            if (choice == 1) {
+            	car0 = new Policeman("cell0_policeman", cell0, 10, logger, input);
+            } else {                                                                  
+            	car0 = new CivilCar("cell0_civilcar", cell0, 10, logger, input);
+            }                
+			//masodik auto rendor vagy civil?
+            logger.logMessage("Car on cell1 is Policeman or CivilCar?");    
+            logger.logMessage("0 - CivilCar");
+            logger.logMessage("1 - Policeman");                
+            choice = input.readInt(0,1);
+            if (choice == 1) {
+            	car1 = new Policeman("cell1_policeman", cell0, 10, logger, input);
+            } else {                                                                   
+            	car1 = new CivilCar("cell1_civilcar", cell0, 10, logger, input);
+            }                
+			// autók elhelyezése a cellákon
+            cell0.setVehicle(car0);                             
+            cell1.setVehicle(car1);
+            logger.setSuperSilent(false);
+			//kovetkezo cellan allo esetleges auto lekerdezese
+            logger.logCall(car0,cell1,"getVehicle()");
+            Vehicle v=cell1.getVehicle();                       
+            logger.logReturn(car0,cell1,"getVehicle()",v);
+            logger.logCall(car0,car0,"accept(Vehicle v)");
+            //car0.accept(v);                                    //auto megnezi, hogy áll-e ott valaki. (vagy null vagy auto)
+            logger.logReturn(car0,car0,"accept(Vehicle v)",null);
                 break;
             // =============================================================================
             // tizenegyedik teszteset: Car moves to next cell
-            case 11:                                                                      //TODO tickelesnel javitani, hogy kiirja a Sebességek szekvenciát, valamint ha nem léphetünk ne lépjen.
+            case 11:                                                                      
                 logger.setSilent(false);
                 logger.logMessage("***");
                 logger.logMessage("Test case 11: Car moves to next cell");
@@ -346,8 +523,8 @@ public class Skeleton {
                 logger.logMessage("0 - CivilCar");
                 logger.logMessage("1 - Policeman");
                 try {
-                    str2 = input.readLine();
-                    if (str2.compareTo("1") == 0) {
+                    choice = input.readInt(0,1);
+                    if (choice == 1) {
                         p = new Policeman("policeman0", cell0, 10, logger, input);
                         cell0.setVehicle(p);                             //autok elhelyezese a cellan
                         logger.setSuperSilent(false);

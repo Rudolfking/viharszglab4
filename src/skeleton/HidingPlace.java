@@ -10,7 +10,9 @@ public class HidingPlace extends Intersection {
      * @param r
      * @return
      */
-    public void enter(Robber r) {
-        throw new UnsupportedOperationException();
+    public void enter(Robber r) {	
+		logger.logCall(this, r, "hide()");	
+        r.hide();
+		logger.logReturn(this, r, "hide()", null);	
     }
 }

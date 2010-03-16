@@ -18,6 +18,14 @@ public class Road extends NamedObject {
 	}
 
 	/**
+	 * Visszaadja az út celláinak listáját - csak a szkeletonhoz kell
+	 * @return az út celláinak listája
+	 */
+	public Cell[] getCells() {
+		return cells;
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
