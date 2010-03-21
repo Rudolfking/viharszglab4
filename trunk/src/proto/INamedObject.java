@@ -1,8 +1,7 @@
-package proto;
+package skeleton;
+
 public interface INamedObject {
+    String getName();
 
-	String getName();
-
-	void setName(String name);
-
+    void setName(String name);
 }
