@@ -1,96 +1,74 @@
 //import InitialClassDiagram.*;
 //import RoadCell.*;
-package proto;
+package skeleton;
+
 public abstract class Cell extends NamedObject {
-	
-	private Vehicle vehicle;
-	
-	public Cell(String name) {
-		super(name);
-	}
+    private Vehicle vehicle;
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public Cell[] getNextCells() {
-		throw new UnsupportedOperationException();
-	}
+    public Cell(String name, Logger logger, CustomReader input) {
+        super(name, logger, input);
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public Cell[] getPreviousCells() {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @return
+     */
+    public abstract Cell[] getNextCells();
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public Vehicle getVehicle() {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @return
+     */
+    public abstract Cell[] getPreviousCells();
 
-	/**
-	 * 
-	 * @param v
-	 * @return 
-	 */
-	public void setVehicle(Vehicle v) {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @return
+     */
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public Road getRoad() {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @param v
+     * @return
+     */
+    public void setVehicle(Vehicle v) {
+		vehicle = v;		
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public void leave() {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @param r
+     * @return
+     */
+    public void enter(Robber r) {
+        vehicle = r;
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public ISign getSign() {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @param c
+     * @return
+     */
+    public void enter(CivilCar c) {
+        vehicle = c;
+    }
 
-	/**
-	 * 
-	 * @param r
-	 * @return 
-	 */
-	public void enter(Robber r) {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @param p
+     * @return
+     */
+    public void enter(Policeman p) {
+        vehicle = p;
+    }
 
-	/**
-	 * 
-	 * @param c
-	 * @return 
-	 */
-	public void enter(CivilCar c) {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @return
+     */
+    public abstract Road getRoad();
 
-	/**
-	 * 
-	 * @param p
-	 * @return 
-	 */
-	public void enter(Policeman p) {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @return
+     */
+    public void leave() {
+        vehicle = null;
+    }
 
+	public abstract ISign getSign();
 }
