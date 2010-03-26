@@ -1,0 +1,31 @@
+#summary Szoftlab 4 7. jegyzet konzultáción
+#labels Kiemelt,Phase-QA
+
+= Változtatás van =
+ * A nyuszi-interakció szekvenciák kellenek: Nyuszi vs. civil, rendőr, robber
+ * Nyuszigenerálás-interakciók (mikor, hol, meddig, merre)
+ * Erre kell egy teszteset
+
+== Új mintapélda is van ==
+ * [http://users.hszk.bme.hu/~si648/minta1.pdf] without napló, gyakvezé
+ * [http://users.hszk.bme.hu/~si648/minta2.pdf] régifajta minta
+
+== Új leadandók ==
+
+=== Osztályok ferlépítése ===
+ * Osztályok és metódusok tervei: több állapotos osztályok: state chart az elejére!
+ * UML jelölésű rendszer
+ * Activity diagram (?)
+ * Getter setter attribútumokat is meg kell szülni
+
+=== Tesztesetek részletes esetei ===
+ * Mi mit tesztel, hogyan tesztel, satöbbi.
+ * Milyen bemenet, milyen kimenet, mit fogunk látni, a program mit fog csinálni
+ * *Viszonylag komoly*, ezzel a bemenettel kell összevetni a kimenetünket, pontosan így kell kiírni minden sz@rt, módosítás _lehet_, de törekedjünk a kevés módosításra
+
+= Faszomba ezzel az egésszel, ki mit csinál: =
+
+Szilveszter: Anal modell 2, belerakjuk, leadjuk a változtatást
+Máté: Időbélyegek javítása
+Balázs: JavaDoc egy dokumkentumfájlba, class diagram alapján rizsázni majd bebaszni (nem piával, hanem a source code-ba)
+Krisztián: 
