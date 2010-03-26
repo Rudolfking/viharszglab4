@@ -23,11 +23,13 @@
  * Milyen bemenet, milyen kimenet, mit fogunk látni, a program mit fog csinálni
  * *Viszonylag komoly*, ezzel a bemenettel kell összevetni a kimenetünket, pontosan így kell kiírni minden sz@rt, módosítás _lehet_, de törekedjünk a kevés módosításra
 
-= Faszomba ezzel az egésszel, ki mit csinál: =
+= ki mit csinál: =
 
 *Szilveszter:* Anal modell 2, belerakjuk, leadjuk a változtatást; player legyen az aktor, ne a menü, nem szabad elfelejtened a USE CASE diagramot
 
 *Máté:* Időbélyegek javítása (tick, vagy time stamp), lámpa léptetése, robber state chart, bunny lerakása (rendőr lerakás), bunny 20 lépésenként lerakás, lámpa léptetés teszteset, bunny-s teszteset(ek) _ezt a mai pénteki nap folyamán megcsinálja_ a működésspecifikálás pontosítása pl hogy mi alapján hasonlítjuk össze a fájlokat, randomCommand missing
+
+ki kell talalni valami amihey csinalsy activity diagramot (hetfore)
 
 *Balázs:* JavaDoc egy dokumkentumfájlba, class diagram alapján rizsázni majd bebaszni (nem piával, hanem a source code-ba)
 
