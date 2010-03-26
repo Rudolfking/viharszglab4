@@ -26,6 +26,6 @@
 = Faszomba ezzel az egésszel, ki mit csinál: =
 
 Szilveszter: Anal modell 2, belerakjuk, leadjuk a változtatást
-Máté: Időbélyegek javítása
+Máté: Időbélyegek javítása, lámpa léptetése, robber state chart, bunny lerakása (rendőr lerakás), bunny 20 lépésenként lerakás, lámpa léptetés teszteset, bunny-s teszteset(ek)
 Balázs: JavaDoc egy dokumkentumfájlba, class diagram alapján rizsázni majd bebaszni (nem piával, hanem a source code-ba)
 Krisztián: 
