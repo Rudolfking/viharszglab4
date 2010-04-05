@@ -1,4 +1,4 @@
-package skeleton;
+package proto;
 
 public class ConsoleLogger extends Logger {
     public void log(String message) {

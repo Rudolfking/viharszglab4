@@ -1,5 +1,5 @@
 //import InitialClassDiagram.*;
-package skeleton;
+package proto;
 
 public class CityEntry extends Intersection {
     public CityEntry(String name, Logger logger, CustomReader input) {

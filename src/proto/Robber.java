@@ -1,4 +1,4 @@
-package skeleton;
+package proto;
 
 /**
  * Bankrabló: nem tartja be a közlekedési szabályokat, a bankból próbál meg eljutni a rejtekhelyig.
