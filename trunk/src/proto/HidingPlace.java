@@ -1,5 +1,5 @@
 //import InitialClassDiagram.*;
-package skeleton;
+package proto;
 
 /**
  * Rejtekhely, ahová a bankrablónak el kell jutnia. Az útkereszteződés speciális fajtája.

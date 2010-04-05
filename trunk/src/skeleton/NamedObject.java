@@ -1,4 +1,4 @@
-package skeleton;
+package proto;
 
 public class NamedObject implements INamedObject {
     protected String name;

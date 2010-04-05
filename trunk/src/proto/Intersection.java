@@ -1,5 +1,5 @@
 //package InitialClassDiagram;
-package skeleton;
+package proto;
 
 public class Intersection extends Cell {
     private Cell[] nextCells;
@@ -7,7 +7,7 @@ public class Intersection extends Cell {
 
     public Intersection(String name, Logger logger, CustomReader input) {
         super(name, logger, input);
-    }
+    }          
 
     /**
      * @param c

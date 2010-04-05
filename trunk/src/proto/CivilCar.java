@@ -1,4 +1,4 @@
-package skeleton;
+package proto;
 
 /**
  * Hétköznapi, civil autó: betartja a közlekedési szabályokat.

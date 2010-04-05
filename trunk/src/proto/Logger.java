@@ -1,4 +1,4 @@
-package skeleton;
+package proto;
 
 /**
  * Általános absztrakt naplózó osztály, mely egy nem definiált naplózó 

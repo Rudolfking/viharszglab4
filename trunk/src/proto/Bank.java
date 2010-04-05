@@ -1,4 +1,4 @@
-package skeleton;
+package proto;
 
 public class Bank extends Intersection {
     public Bank(String name, Logger logger, CustomReader input) {

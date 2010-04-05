@@ -1,6 +1,7 @@
-package skeleton;
+package proto;
 
 import java.io.*;
+import java.util.*;
 
 public class Game extends NamedObject {
     private CivilCar[] cars;
@@ -51,6 +52,96 @@ public class Game extends NamedObject {
         player.tick();
         logger.logReturn(this, player, "tick()", null);
     }
+    
+    /**
+     *
+     */ 
+    private String indexedName(char letter, int index) {
+		return letter + "[" + Integer.toString(index) + "]";
+	}
+    
+    /**
+     * A kimeneti nyelvben definiált formulának megfelelő string alapján
+     * építi fel a pályát. A string természetesen több sort is 
+     * tartalmazhat.
+     * 
+     * @param level a pályát leíró string (lásd a dokumentáció 7.1.3 
+     * pontját)
+     */ 
+    public void generateLevel(String level) {
+		String[] rds = level.split("\r\n|\r|\n");		
+		
+		List<Intersection> ints = new ArrayList<Intersection>();
+		
+		int i=0;
+		char type;
+		int index = -1;
+		
+		for (String road : rds) {
+			while (i<road.length()) {
+				type = road.charAt(i);
+				i++;			
+				if ((i<road.length()) && (road.charAt(i)=='[')) {
+					String s = "";								
+					for (i++; road.charAt(i) != ']'; i++) {					
+						s += road.charAt(i);					
+					}
+					index = Integer.valueOf(s);
+					i++;
+				}
+			
+				boolean itemAlreadyExists;
+			
+				switch (type) {
+				case 'E':
+					itemAlreadyExists=false;
+					for (int j=0; j<ints.size() && !itemAlreadyExists; j++)
+						if (ints.get(j).getName().compareTo(indexedName('E',index))==0)
+							itemAlreadyExists = true;
+					if (!itemAlreadyExists)
+						ints.add(new CityEntry(indexedName('E',index), logger, input));
+					break;
+				case 'X':
+					itemAlreadyExists=false;
+					for (int j=0; j<ints.size() && !itemAlreadyExists; j++)
+						if (ints.get(j).getName().compareTo(indexedName('X',index))==0)
+							itemAlreadyExists = true;
+					if (!itemAlreadyExists)
+					ints.add(new CityExit(indexedName('X',index), this, logger, input));
+					break;
+				case 'I':
+					itemAlreadyExists=false;
+					for (int j=0; j<ints.size() && !itemAlreadyExists; j++)
+						if (ints.get(j).getName().compareTo(indexedName('I',index))==0)
+							itemAlreadyExists = true;
+					if (!itemAlreadyExists)
+					ints.add(new Intersection(indexedName('I',index), logger, input));
+					break;	
+				}
+			
+				if ((i<road.length()) && (road.charAt(i)=='{')) {
+					for (i++; road.charAt(i) != '}'; i++) {					
+					
+					}
+					i++;
+				}
+			}
+		}
+		
+		intersections = new Intersection[ints.size()];
+		System.arraycopy(ints.toArray(),0,intersections,0,ints.size());
+	}
+	
+	/**
+     * A kimeneti nyelvben definiált formulának megfelelő stringet
+     * naplóz, mely a pálya aktuális állapotát írja le.
+     *
+     */
+    public void writeLevel() {
+		for (Intersection i : intersections) {
+			logger.logMessage(i.getName());
+		}
+	}
 
     /**
 	 * Pálya (úthálózat + járművek) felépítése a megadott paraméterekkel.

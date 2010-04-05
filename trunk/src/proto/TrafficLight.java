@@ -1,5 +1,5 @@
 //import RoadCell.*;
-package skeleton;
+package proto;
 
 import java.io.IOException;
 

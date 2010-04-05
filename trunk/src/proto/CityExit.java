@@ -1,5 +1,5 @@
 //import InitialClassDiagram.*;
-package skeleton;
+package proto;
 
 /**
  * Kijárat a városból: a civil autók és rendőrök ide lépve elhagyják a várost.

@@ -1,6 +1,6 @@
 //import InitialClassDiagram.*;
 //import RoadCell.*;
-package skeleton;
+package proto;
 
 public abstract class Cell extends NamedObject {
     private Vehicle vehicle;

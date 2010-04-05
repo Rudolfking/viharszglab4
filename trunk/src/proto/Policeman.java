@@ -1,4 +1,4 @@
-package skeleton;
+package proto;
 
 /**
  * Rendőr: nem áll meg a lámpáknál, jelzéseknél, ha egy utcára kerül a bankrablóval, elkapja.
