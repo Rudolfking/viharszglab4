@@ -13,7 +13,11 @@ public class Game extends NamedObject {
     private int minPolice;
     private int minCivilCar;
     private Bank bank;
+    private Bunny bunny;
     private String name;
+    
+    // autók alapértelmezett inverz sebessége
+    final int def_ispeed = 10;
 
     /**
      * Konstruktor a naplókimenet és felhasználói bemenet beállításával.
@@ -69,18 +73,43 @@ public class Game extends NamedObject {
      * pontját)
      */ 
     public void generateLevel(String level) {
-		String[] rds = level.split("\r\n|\r|\n");		
+		String[] roadDefs = level.split("\r\n|\r|\n");		
 		
 		List<Intersection> ints = new ArrayList<Intersection>();
+		List<Road> rds = new ArrayList<Road>();
+		List<CivilCar> crs = new ArrayList<CivilCar>();
+		List<Integer> car_road = new ArrayList<Integer>();
+		List<Integer> car_cell = new ArrayList<Integer>();
+		List<Policeman> pmn = new ArrayList<Policeman>();
+		List<Integer> pol_road = new ArrayList<Integer>();
+		List<Integer> pol_cell = new ArrayList<Integer>();
+		int rob_road = -1;
+		int rob_cell = -1;
+		int bun_road = -1;
+		int bun_cell = -1;
 		
 		int i=0;
 		char type;
 		int index = -1;
 		
-		for (String road : rds) {
+		// végigmegyünk az egyes utakon
+		for (String road : roadDefs) {
+			//logger.logMessage("Creating " + road);
+			
+			i=0;	
+			
+			// a létrehozandó út majdani mezőit tároló változók
+			Intersection e = null; // bejárat
+			Intersection x = null; // kijárat
+			int nCells = 0;			  // mezők száma
+			ISign sign = null;		  // utolsó mező táblája
+			
+			// végigmegyünk a stringen
 			while (i<road.length()) {
+				// típusjelző karakter beolvasása
 				type = road.charAt(i);
-				i++;			
+				i++;
+				// index beolvasása	
 				if ((i<road.length()) && (road.charAt(i)=='[')) {
 					String s = "";								
 					for (i++; road.charAt(i) != ']'; i++) {					
@@ -90,46 +119,318 @@ public class Game extends NamedObject {
 					i++;
 				}
 			
-				boolean itemAlreadyExists;
+				int j;
+				boolean itemAlreadyExists = false;
 			
+				// mező típusának azonosítása
 				switch (type) {
+				// CityEntry
 				case 'E':
+					// először ellenőrizni kell, hogy van-e már ilyen nevű bejárat
 					itemAlreadyExists=false;
-					for (int j=0; j<ints.size() && !itemAlreadyExists; j++)
+					for (j=0; j<ints.size() && !itemAlreadyExists; j++)
 						if (ints.get(j).getName().compareTo(indexedName('E',index))==0)
 							itemAlreadyExists = true;
-					if (!itemAlreadyExists)
-						ints.add(new CityEntry(indexedName('E',index), logger, input));
+					// ha még nincs, felvesszük, és beállítjuk az út bejáratának
+					if (!itemAlreadyExists) {
+						ints.add(new CityEntry(indexedName('E',index), logger, input));					
+						e = ints.get(ints.size()-1);
+					}
+					// ha már van, a meglévőt állítjuk be
+					else {
+						e = ints.get(j-1);
+					}					
 					break;
+				// CityExit
 				case 'X':
+					// először ellenőrizni kell, hogy van-e már ilyen nevű kijárat
 					itemAlreadyExists=false;
-					for (int j=0; j<ints.size() && !itemAlreadyExists; j++)
+					for (j=0; j<ints.size() && !itemAlreadyExists; j++)
 						if (ints.get(j).getName().compareTo(indexedName('X',index))==0)
 							itemAlreadyExists = true;
-					if (!itemAlreadyExists)
-					ints.add(new CityExit(indexedName('X',index), this, logger, input));
+					// ha még nincs, felvesszük, és beállítjuk az út kijáratának
+					if (!itemAlreadyExists) {
+						ints.add(new CityExit(indexedName('X',index), this, logger, input));
+						x = ints.get(ints.size()-1);
+					}
+					// ha már van, a meglévőt állítjuk be
+					else {
+						x = ints.get(j-1);
+					}					
 					break;
+				// Intersection
 				case 'I':
+					// először ellenőrizni kell, hogy van-e már ilyen nevű kereszteződés
 					itemAlreadyExists=false;
-					for (int j=0; j<ints.size() && !itemAlreadyExists; j++)
+					for (j=0; j<ints.size() && !itemAlreadyExists; j++)
 						if (ints.get(j).getName().compareTo(indexedName('I',index))==0)
 							itemAlreadyExists = true;
-					if (!itemAlreadyExists)
-					ints.add(new Intersection(indexedName('I',index), logger, input));
-					break;	
+					// ha még nincs, beállítjuk be- vagy kijáratnak
+					if (!itemAlreadyExists) {
+						ints.add(new Intersection(indexedName('I',index), logger, input));
+						if (e == null)
+							e = ints.get(ints.size()-1);
+						else
+							x = ints.get(ints.size()-1);
+					}
+					// ha már van, a meglévőt állítjuk be
+					else {
+						if (e == null)
+							e = ints.get(j-1);
+						else
+							x = ints.get(j-1);
+					}					
+					break;					
+				// Bank, HidingPlace
+				case 'B': 
+				case 'H':
+					// először ellenőrizni kell, hogy van-e már bank
+					itemAlreadyExists=false;
+					for (j=0; j<ints.size() && !itemAlreadyExists; j++)
+						if (ints.get(j).getName().compareTo(""+type)==0)
+							itemAlreadyExists = true;
+					// ha még nincs, beállítjuk be- vagy kijáratnak
+					if (!itemAlreadyExists) {
+						if (type=='B')
+							ints.add(new Bank("B",logger,input));
+						else
+							ints.add(new HidingPlace("H",logger,input));
+						if (e == null)
+							e = ints.get(ints.size()-1);
+						else
+							x = ints.get(ints.size()-1);
+					}
+					// ha már van, a meglévőt állítjuk be
+					else {
+						if (e == null)
+							e = ints.get(j-1);
+						else
+							x = ints.get(j-1);
+					}					
+					break;
+				// RoadCell
+				case 'F':
+					nCells++;					
+					break;
 				}
-			
+				
+				// mezőn lévő objektumok beolvasása
 				if ((i<road.length()) && (road.charAt(i)=='{')) {
-					for (i++; road.charAt(i) != '}'; i++) {					
-					
+					i++; 
+					while (road.charAt(i) != '}') {
+						// típuazonosító eltárolása
+						char objType = road.charAt(i);
+						i++;
+						// index beolvasása	
+						index = -1;
+						if (road.charAt(i)=='[') {
+							String s = "";								
+							for (i++; road.charAt(i) != ']'; i++) {					
+								s += road.charAt(i);					
+							}
+							index = Integer.valueOf(s);
+							i++;
+						}
+						
+						// objektum típusának azonosítása
+						switch (objType) {
+						// StopSign
+						case 'S':
+							sign = new StopSign(indexedName('S',index), logger, input);
+							break;
+						// TrafficLight
+						case 'T':
+							sign = new TrafficLight(indexedName('T',index), logger, input);
+							break;
+						// CivilCar
+						case 'C':
+							// ha már létezett korábban a cella, akkor az autót is létrehoztuk már hozzá
+							if (!itemAlreadyExists) {
+								// ha egy kereszteződésre rakjuk, akkor eltárolhatjuk a kereszteződés referenicáját
+								if (type!='F') {
+									crs.add(new CivilCar(indexedName('C',index),ints.get(ints.size()-1),def_ispeed,logger,input));
+									car_road.add(new Integer(-1));
+									car_cell.add(new Integer(-1));
+								}
+								// ha pedig az út egyik cellájára, akkor külön kell elmentei annak az adatait, mivel
+								// még nincsenek létrehozva cellák
+								else {
+									crs.add(new CivilCar(indexedName('C',index),null,def_ispeed,logger,input));
+									car_road.add(new Integer(rds.size()));
+									car_cell.add(new Integer(nCells-1));
+								}								
+							}
+							break;
+						// Policeman
+						case 'P':
+							// ha már létezett korábban a cella, akkor az autót is létrehoztuk már hozzá
+							if (!itemAlreadyExists) {
+								// ha egy kereszteződésre rakjuk, akkor eltárolhatjuk a kereszteződés referenicáját
+								if (type!='F') {
+									pmn.add(new Policeman(indexedName('P',index),ints.get(ints.size()-1),def_ispeed,logger,input));
+									pol_road.add(new Integer(-1));
+									pol_cell.add(new Integer(-1));
+								}
+								// ha pedig az út egyik cellájára, akkor külön kell elmentei annak az adatait, mivel
+								// még nincsenek létrehozva cellák
+								else {
+									pmn.add(new Policeman(indexedName('P',index),null,def_ispeed,logger,input));
+									pol_road.add(new Integer(rds.size()));
+									pol_cell.add(new Integer(nCells-1));
+								}								
+							}
+							break;
+						// Robber
+						case 'R':
+							// ha már létezett korábban a cella, akkor az autót is létrehoztuk már hozzá
+							if (!itemAlreadyExists) {
+								// ha egy kereszteződésre rakjuk, akkor eltárolhatjuk a kereszteződés referenicáját
+								if (type!='F') {
+									player = new Robber("R",this,ints.get(ints.size()-1),def_ispeed,logger,input);
+									rob_road=-1;
+									rob_cell=-1;
+								}
+								// ha pedig az út egyik cellájára, akkor külön kell elmentei annak az adatait, mivel
+								// még nincsenek létrehozva cellák
+								else {
+									player = new Robber("R",this,null,def_ispeed,logger,input);
+									rob_road=rds.size();
+									rob_cell=nCells-1;
+								}								
+							}
+							break;
+						// Bunny
+						case 'U':
+							// ha már létezett korábban a cella, akkor az autót is létrehoztuk már hozzá
+							if (!itemAlreadyExists) {
+								// ha egy kereszteződésre rakjuk, akkor eltárolhatjuk a kereszteződés referenicáját
+								if (type!='F') {
+									bunny = new Bunny("U",ints.get(ints.size()-1),logger,input);
+									bun_road=-1;
+									bun_cell=-1;
+								}
+								// ha pedig az út egyik cellájára, akkor külön kell elmentei annak az adatait, mivel
+								// még nincsenek létrehozva cellák
+								else {
+									bunny = new Bunny("U",null,logger,input);
+									bun_road=rds.size();
+									bun_cell=nCells-1;
+								}								
+							}
+							break;
+						}
+						
+						if (road.charAt(i)==',')
+							i++;
 					}
 					i++;
 				}
 			}
+			
+			rds.add(new Road(indexedName('r', rds.size()),e,x,nCells,sign,logger,input));
 		}
+		
+		// az ideiglenes adatszerkezetekből át kell másolni az adatokat a véglegesekbe
 		
 		intersections = new Intersection[ints.size()];
 		System.arraycopy(ints.toArray(),0,intersections,0,ints.size());
+		
+		Intersection e = null;
+		Intersection x = null;
+		
+		roads = new Road[rds.size()];
+		
+		for (int j = 0; j<rds.size(); j++) {
+			for (int k = 0; k<intersections.length; k++) {
+				if (rds.get(j).getEntryIntersection().getName().compareTo(intersections[k].getName())==0)
+					e = intersections[k];
+				if (rds.get(j).getExitIntersection().getName().compareTo(intersections[k].getName())==0)
+					x = intersections[k];					
+			}
+			Cell[] c = rds.get(j).getCells();
+			roads[j] = new Road(indexedName('r', j),e,x,c.length,c[c.length-1].getSign(),logger,input);
+		}
+		
+		cars = new CivilCar[crs.size()];
+		System.arraycopy(crs.toArray(),0,cars,0,crs.size());
+		
+		for (int j = 0; j<crs.size(); j++) {
+			if (crs.get(j).getCell()!=null) {
+				for (int k = 0; k<intersections.length; k++) {
+					if (crs.get(j).getCell().getName().compareTo(intersections[k].getName())==0) {
+						cars[j].setCell(intersections[k]);
+						intersections[k].setVehicle(cars[j]);
+					}
+				}			
+			}
+			else {
+				roads[car_road.get(j)].placeCar(cars[j],car_cell.get(j));
+			}
+		}
+		
+		policemen = new Policeman[pmn.size()];
+		System.arraycopy(pmn.toArray(),0,policemen,0,pmn.size());
+		
+		for (int j = 0; j<pmn.size(); j++) {
+			if (pmn.get(j).getCell()!=null) {
+				for (int k = 0; k<intersections.length; k++) {					
+					if (pmn.get(j).getCell().getName().compareTo(intersections[k].getName())==0) {						
+						policemen[j].setCell(intersections[k]);
+						intersections[k].setVehicle(policemen[j]);
+					}
+				}			
+			}
+			else {
+				roads[pol_road.get(j)].placeCar(policemen[j],pol_cell.get(j));
+			}
+		}
+		
+		if (player!=null) {
+			if (player.getCell()!=null) {
+				for (int k = 0; k<intersections.length; k++) {
+					if (player.getCell().getName().compareTo(intersections[k].getName())==0) {
+						player.setCell(intersections[k]);	
+						intersections[k].setVehicle(player);
+					}	
+				}			
+			}
+			else {
+				roads[rob_road].placeCar(player,rob_cell);
+			}
+		}
+		
+		if (bunny!=null) {
+			if (bunny.getCell()!=null) {
+				for (int k = 0; k<intersections.length; k++) {
+					if (bunny.getCell().getName().compareTo(intersections[k].getName())==0) {
+						bunny.setCell(intersections[k]);	
+						intersections[k].setVehicle(bunny);
+					}	
+				}			
+			}
+			else {
+				roads[bun_road].placeCar(bunny,bun_cell);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 */ 
+	private String cellContentToString(Cell c) {
+		String s = "";
+		if ((c.getVehicle()!=null) || (c.getSign()!=null)) {
+			s = s + '{';
+			if (c.getVehicle()!=null) {
+				s = s + c.getVehicle().getName();
+				if (c.getSign()!=null)
+					s = s + ',';
+			}
+			if (c.getSign()!=null)
+				s = s + c.getSign().getName();
+			s = s + '}';
+		}	
+		return s;		
 	}
 	
 	/**
@@ -137,9 +438,31 @@ public class Game extends NamedObject {
      * naplóz, mely a pálya aktuális állapotát írja le.
      *
      */
-    public void writeLevel() {
-		for (Intersection i : intersections) {
-			logger.logMessage(i.getName());
+    public void writeLevel() {	
+		Boolean[] int_finished = new Boolean[intersections.length];
+		for (int i=0; i<int_finished.length; i++) int_finished[i]=false;
+		
+		for (Road r : roads) {
+			
+			int j;
+			
+			String s = r.getEntryIntersection().getName();
+			for	(j=0; intersections[j] != r.getEntryIntersection(); j++);
+			if (!int_finished[j])
+				s = s + cellContentToString(r.getEntryIntersection());						
+			int_finished[j]=true;
+			
+			for (Cell c : r.getCells()) {
+				s = s + 'F' + cellContentToString(c);								
+			}
+			
+			s = s + r.getExitIntersection().getName();
+			for	(j=0; intersections[j] != r.getExitIntersection(); j++);
+			if (!int_finished[j]) 
+				s = s + cellContentToString(r.getExitIntersection());			
+			int_finished[j]=true;
+			
+			logger.logMessage(s);
 		}
 	}
 
@@ -207,7 +530,7 @@ public class Game extends NamedObject {
             int k = input.readInt(0, nIntersections + nEntries + nExits - 1);
             logger.logMessage("Enter number of cells for road" + Integer.toString(i) + " (1-n):");
             int l = input.readInt();
-            roads[i] = new Road("road" + Integer.toString(i), intersections[j], intersections[k], l, true, logger, input);
+            roads[i] = new Road("road" + Integer.toString(i), intersections[j], intersections[k], l, null, logger, input);
             logger.logCreated(this, roads[i]);
         }
     }

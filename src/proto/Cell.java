@@ -57,6 +57,14 @@ public abstract class Cell extends NamedObject {
     public void enter(Policeman p) {
         vehicle = p;
     }
+    
+    /**
+     * @param b
+     * @return
+     */
+    public void enter(Bunny b) {
+        vehicle = b;
+    }
 
     /**
      * @return

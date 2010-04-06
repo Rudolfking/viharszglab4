@@ -7,13 +7,13 @@ public class Road extends NamedObject {
 	private Intersection exit;
 
 	public Road(String name, Intersection entry, Intersection exit, int nCells,
-			boolean createSign, Logger logger, CustomReader input) {
+			ISign sign, Logger logger, CustomReader input) {
 		super(name,logger,input);
 		this.entry = entry;
 		this.exit = exit;
 
 		logger.logCall(this, this, "generateCells(Intersection entry, Intersection exit, int nCells, Logger logger, CustomReader input)");
-		generateCells(entry, exit, nCells, createSign);
+		generateCells(entry, exit, nCells, sign);
 		logger.logReturn(this, this, "generateCells(Intersection entry, Intersection exit, int nCells, Logger logger, CustomReader input)", null);
 	}
 
@@ -37,7 +37,7 @@ public class Road extends NamedObject {
 	 * 
 	 * @return
 	 */
-	public Intersection getEntrytIntersection() {
+	public Intersection getEntryIntersection() {
 		return entry;
 	}
 
@@ -45,14 +45,14 @@ public class Road extends NamedObject {
 	 * 
 	 * @return
 	 */
-	public void generateCells(Intersection entry, Intersection exit, int nCells, boolean createSign) {
+	public void generateCells(Intersection entry, Intersection exit, int nCells, ISign sign) {
 
 		cells = new RoadCell[nCells];
 
 
 		// első cella létrehozása
 		logger.logCreate(this, "RoadCell");
-		cells[0] = new RoadCell(getName() + "_cell0", this, ((createSign) && (nCells==1)), logger, input);
+		cells[0] = new RoadCell(getName() + "_cell0", this, (nCells==1)?(sign):(null), logger, input);
 		logger.logCreated(this, cells[0]);
 		// bejárat-kereszteződéshez első cella bekötése
 		logger.logCall(this, entry, "addNextCell(Cell c)");
@@ -65,14 +65,14 @@ public class Road extends NamedObject {
 			for (int i = 1; i < nCells - 1; i++) {
 				logger.logCreate(this, "RoadCell");
 				cells[i] = new RoadCell(getName() + "_cell" + Integer.toString(i),
-						this, false, logger, input);
+						this, null, logger, input);
 				logger.logCreated(this, cells[i]);
 			}
 
 			// utolsó cella létrehozása
 			logger.logCreate(this, "RoadCell");
 			cells[nCells - 1] = new RoadCell(getName() + "_cell"
-					+ Integer.toString(nCells - 1), this, createSign, logger, input);
+					+ Integer.toString(nCells - 1), this, sign, logger, input);
 			logger.logCreated(this, cells[nCells - 1]);		
 
 			// utolsó cella szomszédainak bekötése
