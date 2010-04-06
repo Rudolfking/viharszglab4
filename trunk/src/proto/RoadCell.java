@@ -8,10 +8,11 @@ public class RoadCell extends Cell {
     private Road road;
     private ISign sign;
 
-    public RoadCell(String name, Road road, boolean createSign, Logger logger, CustomReader input) {
+    public RoadCell(String name, Road road, ISign sign, Logger logger, CustomReader input) {
         super(name, logger, input);
         this.road = road;
-        if (createSign == true) {
+        this.sign = sign;
+        /*if (createSign == true) {
             logger.logMessage("What kind of traffic sign do you want to place on " + name + "?");
             logger.logMessage("1- Stop sign");
             logger.logMessage("2- Traffic light");
@@ -26,7 +27,7 @@ public class RoadCell extends Cell {
                     sign = new TrafficLight(name + "_trafficlight", logger, input);
                     logger.logCreated(this, sign);
                 }            
-        }
+        }*/
     }
 
     /**

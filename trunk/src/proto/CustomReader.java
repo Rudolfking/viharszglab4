@@ -60,6 +60,21 @@ public class CustomReader {
         if (echo) logger.logMessage(result);
         return result;
     }
+    
+    /**
+     * Egy sor beolvasása stringbe a megadott inputból. A #-tel kezdődő sorokat átugorja.
+     *
+     * @return a beolvasott sor
+     */
+    public String readLineUnsafe() throws IOException {
+        String result = "";		
+        do {
+            result = input.readLine();
+        } while (result.charAt(0) == '#');
+		
+        if (echo) logger.logMessage(result);
+        return result;
+    }
 
     /**
      * Egy egész szám beolvasása a megadott inputból. A #-tel kezdődő sorokat átugorja.
