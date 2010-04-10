@@ -1,0 +1,6 @@
+loadMap proto/maps/map2.txt
+writeMap
+setInverseSpeed c 0 0
+setInverseSpeed c 1 10
+tick 2
+exit

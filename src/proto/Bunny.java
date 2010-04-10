@@ -2,8 +2,8 @@ package proto;
 
 public class Bunny extends Vehicle {
 	
-	public Bunny(String name, Cell cell, Logger logger, CustomReader input) {
-        super(name, cell, 0, logger, input);		
+	public Bunny(String name, Game game, Cell cell, Logger logger, CustomReader input) {
+        super(name, game, cell, 0, logger, input);		
     }
     
     /**

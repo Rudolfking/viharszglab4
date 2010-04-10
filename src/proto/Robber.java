@@ -11,8 +11,7 @@ public class Robber extends Vehicle {
 	private Game game;
 
     public Robber(String name, Game game, Cell cell, int ispeed, Logger logger, CustomReader input) {
-        super(name, cell, ispeed, logger, input);
-		this.game = game;
+        super(name, game, cell, ispeed, logger, input);		
     }
 
     /**

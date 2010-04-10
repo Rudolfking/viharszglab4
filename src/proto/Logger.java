@@ -55,7 +55,7 @@ public abstract class Logger {
 	 * @param o az objektum, aminek az osztálynevére vagyunk kíváncsiak
 	 * @return az osztály neve
 	 */
-    private static String className(Object o) {
+    public static String className(Object o) {
         String[] fullName = o.toString().split("@");
         String[] splitName = (fullName[0]).split("\\.");
         return splitName[splitName.length - 1];
@@ -130,4 +130,19 @@ public abstract class Logger {
             log("[" + caller.getName() + "|" + className(caller) + "|" + caller.hashCode() + "] -> has created [" + created.getName() + "|" + className(created) + "|" + created.hashCode() + "]");
         }
     }
+    
+    /**
+     * 
+     */ 
+    public void logEvent(String message, INamedObject[] o) {
+		String[] words = message.split(" ");
+		int param = 0;
+		for(int i=0; i<words.length; i++)
+			if(words[i].charAt(0)=='$')
+				words[i] = o[param++].getName();
+		String output = "";
+		for(int i=0; i<words.length; i++)
+			output += " " + words[i];
+		log("o Event"+output);
+	}
 }

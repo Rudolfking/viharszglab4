@@ -10,7 +10,10 @@ public class Proto {
 	}
 	
 	static Game game;
-	
+		
+	/**
+	 * 
+	 */ 
 	public static void main(String[] args) {
 		// ezt a loggert használjuk az egész program során
         Logger logger = new ConsoleLogger();
@@ -69,24 +72,35 @@ public class Proto {
         //game.writeLevel();
 	}
 	
+	/**
+	 * 
+	 */ 
 	public static void processCommand(String commandLine, Logger logger) 
 		throws FileNotFoundException, MismatchingParametersException {
 				
 		String[] parameters = commandLine.split(" ");
 		String command = parameters[0];
 		
+		// -------------------------------------------------------------
+		// parancsok betöltése fájlból
 		if (command.compareTo("loadCommands")==0) {
 			if (parameters.length<2)
 				throw new MismatchingParametersException();
 			CustomReader fileInput = new CustomReader(logger);
-			fileInput.setInput(new BufferedReader(new FileReader(parameters[1])));
+			fileInput.setInput(new BufferedReader(new FileReader(parameters[1])));			
 			try {
-				while (true) {
-					fileInput.readLineUnsafe();
-				}
+				String s = fileInput.readLineUnsafe();
+				while (s != null)
+				{					
+					processCommand(s, logger);
+					s = fileInput.readLineUnsafe();					
+				}				
 			} catch(IOException e) {
+				return;
 			}
 		}
+		// -------------------------------------------------------------
+		// pálya betöltése fájlból
 		else if (command.compareTo("loadMap")==0) {
 			if (parameters.length<2)
 				throw new MismatchingParametersException();
@@ -94,20 +108,71 @@ public class Proto {
 			fileInput.setInput(new BufferedReader(new FileReader(parameters[1])));
 			String map = "";
 			try {
-				while (true) {
+				String s = fileInput.readLineUnsafe();
+				while (s != null) {					
 					if (map.compareTo("")!=0)
 						map = map + "\n";
-					map = map + fileInput.readLineUnsafe();
+					map = map + s;
+					s = fileInput.readLineUnsafe();
 				}
 			} catch(IOException e) {
 			} finally {
-				game.generateLevel(map);
+				if(map.length()>0)
+					game.generateLevel(map);
 				return;
 			}
+		// -------------------------------------------------------------
+		// pálya állapotának kiírása
 		} else if (command.compareTo("writeMap")==0) {
 			game.writeLevel();
+		// -------------------------------------------------------------
+		// i. jelzés beállítása
+		} else if (command.compareTo("setSign")==0) {
+			if (parameters.length != 3)
+				throw new MismatchingParametersException();
+			String signName = "S[" + Integer.valueOf(parameters[1]) + "]";
+			String lightName = "T[" + Integer.valueOf(parameters[1]) + "]";
+			ISign s = null;
+			boolean end = false;
+			while (!end)
+			{
+				for(Intersection i : game.Intersections()) {
+					s = i.getSign();
+					end = ((s != null) 
+						&& ((s.getName().compareTo(signName) == 0) 
+						|| (s.getName().compareTo(lightName) == 0)));
+				}
+				if (!end)
+					for(Road r : game.Roads()) {
+						if (!end)
+							for(Cell c : r.getCells()) {
+								s = c.getSign();
+								end = ((s != null) 
+									&& ((s.getName().compareTo(signName) == 0) 
+									|| (s.getName().compareTo(lightName) == 0)));
+							}
+					}
+			}
+			boolean value = (parameters[2].compareTo("true")==0);
+			if (s != null)
+				s.setBlocking(value);
+		// sebesség kikapcsolása
+		} else if (command.compareTo("turnOffSpeed")==0) {
+			game.speed = false;
+		// -------------------------------------------------------------
+		// játék léptetése
+		} else if (command.compareTo("tick")==0) {
+			int count = 1;
+			if (parameters.length>=2)
+				count = Integer.valueOf(parameters[1]);
+			for (int i=0; i<count; i++)
+				game.tick();
+		// -------------------------------------------------------------
+		// kilépés a tesztelésből
 		} else if (command.compareTo("exit")==0) {
 			System.exit(0);
+		// -------------------------------------------------------------
+		// értelmezhetetlen parancs
 		} else {
 			logger.logMessage("x Error: UnknownCommand");
 		}
