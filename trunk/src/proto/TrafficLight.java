@@ -4,27 +4,35 @@ package proto;
 import java.io.IOException;
 
 public class TrafficLight extends NamedObject implements ISign {
+	
+	public static final int default_redTime = 3;
+	public static final int default_greenTime = 3;
+	
     private int redTime;
     private int greenTime;
     private int offset;
 
     public TrafficLight(String name, Logger logger, CustomReader input) {
         super(name, logger, input);
+        redTime = default_redTime;
+        greenTime = default_greenTime;
+        offset = 0;
     }
 
     public boolean isBlocking() {
-        logger.logMessage("Is FrafficLight " + getName() + " blocking?");
-        logger.logMessage("0 - false");
-        logger.logMessage("1 - true");        
-            String str = input.readLine();
-            if (str.compareTo("0") == 0) return false;
-            if (str.compareTo("1") == 0) return true;        
-        return false;
-    }
+        return (offset < greenTime);
+    }       
 
-    public void vehicleEntered() {
+	public void setBlocking(boolean value) {
+		offset = value?greenTime:0;
+	}
+
+    public void vehicleEntered() {		
     }
 
     public void tick() {
+		offset++;
+		if(offset == (greenTime + redTime))
+			offset = 0;
     }
 }

@@ -15,11 +15,10 @@ public abstract class Vehicle extends NamedObject {
 	/**
 	 * Konstruktor az alaptulajdonságok beállításával.
 	 */
-    public Vehicle(String name, Cell cell, int ispeed, Logger logger, CustomReader input) {
-        super(name, logger, input);
-        logger.logCall(this, this, "setCell(Cell c)");
-		setCell(cell);
-		logger.logReturn(this, this, "setCell(Cell c)", null);
+    public Vehicle(String name, Game game, Cell cell, int ispeed, Logger logger, CustomReader input) {
+        super(name, logger, input);        
+        this.game = game;
+		setCell(cell);		
 		
         inverseSpeed=ispeed;
     }
@@ -93,29 +92,27 @@ public abstract class Vehicle extends NamedObject {
      */
     public void tick() {        
 
-		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő
-        logger.logMessage("Speed countdown for " + name + " finished? (y/n)");
-		String res = input.readLine();
-		boolean  ready = (res.compareTo("y")==0);
+		ticksLeft--;		
+		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő        				
 		// ha eltelt, megkísérelünk lépni
-		if (ready) {
-			// aktuális cellán lévő közlekedési jelzés lekérdezése		
-			logger.logCall(this, cell, "getSign()");
-			ISign s = cell.getSign();
-			logger.logReturn(this, cell, "getSign()", s);
+		if (((game != null) && (!game.speed)) || (ticksLeft==0)) {
+			ticksLeft = inverseSpeed;
+			// aktuális cellán lévő közlekedési jelzés lekérdezése					
+			ISign s = cell.getSign();			
 			boolean blocking = false;
 			if (s != null) {
-				// ha van jelzés, blokkolás lekérdezése
-				logger.logCall(this, s, "isBlocking(Vehicle v)");
-				blocking = s.isBlocking();
-				logger.logReturn(this, s, "isBlocking(Vehicle v)", new NamedObject((Boolean.valueOf(blocking)).toString(), logger, input));								
+				// ha van jelzés, blokkolás lekérdezése	
+				logger.log("Sign" + s.getName() + "found");			
+				blocking = s.isBlocking();				
 			}
 			if (!blocking) {
-				// ha nincs blokkolás, léphetünk a következő cellára
-				logger.logCall(this, this, "step()");
-				step();
-				logger.logReturn(this, this, "step()", null);
-			}		
+				// ha nincs blokkolás, léphetünk a következő cellára				
+				step();				
+			}
+			else {
+				INamedObject[] param = {this,s};
+				logger.logEvent(logger.className(this) + " $name blocked by $signName",param);
+			}
     	}
 	}	
 
@@ -124,25 +121,14 @@ public abstract class Vehicle extends NamedObject {
 	 */
 	public void step() {
 		
-		// a következő cellák listájának lekérdezése
-		logger.logCall(this, cell, "getNextCells()");
-		Cell[] nextCells = cell.getNextCells();
-		for (Cell c : nextCells) {
-			logger.logReturn(this, cell, "getNextCells()", c);
-			logger.setLevel(logger.getLevel()+1);
-		}
-		// a listából egy cella kiválasztása
-		logger.logCall(this, this, "chooseFrom(Cell[] cells)");
-		Cell nextCell = chooseFrom(nextCells);
-		logger.logReturn(this, this, "chooseFrom(Cell[] cells)", nextCell);
-		// annak a vizsgálata, hogy a kiszemelt cellán tartózkodik-e autó
-		logger.logCall(this, nextCell, "getVehicle()");
-		Vehicle v = nextCell.getVehicle();
-		logger.logReturn(this, nextCell, "getVehicle()", v);
-		// a kapott eredmény elfogadása
-		logger.logCall(this, this, "accept(Cell nextCell, Vehicle v)");
-		accept(nextCell,v);
-		logger.logReturn(this, this, "accept(Cell nextCell, Vehicle v)", null);
+		// a következő cellák listájának lekérdezése		
+		Cell[] nextCells = cell.getNextCells();		
+		// a listából egy cella kiválasztása		
+		Cell nextCell = chooseFrom(nextCells);		
+		// annak a vizsgálata, hogy a kiszemelt cellán tartózkodik-e autó		
+		Vehicle v = nextCell.getVehicle();		
+		// a kapott eredmény elfogadása		
+		accept(nextCell,v);		
 	}
 		
 }

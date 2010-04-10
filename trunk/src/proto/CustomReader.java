@@ -70,7 +70,7 @@ public class CustomReader {
         String result = "";		
         do {
             result = input.readLine();
-        } while (result.charAt(0) == '#');
+        } while ((result!=null) && (result.length()>0) && (result.charAt(0) == '#'));
 		
         if (echo) logger.logMessage(result);
         return result;

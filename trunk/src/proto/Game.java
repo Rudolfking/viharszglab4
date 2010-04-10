@@ -8,13 +8,19 @@ public class Game extends NamedObject {
     private Policeman[] policemen;
     private Robber player;
     private Road[] roads;
+    public Road[] Roads() { return roads; }
     private Intersection[] intersections;
+    public Intersection[] Intersections() { return intersections; }
     private Clock clock;
     private int minPolice;
     private int minCivilCar;
     private Bank bank;
     private Bunny bunny;
-    private String name;
+    private String name;     
+    
+    int ticks = 0;
+    
+    public boolean speed;
     
     // autók alapértelmezett inverz sebessége
     final int def_ispeed = 10;
@@ -23,16 +29,19 @@ public class Game extends NamedObject {
      * Konstruktor a naplókimenet és felhasználói bemenet beállításával.
      */
     public Game(String name, Logger logger, CustomReader input) {
-        super(name, logger, input);
-        logger.logCreate(this, "Clock");
+        super(name, logger, input);        
         clock = new Clock("clock", logger, input);
-        logger.logCreated(this, clock);
+        speed = true;
     }
 
     /**
      * Minden entitás (ami valamilyen formában reagál az időre) léptetése
      */
     public void tick() {
+		
+		ticks++;
+		logger.log("o tick "+Integer.toString(ticks));
+		
 		// utak léptetése (léptetik a rajtuk lévő jelzőlámpákat, táblákat)
         for (Road r : roads) {
             logger.logCall(this, r, "tick()");
@@ -51,10 +60,9 @@ public class Game extends NamedObject {
             p.tick();
             logger.logReturn(this, p, "tick()", null);
 		}
-		// bankrabló léptetése
-		logger.logCall(this, player, "tick()");
-        player.tick();
-        logger.logReturn(this, player, "tick()", null);
+		// bankrabló léptetése		
+		if(player != null)
+			player.tick();
     }
     
     /**
@@ -248,14 +256,14 @@ public class Game extends NamedObject {
 							if (!itemAlreadyExists) {
 								// ha egy kereszteződésre rakjuk, akkor eltárolhatjuk a kereszteződés referenicáját
 								if (type!='F') {
-									crs.add(new CivilCar(indexedName('C',index),ints.get(ints.size()-1),def_ispeed,logger,input));
+									crs.add(new CivilCar(indexedName('C',index),this,ints.get(ints.size()-1),def_ispeed,logger,input));
 									car_road.add(new Integer(-1));
 									car_cell.add(new Integer(-1));
 								}
 								// ha pedig az út egyik cellájára, akkor külön kell elmentei annak az adatait, mivel
 								// még nincsenek létrehozva cellák
 								else {
-									crs.add(new CivilCar(indexedName('C',index),null,def_ispeed,logger,input));
+									crs.add(new CivilCar(indexedName('C',index),this,null,def_ispeed,logger,input));
 									car_road.add(new Integer(rds.size()));
 									car_cell.add(new Integer(nCells-1));
 								}								
@@ -267,14 +275,14 @@ public class Game extends NamedObject {
 							if (!itemAlreadyExists) {
 								// ha egy kereszteződésre rakjuk, akkor eltárolhatjuk a kereszteződés referenicáját
 								if (type!='F') {
-									pmn.add(new Policeman(indexedName('P',index),ints.get(ints.size()-1),def_ispeed,logger,input));
+									pmn.add(new Policeman(indexedName('P',index),this,ints.get(ints.size()-1),def_ispeed,logger,input));
 									pol_road.add(new Integer(-1));
 									pol_cell.add(new Integer(-1));
 								}
 								// ha pedig az út egyik cellájára, akkor külön kell elmentei annak az adatait, mivel
 								// még nincsenek létrehozva cellák
 								else {
-									pmn.add(new Policeman(indexedName('P',index),null,def_ispeed,logger,input));
+									pmn.add(new Policeman(indexedName('P',index),this,null,def_ispeed,logger,input));
 									pol_road.add(new Integer(rds.size()));
 									pol_cell.add(new Integer(nCells-1));
 								}								
@@ -305,14 +313,14 @@ public class Game extends NamedObject {
 							if (!itemAlreadyExists) {
 								// ha egy kereszteződésre rakjuk, akkor eltárolhatjuk a kereszteződés referenicáját
 								if (type!='F') {
-									bunny = new Bunny("U",ints.get(ints.size()-1),logger,input);
+									bunny = new Bunny("U",this,ints.get(ints.size()-1),logger,input);
 									bun_road=-1;
 									bun_cell=-1;
 								}
 								// ha pedig az út egyik cellájára, akkor külön kell elmentei annak az adatait, mivel
 								// még nincsenek létrehozva cellák
 								else {
-									bunny = new Bunny("U",null,logger,input);
+									bunny = new Bunny("U",this,null,logger,input);
 									bun_road=rds.size();
 									bun_cell=nCells-1;
 								}								
@@ -543,7 +551,7 @@ public class Game extends NamedObject {
         // rendőr legenerálása
         policemen = new Policeman[1];
         logger.logCreate(this, "Policeman");
-        policemen[0] = new Policeman("policeman", null, 10, logger, input); 
+        policemen[0] = new Policeman("policeman", this,null, 10, logger, input); 
         logger.logCreated(this, policemen[0]);
         // rendőr elhelyezése egy cellára
         logger.logMessage("Please choose a road to place " + policemen[0].getName() + " on (0-" + Integer.toString(roads.length - 1) + "):");
@@ -555,7 +563,7 @@ public class Game extends NamedObject {
         cars = new CivilCar[nCivilCars];
         for (int i = 0; i < nCivilCars; i++) {
             logger.logCreate(this, "CivilCar");
-            cars[i] = new CivilCar("car" + Integer.toString(i), null, 10, logger, input);
+            cars[i] = new CivilCar("car" + Integer.toString(i), this, null, 10, logger, input);
             logger.logCreated(this, cars[i]);
             // autó elhelyezése egy cellára
             logger.logMessage("Please choose a road to place " + cars[i].getName() + " on (0-" + Integer.toString(roads.length - 1) + "):");
@@ -639,7 +647,7 @@ public class Game extends NamedObject {
             if (choice == 1) {
 				// új rendőr generálása
                 logger.logCreate(this, "Policeman");							
-                Policeman p = new Policeman("policeman" + Integer.toString(policemen.length), c, 10, logger, input);    
+                Policeman p = new Policeman("policeman" + Integer.toString(policemen.length), this, c, 10, logger, input);    
                 logger.logCreated(this, p);				
 				// rendőr elhelyezése
                 logger.logCall(this, c, "setVehicle(Vehicle v)");
@@ -650,9 +658,9 @@ public class Game extends NamedObject {
                 logger.logCreate(this, "CivilCar");
 				CivilCar cc;
 				if (cars != null)
-                	cc = new CivilCar("civilcar" + Integer.toString(cars.length), c, 10, logger, input);
+                	cc = new CivilCar("civilcar" + Integer.toString(cars.length), this, c, 10, logger, input);
 				else
-					cc = new CivilCar("civilcar0", c, 10, logger, input);
+					cc = new CivilCar("civilcar0", this, c, 10, logger, input);
                 logger.logCreated(this, cc);					
 				// autó elhelyezése
                 logger.logCall(this, c, "setVehicle(Vehicle v)");
