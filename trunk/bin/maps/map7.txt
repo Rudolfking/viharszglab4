@@ -1,0 +1,6 @@
+E[0]{P[0]}FB{R}
+E[0]FH
+BFFF{T[0]}I[0]
+HFF{C[0]}I[0]
+I[0]F{C[1]}FF{S[0]}X[0]
+I[0]FFFX[1]

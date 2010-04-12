@@ -1,0 +1,7 @@
+loadMap proto/maps/map10.txt
+writeMap
+setGodModeDuration 5
+moveRobber 0
+turnOffSpeed
+tick 7
+exit

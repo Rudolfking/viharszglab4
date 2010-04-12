@@ -1,0 +1,7 @@
+loadMap proto/maps/map5.txt
+writeMap
+turnOffSpeed
+moveRobber 2
+tick 2
+writeMap
+exit

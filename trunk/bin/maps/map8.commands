@@ -1,0 +1,5 @@
+loadMap proto/maps/map8.txt
+writeMap
+turnOffSpeed
+tick 2
+exit
