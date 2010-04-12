@@ -16,7 +16,11 @@ public class Game extends NamedObject {
     protected int minCivilCar;
     protected Bank bank;
     protected Bunny bunny;
-    protected String name;     
+    protected String name;
+    private boolean gameOverFlag;
+    public boolean gameIsOver() { return gameOverFlag; }
+    private boolean gameWinFlag;
+    public boolean gameIsWon() { return gameWinFlag; }
     
     int ticks = 0;
     
@@ -32,12 +36,17 @@ public class Game extends NamedObject {
         super(name, logger, input);        
         clock = new Clock("clock", logger, input);
         speed = true;
+        gameOverFlag = false;
+        gameWinFlag = false;
     }
 
     /**
      * Minden entitás (ami valamilyen formában reagál az időre) léptetése
      */
     public void tick() {
+		
+		if(gameOverFlag || gameWinFlag)
+			return;
 		
 		ticks++;
 		logger.log("o tick "+Integer.toString(ticks));
@@ -55,7 +64,7 @@ public class Game extends NamedObject {
             p.tick();            
 		}
 		// bankrabló léptetése		
-		if(player != null)
+		if((!gameOverFlag) && (player != null))
 			player.tick();
     }
     
@@ -376,6 +385,9 @@ public class Game extends NamedObject {
 		policemen = new Policeman[pmn.size()];
 		System.arraycopy(pmn.toArray(),0,policemen,0,pmn.size());
 		
+		for (Policeman p : policemen)
+			p.setWanted(player);
+		
 		for (int j = 0; j<pmn.size(); j++) {
 			if (pmn.get(j).getCell()!=null) {
 				for (int k = 0; k<intersections.length; k++) {					
@@ -589,9 +601,11 @@ public class Game extends NamedObject {
 	 * Győzelmi üzenet megjelenítése.
      */
     public void winGame() {
-        logger.logMessage(":):):):):):):):):):):):):):):):):)");
-		logger.logMessage(":):)  YOU HAVE WON THE GAME!  :):)");
-		logger.logMessage(":):):):):):):):):):):):):):):):):)");
+        //logger.logMessage(":):):):):):):):):):):):):):):):):)");
+		//logger.logMessage(":):)  YOU HAVE WON THE GAME!  :):)");
+		//logger.logMessage(":):):):):):):):):):):):):):):):):)");
+		logger.logMessage("o You won the game!");	
+		gameWinFlag = true;	
     }
 
 	/**
@@ -601,7 +615,8 @@ public class Game extends NamedObject {
         //logger.logMessage("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		//logger.logMessage("%%%         GAME OVER         %%%");
 		//logger.logMessage("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-		logger.logMessage("o Game Over");
+		logger.logMessage("o Game Over");		
+		gameOverFlag = true;
     }
 
     /**

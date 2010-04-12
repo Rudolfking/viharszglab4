@@ -31,15 +31,41 @@ public abstract class Cell extends NamedObject {
      * @return
      */
     public void setVehicle(Vehicle v) {
-		vehicle = v;		
+		vehicle = v;
+		if (getSign() != null)
+			getSign().vehicleEntered();
     }
 
     /**
      * @param v
      * @return
      */
-    public void enter(Vehicle v) {		
-        vehicle = v;
+    public void enter(CivilCar c) {		
+        setVehicle(c);
+    }
+    
+    /**
+     * @param p
+     * @return
+     */
+    public void enter(Policeman p) {		
+        setVehicle(p);
+    }
+    
+    /**
+     * @param r
+     * @return
+     */
+    public void enter(Robber r) {		
+        setVehicle(r);
+    }
+    
+    /**
+     * @param b
+     * @return
+     */
+    public void enter(Bunny b) {		
+        setVehicle(b);
     }
 
     /**

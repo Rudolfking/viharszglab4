@@ -56,47 +56,31 @@ public class Road extends NamedObject {
 		// más a helyzet, ha több cellánk van
 		if (nCells > 1) {
 			// köztes cellák létrehozása
-			for (int i = 1; i < nCells - 1; i++) {
-				logger.logCreate(this, "RoadCell");
-				cells[i] = new RoadCell(getName() + "_cell" + Integer.toString(i),
-						this, null, logger, input);
-				logger.logCreated(this, cells[i]);
+			for (int i = 1; i < nCells - 1; i++) {				
+				cells[i] = new RoadCell(getName() + "_cell" + Integer.toString(i), this, null, logger, input);				
 			}
 
-			// utolsó cella létrehozása
-			logger.logCreate(this, "RoadCell");
-			cells[nCells - 1] = new RoadCell(getName() + "_cell"
-					+ Integer.toString(nCells - 1), this, sign, logger, input);
-			logger.logCreated(this, cells[nCells - 1]);		
+			// utolsó cella létrehozása			
+			cells[nCells - 1] = new RoadCell(getName() + "_cell" + Integer.toString(nCells - 1), this, sign, logger, input);			
 
-			// utolsó cella szomszédainak bekötése
-			logger.logCall(this, cells[nCells-1], "setNeighbourCells(Cell prev, Cell next)");
-			((RoadCell)cells[nCells-1]).setNeighbourCells(cells[nCells-2], exit);
-			logger.logReturn(this, cells[nCells-1], "setNeighbourCells(Cell prev, Cell next)", null);
+			// utolsó cella szomszédainak bekötése			
+			((RoadCell)cells[nCells-1]).setNeighbourCells(cells[nCells-2], exit);			
 		} else {
-			// egyetlen cella szomszédainak bekötése
-			logger.logCall(this, cells[0], "setNeighbourCells(Cell prev, Cell next)");
-			((RoadCell)cells[0]).setNeighbourCells(entry, exit);
-			logger.logReturn(this, cells[0], "setNeighbourCells(Cell prev, Cell next)", null);
+			// egyetlen cella szomszédainak bekötése			
+			((RoadCell)cells[0]).setNeighbourCells(entry, exit);			
 		}
 
-		// kijárat-kereszteződéshez utolsó cella bekötése
-		logger.logCall(this, exit, "addPreviousCell(Cell c)");
-		entry.addPreviousCell(cells[nCells - 1]);
-		logger.logReturn(this, exit, "addPreviousCell(Cell c)", null);
+		// kijárat-kereszteződéshez utolsó cella bekötése		
+		exit.addPreviousCell(cells[nCells - 1]);		
 
 		if (nCells > 1) {
-			// első cella szomszédainak bekötése
-			logger.logCall(this, cells[0], "setNeighbourCells(Cell prev, Cell next)");
-			((RoadCell)cells[0]).setNeighbourCells(entry, cells[1]);
-			logger.logReturn(this, cells[0], "setNeighbourCells(Cell prev, Cell next)", null);
+			// első cella szomszédainak bekötése			
+			((RoadCell)cells[0]).setNeighbourCells(entry, cells[1]);			
 		}
 
 		// köztes cellák egymáshoz kötése
-		for (int i = 1; i < nCells - 1; i++) {
-			logger.logCall(this, cells[i], "setNeighbourCells(Cell prev, Cell next)");
-			((RoadCell)cells[i]).setNeighbourCells(cells[i-1], cells[i+1]);
-			logger.logReturn(this, cells[i], "setNeighbourCells(Cell prev, Cell next)", null);
+		for (int i = 1; i < nCells - 1; i++) {			
+			((RoadCell)cells[i]).setNeighbourCells(cells[i-1], cells[i+1]);			
 		}
 	}
 
@@ -122,13 +106,9 @@ public class Road extends NamedObject {
 	 * 		A cella sorszáma
 	 */
 	public void placeCar(Vehicle v, int cell) {
-				
-		logger.logCall(this, cells[cell], "setVehicle(Vehicle v)");
-		cells[cell].setVehicle(v);
-		logger.logReturn(this, cells[cell], "setVehicle(Vehicle v)", null);
-		logger.logCall(this, v, "setCell(Cell c)");
-		v.setCell(cells[cell]);
-		logger.logReturn(this, v, "setCell(Cell c)", null);
+						
+		cells[cell].setVehicle(v);		
+		v.setCell(cells[cell]);		
 	}
 
 	/**
@@ -136,10 +116,10 @@ public class Road extends NamedObject {
 	 * @return
 	 */
 	public void tick() {
-		for (Cell c : cells) {
-			logger.logCall(this, c, "getSign()");			
+		for (Cell c : cells) {			
 			ISign s = ((RoadCell)c).getSign();
-			logger.logReturn(this, c, "getSign()",s);
+			if (s!=null)
+				s.tick();			
 		}
 	}
 

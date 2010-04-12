@@ -30,7 +30,7 @@ public class Proto {
 				logger.log("Loading commands from file specified as input parameter: " + args[0]);				
 				processCommand("loadCommands "+args[0],logger);
 			}
-			while (true)
+			while (!game.gameIsOver() && !game.gameIsWon())
 				processCommand(input.readLineUnsafe(),logger);
 		} catch (MismatchingParametersException e) {
 			logger.logMessage("x Error: MismatchingParameters");
@@ -55,16 +55,19 @@ public class Proto {
 			if (parameters.length<2)
 				throw new MismatchingParametersException();
 			CustomReader fileInput = new CustomReader(logger);
-			fileInput.setInput(new BufferedReader(new FileReader(parameters[1])));			
+			fileInput.setInput(new BufferedReader(new FileReader(parameters[1])));	
+			boolean fileExists = false;		
 			try {
 				String s = fileInput.readLineUnsafe();
+				fileExists = (s != null);
 				while (s != null)
 				{					
 					processCommand(s, logger);
 					s = fileInput.readLineUnsafe();					
 				}				
 			} catch(IOException e) {
-				return;
+				if (!fileExists)
+					logger.log("x Error FileNotFound: "+parameters[1]);
 			}
 		}
 		// -------------------------------------------------------------
@@ -75,8 +78,10 @@ public class Proto {
 			CustomReader fileInput = new CustomReader(logger);
 			fileInput.setInput(new BufferedReader(new FileReader(parameters[1])));
 			String map = "";
+			boolean fileExists = false;
 			try {
 				String s = fileInput.readLineUnsafe();
+				fileExists = (s != null);
 				while (s != null) {					
 					if (map.compareTo("")!=0)
 						map = map + "\n";
@@ -84,6 +89,9 @@ public class Proto {
 					s = fileInput.readLineUnsafe();
 				}
 			} catch(IOException e) {
+				if (!fileExists) {
+					logger.log("x Error FileNotFound: "+parameters[1]);
+				}
 			} finally {
 				if(map.length()>0)
 					game.generateLevel(map);
@@ -165,6 +173,21 @@ public class Proto {
 			int index = Integer.valueOf(parameters[1]);
 			int option = Integer.valueOf(parameters[2]);
 			game.cars[index].setPreferredCell(option);
+		// -------------------------------------------------------------
+		// rendőrautó következő választásának beállítása
+		} else if (command.compareTo("movePolice")==0) {
+			if (parameters.length != 3)
+				throw new MismatchingParametersException();
+			int index = Integer.valueOf(parameters[1]);
+			int option = Integer.valueOf(parameters[2]);
+			game.policemen[index].setPreferredCell(option);
+		// -------------------------------------------------------------
+		// rabló következő választásának beállítása
+		} else if (command.compareTo("moveRobber")==0) {
+			if (parameters.length != 2)
+				throw new MismatchingParametersException();			
+			int option = Integer.valueOf(parameters[1]);
+			game.player.setPreferredCell(option);
 		// -------------------------------------------------------------
 		// játék léptetése
 		} else if (command.compareTo("tick")==0) {
