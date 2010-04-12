@@ -33,7 +33,8 @@ public abstract class Cell extends NamedObject {
     public void setVehicle(Vehicle v) {
 		vehicle = v;
 		if (getSign() != null)
-			getSign().vehicleEntered();
+			getSign().vehicleEntered();		
+		v.setCell(this);
     }
 
     /**

@@ -50,8 +50,7 @@ public class Policeman extends Vehicle {
 	public void accept(Cell nextCell, Vehicle v) {
 		// ha üres a cella, léphet
 		if (v == null) {			
-			cell.leave();			
-			nextCell.enter(this);	
+			cell.leave();						
 			if (cell.getRoad() == null) {
 				INamedObject[] param = {this};
 				logger.logEvent("Policeman $name moved to cell option " + Integer.toString(preferredCell),param);				
@@ -59,14 +58,14 @@ public class Policeman extends Vehicle {
 			} else {
 				INamedObject[] param = {this};
 				logger.logEvent("Policeman $name moved to next cell",param);				
-			}			
-			cell = nextCell;
+			}	
+			nextCell.enter(this);						
 			boolean arrest = onTheSameRoad(wanted);
 			if (arrest) {
 				INamedObject[] param = {this,wanted};
 				logger.logEvent("Policeman $name arrested $robber",param);				
 				wanted.busted();
-			}
+			}			
 		} else {
 			v.interact(this);
 		}
