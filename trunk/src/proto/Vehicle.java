@@ -4,15 +4,32 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * ÃltalÃ¡nos absztrakt jÃ¡rmÅ± osztÃ¡ly: kÃ¶zÃ¶s interfÃ©szt biztosÃ­t a kÃ¼lÃ¶nbÃ¶zÅ‘ jÃ¡rmÅ±veknek, Ã©s a kÃ¶zÃ¶s
- * tulajdonsÃ¡gaikat is Ã¶sszefogja.
+ * Egy olyan absztrakt osztály, megy el általános, közlekedésre 
+ * képes jármûvet valósít meg az utakon. Dönt arról, hogy merre 
+ * haladjon, betartja a szabályokat (táblák, lámpák és utca-irányítások). 
+ * Kerüli az ütközést, konkrétan nem ütközik (csak ha belemegy a rabló).
  */
 public abstract class Vehicle extends NamedObject {
+	/**
+	 * A következõ lépésig hátralévõ idõ tick-ekben (maximumértéke nyilván az inverseSpeed értéke)
+	 */
     protected int ticksLeft;
+    /**
+     * A cella referenciája, amin tartózkodik
+     */
     protected Cell cell;
     //protected Cell preferredCell;	  
+    /**
+     * (Elõre) Kiválasztott következõ cella
+     */
     protected int preferredCell;
+    /**
+     * A sebességét megadó integer privát változó (inverz, mert tick/lépés)
+     */
     protected int inverseSpeed;
+    /**
+     * A játék
+     */
     protected Game game;      
 
 	/**
@@ -162,15 +179,34 @@ public abstract class Vehicle extends NamedObject {
 		// a kapott eredmÃ©ny elfogadÃ¡sa		
 		accept(nextCell,v);		
 	}
-		
+		/**
+		 * Ha lép, itt kezeli le a cellára lépés 
+		 * következményeit a jármû. Maga hívja 
+		 * meg, így láthatóságára az OO elvek
+		 *  betartását szem elõtt tartva privát
+		 * @param nextCell Az erre lépõ jármû fogadásának helye
+		 * @param v A jármû, amit fogad
+		 */
 	public abstract void accept(Cell nextCell, Vehicle v);
-	
+	/**
+	 * 
+	 * @param c Civilt kezel
+	 */
 	public abstract void interact(CivilCar c);
-	
+	/**
+	 * 
+	 * @param p rendõrt
+	 */
 	public abstract void interact(Policeman p);
-	
+	/**
+	 * 
+	 * @param r Bankrablót
+	 */
 	public abstract void interact(Robber r);
-	
+	/**
+	 * 
+	 * @param b Nyuszikát
+	 */
 	public abstract void interact(Bunny b);
 		
 }
