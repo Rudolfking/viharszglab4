@@ -1,4 +1,0 @@
-# test case
-12
-# civilcar/policeman
-0
