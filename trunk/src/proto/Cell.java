@@ -35,35 +35,11 @@ public abstract class Cell extends NamedObject {
     }
 
     /**
-     * @param r
+     * @param v
      * @return
      */
-    public void enter(Robber r) {
-        vehicle = r;
-    }
-
-    /**
-     * @param c
-     * @return
-     */
-    public void enter(CivilCar c) {
-        vehicle = c;
-    }
-
-    /**
-     * @param p
-     * @return
-     */
-    public void enter(Policeman p) {
-        vehicle = p;
-    }
-    
-    /**
-     * @param b
-     * @return
-     */
-    public void enter(Bunny b) {
-        vehicle = b;
+    public void enter(Vehicle v) {		
+        vehicle = v;
     }
 
     /**

@@ -7,20 +7,42 @@ public class Bunny extends Vehicle {
     }
     
     /**
-	 * A lépéshez kiszemelt cellától lekérdezett jármű alapján a döntést meghozó függvény.
-	 */
+	 * Következő cellára lépéskor ez a függvény a kiszemelt cella tartalma
+	 * alapján elindítja az interakciót, vagy a cellára lép.
+     *
+     * @param nextCell a cella, ahova lépni szeretnénk
+	 * @param v a jármű, amit a cellától lekérdeztünk
+     */
 	public void accept(Cell nextCell, Vehicle v) {
 		// ha üres a cella, léphet
-		if (v == null) {
-			logger.logCall(this, cell, "leave()");
-			cell.leave();
-			logger.logReturn(this, cell, "leave()", null);
-			logger.logCall(this, nextCell, "enter(Vehicle v)");
-			nextCell.enter(this);
-			logger.logReturn(this, nextCell, "enter(Vehicle v)", null);
+		if (v == null) {			
+			cell.leave();			
+			nextCell.enter(this);	
+			if (cell.getRoad() == null) {
+				INamedObject[] param = {this};
+				logger.logEvent("Bunny $name moved to cell option " + Integer.toString(preferredCell),param);				
+				preferredCell = -1;
+			} else {
+				INamedObject[] param = {this};
+				logger.logEvent("Bunny $name moved to next cell",param);				
+			}			
 			cell = nextCell;
-		}	
-		// ha nem üres, nem csinálunk semmit (várakozunk, amíg elmegy)	
+		} else {
+			v.interact(this);
+		}
+	}
+	
+	public void interact(CivilCar c) {
+		
+	}
+	
+	public void interact(Policeman p) {
+	}
+	
+	public void interact(Robber r) {
+	}
+	
+	public void interact(Bunny b) {
 	}
 	
 }

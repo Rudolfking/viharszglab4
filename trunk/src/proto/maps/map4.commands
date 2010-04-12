@@ -1,0 +1,7 @@
+loadMap proto/maps/map4.txt
+writeMap
+turnOffSpeed
+moveCivil 0 0
+tick 2
+writeMap
+exit

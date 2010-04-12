@@ -1,16 +1,19 @@
 package proto;
 
 import java.io.IOException;
+import java.util.*;
 
 /**
  * Általános absztrakt jármű osztály: közös interfészt biztosít a különböző járműveknek, és a közös
  * tulajdonságaikat is összefogja.
  */
 public abstract class Vehicle extends NamedObject {
-    private int ticksLeft;
+    protected int ticksLeft;
     protected Cell cell;
-    private int inverseSpeed;
-    private Game game;    
+    //protected Cell preferredCell;	  
+    protected int preferredCell;
+    protected int inverseSpeed;
+    protected Game game;      
 
 	/**
 	 * Konstruktor az alaptulajdonságok beállításával.
@@ -18,18 +21,25 @@ public abstract class Vehicle extends NamedObject {
     public Vehicle(String name, Game game, Cell cell, int ispeed, Logger logger, CustomReader input) {
         super(name, logger, input);        
         this.game = game;
-		setCell(cell);		
-		
+		setCell(cell);				
         inverseSpeed=ispeed;
-    }
-
+        preferredCell = -1;        
+    }  
+    
     /**
-	 * Következő cellára lépéskor ez a függvény "reagál" a kiszemelt cella tartalmára.
-     *
-     * @param nextCell a cella, ahova lépni szeretnénk
-	 * @param v a jármű, amit a cellától lekérdeztünk
+     * A következő kereszteződénél kiválasztandó cella sorszámának beállítása.
+     * @param c a kivánt cella sorszáma     
      */
-    public abstract void accept(Cell nextCell, Vehicle v);
+    public void setPreferredCell(int i) {
+		/*/if (cell.getRoad()!=null) {
+			Cell[] cells = cell.getRoad().getExitIntersection().getNextCells();
+			preferredCell = cells[i];
+		} else {
+			Cell[] cells = cell.getNextCells();
+			preferredCell = cells[i];
+		}*/
+		preferredCell = i;
+    }    
 
     /**
 	 * Választ egyet az átadott cellák közül.
@@ -37,20 +47,33 @@ public abstract class Vehicle extends NamedObject {
      * @return a kiválasztott cella
 	 *
      */
-    protected Cell chooseFrom(Cell[] c) {
-        
-		// szkeleton: felhasználói bemenet alapján választunk
-		if(c.length>1) {
-			logger.logMessage("Which next cell should " + name + " choose?");
-			// lehetőségek felsorolása
-			for (int i = 0; i<c.length; i++)
-				logger.logMessage(Integer.toString(i) + " - " + c[i].getName());
-			// válasz beolvasása
-			int choice = input.readInt(0,c.length-1);
-			return c[choice];
-		} else {
-			return c[0];
+    protected Cell chooseFrom(Cell[] cells) {
+        		
+		/*// választás a preferált cella ismeretében
+		boolean prefCellIsReachable = false;
+		// preferált cella elérhetőségének ellenőrzése (úton nem)
+		if (cell.getRoad() == null) {
+			for (Cell c : cells)
+				if(c == preferredCell) prefCellIsReachable = true;			
 		}
+		// ha elérhető, akkor azt választjuk
+		if(prefCellIsReachable)
+			return preferredCell;
+		else {
+			// ha nem, véletlenszerűen választunk			
+			Random r = new Random();			
+			return cells[r.nextInt(cells.length)];
+		}*/
+			
+		if(cells.length>1)	{
+			if (preferredCell<0) {
+				Random r = new Random();
+				preferredCell = r.nextInt(cells.length);
+			}
+			return cells[preferredCell];
+		}
+		else
+			return cells[0];
 
     }
 
@@ -71,19 +94,27 @@ public abstract class Vehicle extends NamedObject {
     public void setCell(Cell c) {
         this.cell=c;
     }
+    
+    /**
+	 * inverseSpeed attribútum beállító függvénye
+	 *
+     * @param c a cell attribútum (a cella, ahol a jármű tartózkodik)
+     */
+    public void setInverseSpeed(int i) {
+        this.inverseSpeed=i;
+        this.ticksLeft=i;
+    }
 
     /**
-     * Az autó letörli magát a cellájáról, mielott felrobban
+     * Az autó törlésekor a cella vonatkozó referenciájának megszüntetése.
      */
     public void die() {
-		//cella lekerdezese
-        logger.logCall(this,this,"getCell()");
-        Cell cell0=getCell();                          
-        logger.logReturn(this,this,"getCell()",cell0);
-		//cella elhagyasa
-        logger.logCall(this,cell0,"leave()");
-        cell0.leave();                                
-        logger.logReturn(this,cell0,"leave()",null);
+		// esemény naplózása
+		INamedObject[] param = {this};
+        logger.logEvent(this.getClass().getName()+" $name dies",param);
+        // cella referenciájának törlése	
+        Cell c = getCell();	        
+        c.leave();        
     }
 
     /**
@@ -92,7 +123,8 @@ public abstract class Vehicle extends NamedObject {
      */
     public void tick() {        
 
-		ticksLeft--;		
+		if (ticksLeft>0)
+			ticksLeft--;		
 		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő        				
 		// ha eltelt, megkísérelünk lépni
 		if (((game != null) && (!game.speed)) || (ticksLeft==0)) {
@@ -101,8 +133,7 @@ public abstract class Vehicle extends NamedObject {
 			ISign s = cell.getSign();			
 			boolean blocking = false;
 			if (s != null) {
-				// ha van jelzés, blokkolás lekérdezése	
-				logger.log("Sign" + s.getName() + "found");			
+				// ha van jelzés, blokkolás lekérdezése					
 				blocking = s.isBlocking();				
 			}
 			if (!blocking) {
@@ -130,5 +161,15 @@ public abstract class Vehicle extends NamedObject {
 		// a kapott eredmény elfogadása		
 		accept(nextCell,v);		
 	}
+		
+	public abstract void accept(Cell nextCell, Vehicle v);
+	
+	public abstract void interact(CivilCar c);
+	
+	public abstract void interact(Policeman p);
+	
+	public abstract void interact(Robber r);
+	
+	public abstract void interact(Bunny b);
 		
 }

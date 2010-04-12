@@ -11,10 +11,8 @@ public class Road extends NamedObject {
 		super(name,logger,input);
 		this.entry = entry;
 		this.exit = exit;
-
-		logger.logCall(this, this, "generateCells(Intersection entry, Intersection exit, int nCells, Logger logger, CustomReader input)");
-		generateCells(entry, exit, nCells, sign);
-		logger.logReturn(this, this, "generateCells(Intersection entry, Intersection exit, int nCells, Logger logger, CustomReader input)", null);
+		
+		generateCells(entry, exit, nCells, sign);		
 	}
 
 	/**
@@ -50,14 +48,10 @@ public class Road extends NamedObject {
 		cells = new RoadCell[nCells];
 
 
-		// első cella létrehozása
-		logger.logCreate(this, "RoadCell");
-		cells[0] = new RoadCell(getName() + "_cell0", this, (nCells==1)?(sign):(null), logger, input);
-		logger.logCreated(this, cells[0]);
-		// bejárat-kereszteződéshez első cella bekötése
-		logger.logCall(this, entry, "addNextCell(Cell c)");
-		entry.addNextCell(cells[0]);
-		logger.logReturn(this, entry, "addNextCell(Cell c)", null);
+		// első cella létrehozása		
+		cells[0] = new RoadCell(getName() + "_cell0", this, (nCells==1)?(sign):(null), logger, input);		
+		// bejárat-kereszteződéshez első cella bekötése		
+		entry.addNextCell(cells[0]);		
 		
 		// más a helyzet, ha több cellánk van
 		if (nCells > 1) {

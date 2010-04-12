@@ -4,19 +4,19 @@ import java.io.*;
 import java.util.*;
 
 public class Game extends NamedObject {
-    private CivilCar[] cars;
-    private Policeman[] policemen;
-    private Robber player;
-    private Road[] roads;
+    protected CivilCar[] cars;
+    protected Policeman[] policemen;
+    protected Robber player;
+    protected Road[] roads;
     public Road[] Roads() { return roads; }
-    private Intersection[] intersections;
+    protected Intersection[] intersections;
     public Intersection[] Intersections() { return intersections; }
-    private Clock clock;
-    private int minPolice;
-    private int minCivilCar;
-    private Bank bank;
-    private Bunny bunny;
-    private String name;     
+    protected Clock clock;
+    protected int minPolice;
+    protected int minCivilCar;
+    protected Bank bank;
+    protected Bunny bunny;
+    protected String name;     
     
     int ticks = 0;
     
@@ -43,22 +43,16 @@ public class Game extends NamedObject {
 		logger.log("o tick "+Integer.toString(ticks));
 		
 		// utak léptetése (léptetik a rajtuk lévő jelzőlámpákat, táblákat)
-        for (Road r : roads) {
-            logger.logCall(this, r, "tick()");
-            r.tick();
-            logger.logReturn(this, r, "tick()", null);
+        for (Road r : roads) {            
+            r.tick();            
         }
 		// civil autók léptetése
-		for (CivilCar c : cars) {
-			logger.logCall(this, c, "tick()");
-            c.tick();
-            logger.logReturn(this, c, "tick()", null);
+		for (CivilCar c : cars) {			
+            c.tick();            
 		}
 		// rendőrök léptetése
-		for (Policeman p : policemen) {
-			logger.logCall(this, p, "tick()");
-            p.tick();
-            logger.logReturn(this, p, "tick()", null);
+		for (Policeman p : policemen) {			
+            p.tick();            
 		}
 		// bankrabló léptetése		
 		if(player != null)
@@ -101,8 +95,7 @@ public class Game extends NamedObject {
 		int index = -1;
 		
 		// végigmegyünk az egyes utakon
-		for (String road : roadDefs) {
-			//logger.logMessage("Creating " + road);
+		for (String road : roadDefs) {			
 			
 			i=0;	
 			
@@ -342,6 +335,10 @@ public class Game extends NamedObject {
 		
 		intersections = new Intersection[ints.size()];
 		System.arraycopy(ints.toArray(),0,intersections,0,ints.size());
+		for (Intersection in : intersections) {
+			in.nextCells = new Cell[0];
+			in.previousCells = new Cell[0];
+		}		
 		
 		Intersection e = null;
 		Intersection x = null;
@@ -601,9 +598,10 @@ public class Game extends NamedObject {
      * Vereség üzenet megjelenítése.
      */
     public void gameOver() {
-        logger.logMessage("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-		logger.logMessage("%%%         GAME OVER         %%%");
-		logger.logMessage("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        //logger.logMessage("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		//logger.logMessage("%%%         GAME OVER         %%%");
+		//logger.logMessage("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		logger.logMessage("o Game Over");
     }
 
     /**
