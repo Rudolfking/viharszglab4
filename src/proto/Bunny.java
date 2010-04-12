@@ -40,19 +40,34 @@ public class Bunny extends Vehicle {
 	 * @param c a civil auto, mely lépett rá
 	 */
 	public void interact(CivilCar c) {
-		
+		INamedObject[] param = {c};
+		logger.logEvent("CivilCar $name hits bunny",param);
+		Cell ce = cell;
+		die();
+		c.accept(ce,null);		
 	}
 	/**
 	 * Kapcsolatba lép egy rendõrrel
 	 * @param p a rendõr
 	 */
 	public void interact(Policeman p) {
+		INamedObject[] param = {p};
+		logger.logEvent("Policeman $name hits bunny",param);
+		Cell c = cell;
+		die();
+		p.accept(c,null);		
 	}
 	/**
 	 * Kapcsolatba lép a bankrabloval
 	 * @param r a robber
 	 */
 	public void interact(Robber r) {
+		INamedObject[] param = {r};
+		logger.logEvent("Robber $name hits bunny, GodMode activated",param);
+		Cell c = cell;
+		die();
+		r.startGodMode();
+		r.accept(c,null);
 	}
 	/**
 	 * Kapcsolatba lép a nyuszival (egyebekkel)
