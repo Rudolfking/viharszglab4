@@ -1,4 +1,0 @@
-# test case
-8
-# where to place the car
-2

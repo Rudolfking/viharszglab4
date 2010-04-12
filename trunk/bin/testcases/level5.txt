@@ -1,6 +1,0 @@
-# test case
-5
-# where to place the car
-1
-# preferred cell
-2

@@ -1,4 +1,0 @@
-# test case
-6
-# forward/backward
-1

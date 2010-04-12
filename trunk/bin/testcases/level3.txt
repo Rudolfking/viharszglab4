@@ -1,3 +1,0 @@
-# test case number
-3
-# this test case does not require any input
