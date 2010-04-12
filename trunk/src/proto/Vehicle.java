@@ -18,7 +18,6 @@ public abstract class Vehicle extends NamedObject {
      * A cella referenci�ja, amin tart�zkodik
      */
     protected Cell cell;
-    //protected Cell preferredCell;	  
     /**
      * (El�re) Kiv�lasztott k�vetkez� cella
      */
@@ -47,14 +46,7 @@ public abstract class Vehicle extends NamedObject {
      * A következő kereszteződénél kiválasztandó cella sorszámának beállítása.
      * @param c a kivánt cella sorszáma     
      */
-    public void setPreferredCell(int i) {
-		/*/if (cell.getRoad()!=null) {
-			Cell[] cells = cell.getRoad().getExitIntersection().getNextCells();
-			preferredCell = cells[i];
-		} else {
-			Cell[] cells = cell.getNextCells();
-			preferredCell = cells[i];
-		}*/
+    public void setPreferredCell(int i) {		
 		preferredCell = i;
     }    
 
@@ -65,22 +57,6 @@ public abstract class Vehicle extends NamedObject {
 	 *
      */
     protected Cell chooseFrom(Cell[] cells) {
-        		
-		/*// választás a preferált cella ismeretében
-		boolean prefCellIsReachable = false;
-		// preferált cella elérhetőségének ellenőrzése (úton nem)
-		if (cell.getRoad() == null) {
-			for (Cell c : cells)
-				if(c == preferredCell) prefCellIsReachable = true;			
-		}
-		// ha elérhető, akkor azt választjuk
-		if(prefCellIsReachable)
-			return preferredCell;
-		else {
-			// ha nem, véletlenszerűen választunk			
-			Random r = new Random();			
-			return cells[r.nextInt(cells.length)];
-		}*/
 			
 		if(cell.getRoad()==null) {
 			if (preferredCell<0) {
@@ -139,10 +115,7 @@ public abstract class Vehicle extends NamedObject {
 	 * között, és megpróbál lépni, ha lejárt a számláló.
      */
     public void tick() {        
-		
-		if (ticksLeft>0)
-			ticksLeft--;
-		else	
+				
 		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő        				
 		// ha eltelt, megkísérelünk lépni
 		if (((game != null) && (!game.speed)) || (ticksLeft==0)) {
@@ -162,7 +135,10 @@ public abstract class Vehicle extends NamedObject {
 				INamedObject[] param = {this,s};
 				logger.logEvent(logger.className(this) + " $name blocked by $signName",param);
 			}
-    	}    	
+    	}  
+    	else
+    	if (ticksLeft>0)
+			ticksLeft--;			  
 	}	
 
 	/**

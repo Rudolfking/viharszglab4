@@ -30,10 +30,7 @@ public class Policeman extends Vehicle {
      * @return L�ptet
      */
     public void tick() {        
-		
-		if (ticksLeft>0)
-			ticksLeft--;
-		else
+						
 		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő        				
 		// ha eltelt, megkísérelünk lépni
 		if (((game != null) && (!game.speed)) || (ticksLeft==0)) {
@@ -41,7 +38,10 @@ public class Policeman extends Vehicle {
 			ticksLeft = inverseSpeed;			
 			// lépés megkísérlése
 			step();				
-    	}    	
+    	}  
+    	else
+    	if (ticksLeft>0)
+			ticksLeft--;  	
 	}				
 	
 	/**
@@ -65,9 +65,12 @@ public class Policeman extends Vehicle {
 			}	
 			nextCell.enter(this);						
 			boolean arrest = onTheSameRoad(wanted);
-			if (arrest) {
-				INamedObject[] param = {this,wanted};
-				logger.logEvent("Policeman $name arrested $robber",param);				
+			if (arrest) {				
+				INamedObject[] param = {this,wanted};					
+				if (!wanted.inGodMode())
+					logger.logEvent("Policeman $name arrested $robber",param);
+				else
+					logger.logEvent("Policeman $name failed to arrest $robber",param);
 				wanted.busted();
 			}			
 		} else {

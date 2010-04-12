@@ -6,12 +6,18 @@ package proto;
 public class Robber extends Vehicle {
     private boolean isGoingForward;
     private int minimumInverseSpeed;
-    private int maximumInverseSpeed;    
+    private int maximumInverseSpeed; 
+    
+    final int default_godModeDuration = 5;
+    
+    protected int godModeDuration = default_godModeDuration;
+    protected int godModeTicksLeft;
 
     public Robber(String name, Game game, Cell cell, int ispeed, Logger logger, CustomReader input) {
         super(name, game, cell, ispeed, logger, input);	
         preferredCell = 0;
-        isGoingForward = true;	        
+        isGoingForward = true;	
+        godModeTicksLeft = 0;        
     }
 
     /**
@@ -69,10 +75,11 @@ public class Robber extends Vehicle {
     /**
      * Rendőr letartóztatja.
      */
-    public void busted() {        
-		die();		
-		//game.kill(this);		
-		game.gameOver();		
+    public void busted() {   		
+		if (godModeTicksLeft <= 0) {
+			die();				
+			game.gameOver();
+		}
     }
     
     /**
@@ -87,11 +94,10 @@ public class Robber extends Vehicle {
      * Minden óraléptetéskor végrehajtott függvény: visszaszámlál két lépés
 	 * között, és megpróbál lépni, ha lejárt a számláló.
      */
-    public void tick() {        
-		
-		if (ticksLeft>0)
-			ticksLeft--;
-		else
+    public void tick() {  
+						
+		if (godModeTicksLeft > -1)	
+			godModeTicksLeft--;	
 		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő        				
 		// ha eltelt, megkísérelünk lépni
 		if (((game != null) && (!game.speed)) || (ticksLeft==0)) {
@@ -99,7 +105,14 @@ public class Robber extends Vehicle {
 			ticksLeft = inverseSpeed;			
 			// lépés megkísérlése
 			step();				
-    	}    	
+    	} 
+    	else
+    	if (ticksLeft>0)
+			ticksLeft--;   	
+		if (godModeTicksLeft==0) {
+			INamedObject[] param = {this};
+			logger.logEvent("Robber $name is no longer in GodMode",param);
+		}
 	}
 
 	/**
@@ -169,5 +182,17 @@ public class Robber extends Vehicle {
 	 * @param c Nyuszik�val
 	 */
 	public void interact(Bunny b) {
+	}
+	
+	public void setGodModeDuration(int i) {
+		godModeDuration = i;
+	}
+	
+	public void startGodMode() {
+		godModeTicksLeft = godModeDuration;
+	}
+	
+	public boolean inGodMode() {
+		return godModeTicksLeft > 0;
 	}
 }

@@ -189,6 +189,13 @@ public class Proto {
 			int option = Integer.valueOf(parameters[1]);
 			game.player.setPreferredCell(option);
 		// -------------------------------------------------------------
+		// halhatatlanság idejének beállítása
+		} else if (command.compareTo("setGodModeDuration")==0) {
+			if (parameters.length != 2)
+				throw new MismatchingParametersException();			
+			int value = Integer.valueOf(parameters[1]);
+			game.player.setGodModeDuration(value);
+		// -------------------------------------------------------------
 		// játék léptetése
 		} else if (command.compareTo("tick")==0) {
 			int count = 1;
