@@ -2,7 +2,8 @@
 package proto;
 
 /**
- * Kijárat a városból: a civil autók és rendőrök ide lépve elhagyják a várost.
+ * A városból való kilépési pontot valósítja meg, itt távozhatnak a meghatározott autók a városból.
+ * @author Balázs
  */
 public class CityExit extends Intersection {
 	private Game game;
@@ -13,8 +14,8 @@ public class CityExit extends Intersection {
     }
 
     /**
-     * Lekezeli, ha rendőr lép erre a mezőre.
-     * @param p ide lépő rendőr
+     * Lekezeli, ha rendĹ‘r lĂ©p erre a mezĹ‘re.
+     * @param p ide lĂ©pĹ‘ rendĹ‘r
      */
     public void enter(Policeman p) {        
 		INamedObject[] param = {p};
@@ -23,8 +24,8 @@ public class CityExit extends Intersection {
     }
 
     /**
-     * Lekezeli, ha civil autó lép erre a mezőre.
-     * @param c ide lépő civil autó
+     * Lekezeli, ha civil autĂł lĂ©p erre a mezĹ‘re.
+     * @param c ide lĂ©pĹ‘ civil autĂł
      */
     public void enter(CivilCar c) {    
 		INamedObject[] param = {c};
