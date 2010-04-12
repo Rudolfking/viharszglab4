@@ -1,7 +1,7 @@
 package proto;
 
 /**
- * HÃ©tkÃ¶znapi, civil autÃ³: betartja a kÃ¶zlekedÃ©si szabÃ¡lyokat.
+ * A civil autót megvalósító osztály, egy, az utakon közlekedõ civil autó reprezentálására.
  */
 public class CivilCar extends Vehicle {
     public CivilCar(String name, Game game, Cell cell, int ispeed, Logger logger, CustomReader input) {
@@ -32,12 +32,18 @@ public class CivilCar extends Vehicle {
 			v.interact(this);
 		}
 	}	
-	
+	/**
+	 * 
+	 * @param c A belépõ civil autó interact-ja
+	 */
 	public void interact(CivilCar c) {
 		INamedObject[] param = {c,this};
 		logger.logEvent("CivilCar $otherCar waiting for $thisCar to pass",param);
 	}
-	
+	/**
+	 * 
+	 * @param p rendõrre
+	 */
 	public void interact(Policeman p) {
 	}
 	
@@ -46,7 +52,10 @@ public class CivilCar extends Vehicle {
 		logger.logEvent("Robber $robber crashed to $thisCar",param);
 		r.crash();
 	}
-	
+	/**
+	 * 
+	 * @param b nyuszira
+	 */
 	public void interact(Bunny b) {
 	}
 

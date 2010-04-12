@@ -1,7 +1,8 @@
 package proto;
 
 /**
- * RendÅ‘r: nem Ã¡ll meg a lÃ¡mpÃ¡knÃ¡l, jelzÃ©seknÃ©l, ha egy utcÃ¡ra kerÃ¼l a bankrablÃ³val, elkapja.
+ * A rendõrt megvalósító osztály, mely a jármû minden tulajdonságával rendelkezik, valamint
+ *  tisztában van magával a bankrablóval is, és ha egy utcába kerülnek, így el is tudja kapni õt.
  */
 public class Policeman extends Vehicle {
     private Robber wanted;
@@ -9,21 +10,24 @@ public class Policeman extends Vehicle {
     public Policeman(String name, Game game, Cell cell, int ispeed, Logger logger, CustomReader input) {
         super(name, game, cell, ispeed, logger, input);
     }
-
+    /**
+     * 
+     * @param r rögzíti a r, robber értéket magának
+     */
 	public void setWanted(Robber r) {
 		wanted = r;
 	}
 
     /**
-     * @param v
-     * @return
+     * @param v A jármû, mellyel egy utcára kerül
+     * @return Ha egy utcára kerül a rendõr a rablóval, abban a pillanatban letartóztatja.
      */
     public boolean onTheSameRoad(Vehicle v) {
         return ((getCell().getRoad() != null) && (getCell().getRoad() == v.getCell().getRoad()));
     }
 
 	/**
-     * @return
+     * @return Léptet
      */
     public void tick() {        
 		
@@ -70,16 +74,28 @@ public class Policeman extends Vehicle {
 			v.interact(this);
 		}
 	}
-	
+	/**
+	 * Sima cell interact
+	 * @param c Civil
+	 */
 	public void interact(CivilCar c) {
 	}
-	
+	/**
+	 * Sima cell interact
+	 * @param p Rendõr
+	 */
 	public void interact(Policeman p) {
 	}
-	
+	/**
+	 * Sima cell interact
+	 * @param r Robber
+	 */
 	public void interact(Robber r) {
 	}
-	
+	/**
+	 * Sima cell interact
+	 * @param b Nyuszi
+	 */
 	public void interact(Bunny b) {
 	}	
 }

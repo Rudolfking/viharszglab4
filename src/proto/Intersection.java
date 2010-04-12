@@ -1,8 +1,19 @@
 //package InitialClassDiagram;
 package proto;
-
+/**
+ * Egy speciális cella, mely elágazást reprezentál: Több belépõ és kilépõ cellája
+ *  lehet/van, valamint többféle speciális elágazás létezik (bank, búvóhely…).
+ * @author Balázs
+ *
+ */
 public class Intersection extends Cell {
+	/**
+	 * @param Cell[]  []: A következõ cellák listáját tartalmazó publikus attribútum.
+	 */
     protected Cell[] nextCells;
+	/**
+	 * @param Cell[]  []: Az elõzõ cellák listáját tartalmazó publikus attribútum.
+	 */
     protected Cell[] previousCells;
 
     public Intersection(String name, Logger logger, CustomReader input) {
@@ -10,7 +21,7 @@ public class Intersection extends Cell {
     }          
 
     /**
-     * @param c
+     * @param c Egy következõ cellát csatol a már meglévõ cellákhoz
      * @return
      */
     public void addNextCell(Cell c) {
@@ -23,7 +34,7 @@ public class Intersection extends Cell {
     }
 
     /**
-     * @param c
+     * @param c Egy elõzõ cellát csatol a már meglévõ cellákhoz
      * @return
      */
     public void addPreviousCell(Cell c) {
@@ -36,23 +47,29 @@ public class Intersection extends Cell {
     }
 
 	/**
-     * @return
+     * @return Az ezen celláról elõrefelé haladó irányban elérhetõ cellákat adja vissza
      */
     public Cell[] getNextCells() {
 		return nextCells;
 	}
 
     /**
-     * @return
+     * @return Az ezen celláról visszafelé haladás közben elérhetõ cellákat adja vissza (tehát amik az ezt megelõzõ cellák)
      */
     public Cell[] getPreviousCells() {
 		return previousCells;
 	}
-
+/**
+ * 
+ * @return A cellán (esetlegesen) található táblával visszatérõ publikus függvény.
+ */
 	public ISign getSign() {
         return null;
     }
-
+/**
+ * 
+ * @return A cellához tartozó utat adja vissza. Publikus tagfüggvény
+ */
 	public Road getRoad() {
 		return null;
 	}

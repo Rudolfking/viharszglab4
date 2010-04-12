@@ -143,16 +143,31 @@ public class Robber extends Vehicle {
 			v.interact(this);
 		}
 	}	
-	
+	/**
+	 * 
+	 * @param c Civillel interact
+	 */
 	public void interact(CivilCar c) {
 	}
-	
+
+	/**
+	 * 
+	 * @param c Rendõrrel
+	 */
 	public void interact(Policeman p) {
 	}
-	
+
+	/**
+	 * 
+	 * @param c Bankrablóval
+	 */
 	public void interact(Robber r) {
 	}
-	
+
+	/**
+	 * 
+	 * @param c Nyuszikával
+	 */
 	public void interact(Bunny b) {
 	}
 }
