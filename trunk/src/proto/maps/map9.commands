@@ -1,0 +1,4 @@
+loadMap proto/maps/map9.txt
+writeMap
+tick 5
+exit

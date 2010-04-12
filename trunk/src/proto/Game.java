@@ -51,6 +51,8 @@ public class Game extends NamedObject {
 		ticks++;
 		logger.log("o tick "+Integer.toString(ticks));
 		
+		regenerateKilledVehicles();
+		
 		// utak léptetése (léptetik a rajtuk lévő jelzőlámpákat, táblákat)
         for (Road r : roads) {            
             r.tick();            
@@ -644,55 +646,60 @@ public class Game extends NamedObject {
      */
     public void regenerateKilledVehicles() {
         
-		// Felhasználói bemenet alapján döntünk, hogy van-e hiány...
-        logger.logMessage("Are there any vehicles missing? (y/n)");               
-        String str = input.readLine();
-        if (str.compareTo("y") == 0) {			
-			// ...és hogy miből			
-            logger.logMessage("The missing vehicle is a...");     
-            logger.logMessage("0 - CivilCar");
-            logger.logMessage("1 - Policeman");                    
-            int choice = input.readInt(0,1);
-			// szabad városhatár lekérése
-            logger.logCall(this, this, "getEmptyCityEntry()");							
-            CityEntry c = getEmptyCityEntry();                              
-            logger.logReturn(this, this, "getEmptyCityEntry()", c);
-            if (choice == 1) {
-				// új rendőr generálása
-                logger.logCreate(this, "Policeman");							
-                Policeman p = new Policeman("policeman" + Integer.toString(policemen.length), this, c, 10, logger, input);    
-                logger.logCreated(this, p);				
-				// rendőr elhelyezése
-                logger.logCall(this, c, "setVehicle(Vehicle v)");
-                c.setVehicle(p);                                                
-                logger.logReturn(this, c, "setVehicle(Vehicle v)", null);
-            } else {  
-				// új CivilCar generálása                          
-                logger.logCreate(this, "CivilCar");
-				CivilCar cc;
-				if (cars != null)
-                	cc = new CivilCar("civilcar" + Integer.toString(cars.length), this, c, 10, logger, input);
-				else
-					cc = new CivilCar("civilcar0", this, c, 10, logger, input);
-                logger.logCreated(this, cc);					
-				// autó elhelyezése
-                logger.logCall(this, c, "setVehicle(Vehicle v)");
-                c.setVehicle(cc);                                       
-                logger.logReturn(this, c, "setVehicle(Vehicle v)", null);
-            }                                            
-        }
+		// várost elhagyott civil autók keresése
+		for (CivilCar c : cars) {			
+			if (c.getCell() == null) {
+				// szabad városhatár lekérése
+				CityEntry e = getEmptyCityEntry();
+				// kötések létrehozása
+				if (e != null) {
+					e.enter(c);
+					c.setCell(e);
+					
+					INamedObject[] param = {c,e};
+					logger.logEvent("CivilCar $car created at $entry",param);
+				}				
+			}			
+		}
+		
+		// várost elhagyott civil autók keresése
+		for (Policeman p : policemen) {
+			if (p.getCell() == null) {
+				// szabad városhatár lekérése
+				CityEntry e = getEmptyCityEntry();
+				// kötések létrehozása
+				if (e != null) {
+					e.enter(p);
+					p.setCell(e);
+					
+					INamedObject[] param = {p,e};
+					logger.logEvent("Policeman $car created at $entry",param);
+				}				
+			}			
+		}			           
     }
 
     /**
      * Egy olyan bejáratot ad vissza, ahol épp nem tartózkodik jármű
 	 * @result a talált üres bejárat
      */
-    public CityEntry getEmptyCityEntry() { 
-		return new CityEntry("cityentry0", logger, input);      
-		// kiválasztunk egy randomot, aztán onnan addig iterálunk, amíg egy üreshez nem érünk.
-		// tudjuk mennyi van, úgyhogy ha a végére érünk, kezdjük előlről (a cityentrykkel kezdődik
-		// az intersections lista)
-		// ha nincs üres, nullt adunk vissza, és akkor a regenerate nem tesz sehova semmit
+    public CityEntry getEmptyCityEntry() {
+		Random r = new Random();
+		int index = r.nextInt(intersections.length);
+		int i = (index + 1) % intersections.length;
+		while (!((intersections[i].getNextCells().length>0) && 
+			(intersections[i].getPreviousCells().length==0) &&
+			(intersections[i].getVehicle() == null)) && (i != index)) {
+				i=(i+1)%intersections.length;
+		}
+		if ((intersections[i].getNextCells().length>0) && 
+			(intersections[i].getPreviousCells().length==0) &&
+			(intersections[i].getVehicle() == null)) {
+				return (CityEntry)(intersections[i]);
+		} else {
+			return null;
+		}
+		
 	}
 
 }

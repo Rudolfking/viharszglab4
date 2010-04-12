@@ -16,8 +16,7 @@ public class Bunny extends Vehicle {
 	public void accept(Cell nextCell, Vehicle v) {
 		// ha üres a cella, léphet
 		if (v == null) {			
-			cell.leave();			
-			nextCell.enter(this);	
+			cell.leave();						
 			if (cell.getRoad() == null) {
 				INamedObject[] param = {this};
 				logger.logEvent("Bunny $name moved to cell option " + Integer.toString(preferredCell),param);				
@@ -25,8 +24,8 @@ public class Bunny extends Vehicle {
 			} else {
 				INamedObject[] param = {this};
 				logger.logEvent("Bunny $name moved to next cell",param);				
-			}			
-			cell = nextCell;
+			}
+			nextCell.enter(this);							
 		} else {
 			v.interact(this);
 		}

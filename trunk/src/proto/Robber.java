@@ -138,8 +138,7 @@ public class Robber extends Vehicle {
 				INamedObject[] param = {this};
 				logger.logEvent("Robber $name moved to next cell",param);				
 			}	
-			nextCell.enter(this);		
-			cell = nextCell;
+			nextCell.enter(this);					
 		} else {
 			v.interact(this);
 		}

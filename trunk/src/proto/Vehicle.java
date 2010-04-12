@@ -112,9 +112,9 @@ public abstract class Vehicle extends NamedObject {
 		// esemény naplózása
 		INamedObject[] param = {this};
         logger.logEvent(logger.className(this)+" $name dies",param);
-        // cella referenciájának törlése	
-        Cell c = getCell();	        
-        c.leave();        
+        // cella referenciájának törlése	         
+        cell.leave();        
+        cell = null;               
     }
 
     /**
