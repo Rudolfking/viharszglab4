@@ -14,9 +14,7 @@ public class HidingPlace extends Intersection {
      * 
      * @param r a belépő bankrabló
      */
-    public void enter(Robber r) {	
-		logger.logCall(this, r, "hide()");	
-        r.hide();
-		logger.logReturn(this, r, "hide()", null);	
+    public void enter(Robber r) {			
+        r.hide();		
     }
 }

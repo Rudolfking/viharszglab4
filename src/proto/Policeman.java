@@ -19,25 +19,25 @@ public class Policeman extends Vehicle {
      * @return
      */
     public boolean onTheSameRoad(Vehicle v) {
-        return (getCell().getRoad() == v.getCell().getRoad());
+        return ((getCell().getRoad() != null) && (getCell().getRoad() == v.getCell().getRoad()));
     }
 
 	/**
      * @return
      */
     public void tick() {        
-
-		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő
-        logger.logMessage("Speed countdown for " + name + " finished? (y/n)");
-		String res = input.readLine();
-		boolean  ready = (res.compareTo("y")==0);
+		
+		if (ticksLeft>0)
+			ticksLeft--;
+		else
+		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő        				
 		// ha eltelt, megkísérelünk lépni
-		if (ready) {			
-			// (nem ellenőrzünk semmilyen blokkolást)
-			logger.logCall(this, this, "step()");
-			step();
-			logger.logReturn(this, this, "step()", null);		
-    	}
+		if (((game != null) && (!game.speed)) || (ticksLeft==0)) {
+			// sebesség-számláló újraindítása
+			ticksLeft = inverseSpeed;			
+			// lépés megkísérlése
+			step();				
+    	}    	
 	}				
 	
 	/**
@@ -61,6 +61,12 @@ public class Policeman extends Vehicle {
 				logger.logEvent("Policeman $name moved to next cell",param);				
 			}			
 			cell = nextCell;
+			boolean arrest = onTheSameRoad(wanted);
+			if (arrest) {
+				INamedObject[] param = {this,wanted};
+				logger.logEvent("Policeman $name arrested $robber",param);				
+				wanted.busted();
+			}
 		} else {
 			v.interact(this);
 		}

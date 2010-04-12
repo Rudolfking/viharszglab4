@@ -1,0 +1,13 @@
+loadMap proto/maps/map7.txt
+writeMap
+movePolice 0 0
+moveCivil 0 1
+moveRobber 0
+setInverseSpeed r 1
+setInverseSpeed c 0 2
+setInverseSpeed c 1 3
+setInverseSpeed p 0 4
+tick 2
+moveRobber 3
+tick 12
+exit

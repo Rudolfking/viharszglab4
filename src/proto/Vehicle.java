@@ -65,7 +65,7 @@ public abstract class Vehicle extends NamedObject {
 			return cells[r.nextInt(cells.length)];
 		}*/
 			
-		if(cells.length>1)	{
+		if(cell.getRoad()==null) {
 			if (preferredCell<0) {
 				Random r = new Random();
 				preferredCell = r.nextInt(cells.length);
@@ -111,7 +111,7 @@ public abstract class Vehicle extends NamedObject {
     public void die() {
 		// esemény naplózása
 		INamedObject[] param = {this};
-        logger.logEvent(this.getClass().getName()+" $name dies",param);
+        logger.logEvent(logger.className(this)+" $name dies",param);
         // cella referenciájának törlése	
         Cell c = getCell();	        
         c.leave();        
@@ -122,9 +122,10 @@ public abstract class Vehicle extends NamedObject {
 	 * között, és megpróbál lépni, ha lejárt a számláló.
      */
     public void tick() {        
-
+		
 		if (ticksLeft>0)
-			ticksLeft--;		
+			ticksLeft--;
+		else	
 		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő        				
 		// ha eltelt, megkísérelünk lépni
 		if (((game != null) && (!game.speed)) || (ticksLeft==0)) {
@@ -144,7 +145,7 @@ public abstract class Vehicle extends NamedObject {
 				INamedObject[] param = {this,s};
 				logger.logEvent(logger.className(this) + " $name blocked by $signName",param);
 			}
-    	}
+    	}    	
 	}	
 
 	/**
