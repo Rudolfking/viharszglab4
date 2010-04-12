@@ -1,9 +1,25 @@
 //package InitialClassDiagram;
 package proto;
+/**
+ * Egy utat valósít meg, cellákat tartalmaz, melybõl két kiemelt
+ *  szerepû cella (mely nem mellékesen keresztezõdés) van: Egy belépõ
+ *   és egy kilépõ (az út eleje és vége csatlakozik ide).
+ * @author Balázs
+ *
+ */
 public class Road extends NamedObject {
-
+	/**
+	 * Az út saját celláit tartalmazó lista
+	 */
 	private Cell[] cells;
+	
+	/**
+	 * A belépõ keresztezõdés. Privát
+	 */
 	private Intersection entry;
+	/**
+	 * A kilépõ keresztezõdés. Láthatóságát tekintve privát
+	 */
 	private Intersection exit;
 
 	public Road(String name, Intersection entry, Intersection exit, int nCells,
@@ -25,7 +41,7 @@ public class Road extends NamedObject {
 
 	/**
 	 * 
-	 * @return
+	 * @return Felelõs a kilépõ keresztezõdés visszaadásáért, ennek érdekében publikus tagfüggvény.
 	 */
 	public Intersection getExitIntersection() {
 		return exit;
@@ -33,7 +49,7 @@ public class Road extends NamedObject {
 
 	/**
 	 * 
-	 * @return
+	 * @return Ld. fentebb, csak belépõ. Természetesen publikus tagfüggvény.
 	 */
 	public Intersection getEntryIntersection() {
 		return entry;
@@ -41,7 +57,7 @@ public class Road extends NamedObject {
 
 	/**
 	 * 
-	 * @return
+	 * @return Legenerálja a saját celláit az út, ez a függvény érte a felelõs. Hogy meg tudjuk hívni kívülrõl, láthatósága publikus
 	 */
 	public void generateCells(Intersection entry, Intersection exit, int nCells, ISign sign) {
 
@@ -113,7 +129,7 @@ public class Road extends NamedObject {
 
 	/**
 	 * 
-	 * @return
+	 * @return Léptet!
 	 */
 	public void tick() {
 		for (Cell c : cells) {			

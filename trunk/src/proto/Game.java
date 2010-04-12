@@ -2,7 +2,11 @@ package proto;
 
 import java.io.*;
 import java.util.*;
-
+/**
+ * A játék egészéért, annak irányításáért, karban tartásáért felelõs osztályt valósítja meg.
+ * @author Balázs
+ *
+ */
 public class Game extends NamedObject {
     protected CivilCar[] cars;
     protected Policeman[] policemen;

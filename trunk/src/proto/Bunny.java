@@ -1,5 +1,10 @@
 package proto;
-
+/**
+ * 
+ * @author Balázs
+ *
+ *A nyuszit megvalósító osztály, az utakon van jelen.
+ */
 public class Bunny extends Vehicle {
 	
 	public Bunny(String name, Game game, Cell cell, Logger logger, CustomReader input) {
@@ -30,17 +35,29 @@ public class Bunny extends Vehicle {
 			v.interact(this);
 		}
 	}
-	
+	/**
+	 * Kapcsolatba lép egy Civil autoval
+	 * @param c a civil auto, mely lépett rá
+	 */
 	public void interact(CivilCar c) {
 		
 	}
-	
+	/**
+	 * Kapcsolatba lép egy rendõrrel
+	 * @param p a rendõr
+	 */
 	public void interact(Policeman p) {
 	}
-	
+	/**
+	 * Kapcsolatba lép a bankrabloval
+	 * @param r a robber
+	 */
 	public void interact(Robber r) {
 	}
-	
+	/**
+	 * Kapcsolatba lép a nyuszival (egyebekkel)
+	 * @param b a nyuszi
+	 */
 	public void interact(Bunny b) {
 	}
 	
