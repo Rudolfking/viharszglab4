@@ -23,9 +23,13 @@ public class Proto {
         
         logger.setSuperSilent(true);
         
-        game = new Game("game",logger,input);
+        game = new Game("game",logger,input);               
         
-        try {
+        try {			
+			if (args.length>0) {
+				logger.log("Loading commands from file specified as input parameter: " + args[0]);				
+				processCommand("loadCommands "+args[0],logger);
+			}
 			while (true)
 				processCommand(input.readLineUnsafe(),logger);
 		} catch (MismatchingParametersException e) {
@@ -33,43 +37,7 @@ public class Proto {
 		} catch (FileNotFoundException e) {
 			logger.logMessage("x Error: FileNotFound");
 		} catch (IOException e) {			
-		}
-        
-        // map1
-        //game.generateLevel("E[0]F{C[0]}FF{S[0]}X[0]");
-        // map2
-        //game.generateLevel("E[0]F{C[0]}FF{C[1]}X[0]");
-        // map3
-        //game.generateLevel("E[0]F{R}FF{C[0]}X[0]");
-        // map4
-        //game.generateLevel("E[0]F{C[0]}I[0]\n" +
-		//				   "I[0]FX[0]\n" +
-		//				   "I[0]FX[1]");    
-		// map5				   
-		//game.generateLevel("E[0]F{R}I[0]\n" +
-		//				   "E[1]FI[0]\n" +
-		//				   "I[0]FX[0]");
-		// map6
-		//game.generateLevel("E[0]F{P[0]}I[0]\n" + 
-		//				   "I[0]F{R}FX[0]");
-		// map7
-		//game.generateLevel("E[0]{P[0]}FB{R}\n" +
-		//				   "E[0]FH\n" +
-		//				   "BFFF{T[0]}I[0]\n" +
-		//				   "HF{C[0]}I[0]\n" +
-		//				   "I[0]F{C[1]}FF{S[0]}X[0]\n" +
-		//				   "I[0]FFFX[1]");
-		// map8
-		//game.generateLevel("E[0]F{C[0]}X[0]");
-		// map9
-		//game.generateLevel("E[0]F{T[0]}X[0]");
-		// map10
-		//game.generateLevel("E[0]F{R}F{U}I[0]\n" +
-		//				   "I[0]F{P[0]}FFFFFFFX[0]");
-		// map11
-		//game.generateLevel("E[0]F{C[0]}F{U}FX[0]");
-	
-        //game.writeLevel();
+		}              
 	}
 	
 	/**
@@ -156,9 +124,47 @@ public class Proto {
 			boolean value = (parameters[2].compareTo("true")==0);
 			if (s != null)
 				s.setBlocking(value);
+		// -------------------------------------------------------------
 		// sebesség kikapcsolása
 		} else if (command.compareTo("turnOffSpeed")==0) {
 			game.speed = false;
+		// -------------------------------------------------------------
+		// sebesség beállítása
+		} else if (command.compareTo("setInverseSpeed")==0) {			
+			if (parameters.length < 2)
+				throw new MismatchingParametersException();
+			int index;
+			int iSpeed;
+			switch (parameters[1].charAt(0)) {
+			case 'c':
+				if (parameters.length != 4)
+					throw new MismatchingParametersException();
+				index = Integer.valueOf(parameters[2]);
+				iSpeed = Integer.valueOf(parameters[3]);
+				game.cars[index].setInverseSpeed(iSpeed);
+				break;
+			case 'p':
+				if (parameters.length != 4)
+					throw new MismatchingParametersException();
+				index = Integer.valueOf(parameters[2]);
+				iSpeed = Integer.valueOf(parameters[3]);
+				game.policemen[index].setInverseSpeed(iSpeed);
+				break;
+			case 'r':
+				if (parameters.length != 3)
+					throw new MismatchingParametersException();				
+				iSpeed = Integer.valueOf(parameters[2]);
+				game.player.setInverseSpeed(iSpeed);
+				break;
+			}			
+		// -------------------------------------------------------------
+		// civil autó következő választásának beállítása
+		} else if (command.compareTo("moveCivil")==0) {
+			if (parameters.length != 3)
+				throw new MismatchingParametersException();
+			int index = Integer.valueOf(parameters[1]);
+			int option = Integer.valueOf(parameters[2]);
+			game.cars[index].setPreferredCell(option);
 		// -------------------------------------------------------------
 		// játék léptetése
 		} else if (command.compareTo("tick")==0) {

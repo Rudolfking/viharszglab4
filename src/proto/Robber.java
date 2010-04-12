@@ -6,40 +6,66 @@ package proto;
 public class Robber extends Vehicle {
     private boolean isGoingForward;
     private int minimumInverseSpeed;
-    private int maximumInverseSpeed;
-    private Cell preferredCell;
-	private Game game;
+    private int maximumInverseSpeed;    
 
     public Robber(String name, Game game, Cell cell, int ispeed, Logger logger, CustomReader input) {
-        super(name, game, cell, ispeed, logger, input);		
+        super(name, game, cell, ispeed, logger, input);	
+        isGoingForward = true;	
     }
 
     /**
-     * @return
+     * Sebesség növelése (ha még lehet)
      */
     public void increaseSpeed() {
+		if(inverseSpeed > minimumInverseSpeed)
+			inverseSpeed--;
     }
 
     /**
-     * @return
+     * Sebesség csökkentése (ha még lehet)
      */
     public void decreaseSpeed() {        
+		if(inverseSpeed < maximumInverseSpeed)
+			inverseSpeed++;
     }
 
     /**
-     * @return
+     * Haladási irány megfordítása.
      */
     public void turnArround() {
-        throw new UnsupportedOperationException();
-    }
-
+        isGoingForward = !isGoingForward;
+    } 
+    
+    
     /**
-     * @param c
-     * @return
+     * A következő kereszteződénél kiválasztandó cella sorszámának beállítása.
+     * @param c a kivánt cella sorszáma     
      */
-    public void setPreferredCell(Cell c) {
-		preferredCell = c;
-    }
+    /*public void setPreferredCell(int i) {
+		
+		Cell[] cIn;
+		Cell[] cOut;
+		
+		if (cell.getRoad()!=null) {			
+			if (isGoingForward) {
+				cOut = cell.getRoad().getExitIntersection().getNextCells();
+				cIn = cell.getRoad().getExitIntersection().getPreviousCells();
+			} else {
+				cOut = cell.getRoad().getEntryIntersection().getNextCells();
+				cIn = cell.getRoad().getEntryIntersection().getPreviousCells();
+			}			
+			
+		} else {
+			cOut = cell.getNextCells();
+			cIn = cell.getPreviousCells();			
+		}
+		
+		if (i<cOut.length)
+			preferredCell = cOut[i];
+		else
+			preferredCell = cIn[i-cOut.length];
+					
+    }   */    
 
     /**
      * @param cIn
@@ -48,6 +74,18 @@ public class Robber extends Vehicle {
      */
     protected Cell chooseFrom(Cell[] cIn, Cell[] cOut) {
 		
+		if (cell.getRoad() != null) {
+			if (isGoingForward)
+				return cOut[0];
+			else
+				return cIn[0];
+		} else {
+			if (preferredCell<cOut.length)
+				return cOut[preferredCell];
+			else
+				return cIn[preferredCell-cOut.length];
+		}
+		/*
 		// választás a preferált cella ismeretében
 		boolean prefCellIsReachable = false;
 		// preferált cella elérhetőségének ellenőrzése (úton nem)
@@ -63,57 +101,53 @@ public class Robber extends Vehicle {
 			return preferredCell;
 		else {
 			// ha nem,
-			// attól függően, hogy előre megyünk, vagy hátra, a következő, vagy előző cellát választjuk
-			logger.logMessage("Is " + name + " going forward or backward?");
-			logger.logMessage("1 - forward");			
-			logger.logMessage("2 - backward");
-			int choice = input.readInt(1,2);
-			if (choice==1)
+			// attól függően, hogy előre megyünk, vagy hátra, a következő, vagy előző cellát választjuk			
+			if (isGoingForward)
 				return cOut[0];
 			else
 				return cIn[0];
-		}
+		}*/
     }
 
     /**
      * @return
      */
-    public void hide() {
-        logger.logCall(this, game, "winGame()");
-		game.winGame();
-		logger.logReturn(this, game, "winGame()", null);
+    public void hide() {        
+		game.winGame();		
     }
 
     /**
      * @return
      */
-    public void busted() {
-        logger.logCall(this, this, "die()");
-		die();
-		logger.logReturn(this, this, "die()", null);
-		logger.logCall(this, game, "kill(Robber r)");
-		game.kill(this);
-		logger.logReturn(this, game, "kill(Robber r)", null);
-		logger.logCall(this, game, "gameOver()");
+    public void busted() {        
+		die();		
+		game.kill(this);		
+		game.gameOver();		
+    }
+    
+    /**
+     * Ütközés más autóval.
+     */
+    public void crash() {
+		die();		
 		game.gameOver();
-		logger.logReturn(this, game, "gameOver()", null);
-    }
+	}
 
 	/**
-     * @return
+     * Minden óraléptetéskor végrehajtott függvény: visszaszámlál két lépés
+	 * között, és megpróbál lépni, ha lejárt a számláló.
      */
     public void tick() {        
 
-		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő
-        logger.logMessage("Speed countdown for " + name + " finished? (y/n)");
-		String res = input.readLine();
-		boolean  ready = (res.compareTo("y")==0);
+		if (ticksLeft>0)
+			ticksLeft--;		
+		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő        				
 		// ha eltelt, megkísérelünk lépni
-		if (ready) {			
-			// (nem ellenőrzünk semmilyen blokkolást)
-			logger.logCall(this, this, "step()");
-			step();
-			logger.logReturn(this, this, "step()", null);		
+		if (((game != null) && (!game.speed)) || (ticksLeft==0)) {
+			// sebesség-számláló újraindítása
+			ticksLeft = inverseSpeed;			
+			// lépés megkísérlése
+			step();				
     	}
 	}
 
@@ -149,29 +183,43 @@ public class Robber extends Vehicle {
 		logger.logCall(this, this, "accept(Cell nextCell, Vehicle v)");
 		accept(nextCell,v);
 		logger.logReturn(this, this, "accept(Cell nextCell, Vehicle v)", null);
-	}			
-
+	}
+	
 	/**
-	 * A lépéshez kiszemelt cellától lekérdezett jármű alapján a döntést meghozó függvény.
-	 */
-	public void accept(Cell nextCell, Vehicle v) {		
+	 * Következő cellára lépéskor ez a függvény a kiszemelt cella tartalma
+	 * alapján elindítja az interakciót, vagy a cellára lép.
+     *
+     * @param nextCell a cella, ahova lépni szeretnénk
+	 * @param v a jármű, amit a cellától lekérdeztünk
+     */
+	public void accept(Cell nextCell, Vehicle v) {
 		// ha üres a cella, léphet
-		if (v == null) {
-			logger.logCall(this, cell, "leave()");
-			cell.leave();
-			logger.logReturn(this, cell, "leave()", null);			
-			logger.logCall(this, nextCell, "enter(Vehicle v)");
-			nextCell.enter(this);
-			logger.logReturn(this, nextCell, "enter(Vehicle v)", null);
+		if (v == null) {			
+			cell.leave();			
+			nextCell.enter(this);	
+			if (cell.getRoad() == null) {
+				INamedObject[] param = {this};
+				logger.logEvent("Robber $name moved to cell option " + Integer.toString(preferredCell),param);				
+				preferredCell = 0;
+			} else {
+				INamedObject[] param = {this};
+				logger.logEvent("Robber $name moved to next cell",param);				
+			}			
 			cell = nextCell;
-		// ha nem üres, akkor ütközés van
 		} else {
-			logger.logCall(this, cell, "leave()");
-			cell.leave();
-			logger.logReturn(this, cell, "leave()", null);			
-			logger.logCall(this, game, "gameOver()");		
-			game.gameOver();
-			logger.logReturn(this, game, "gameOver()", null);
+			v.interact(this);
 		}
+	}	
+	
+	public void interact(CivilCar c) {
+	}
+	
+	public void interact(Policeman p) {
+	}
+	
+	public void interact(Robber r) {
+	}
+	
+	public void interact(Bunny b) {
 	}
 }

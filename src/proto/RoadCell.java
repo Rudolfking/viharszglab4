@@ -11,23 +11,7 @@ public class RoadCell extends Cell {
     public RoadCell(String name, Road road, ISign sign, Logger logger, CustomReader input) {
         super(name, logger, input);
         this.road = road;
-        this.sign = sign;
-        /*if (createSign == true) {
-            logger.logMessage("What kind of traffic sign do you want to place on " + name + "?");
-            logger.logMessage("1- Stop sign");
-            logger.logMessage("2- Traffic light");
-            logger.logMessage("3- nothing");            
-                String str = input.readLine();
-                if (str.compareTo("1") == 0) {
-                    logger.logCreate(this, "StopSign");
-                    sign = new StopSign(name + "_stopsign", logger, input);
-                    logger.logCreated(this, sign);
-                } else if (str.compareTo("2") == 0) {
-                    logger.logCreate(this, "TrafficLight");
-                    sign = new TrafficLight(name + "_trafficlight", logger, input);
-                    logger.logCreated(this, sign);
-                }            
-        }*/
+        this.sign = sign;        
     }
 
     /**
