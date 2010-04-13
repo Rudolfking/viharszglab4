@@ -1,3 +1,4 @@
+@echo off
 echo "Test case 1"
 java proto.Proto --no-greeting -i maps\map1.commands -o maps\map1.output
 .\check_output maps\map1.output maps\map1.expect
