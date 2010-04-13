@@ -1,0 +1,7 @@
+E[0]F{C[0]}X[0]
+o tick 1
+o Event CivilCar C[0] moved to next cell
+o Event CivilCar C[0] leaves the city
+o Event CivilCar C[0] dies
+o tick 2
+o Event CivilCar C[0] created at E[0]

@@ -1,1 +1,1 @@
-javac ..\src\skeleton\Skeleton.java -d . -classpath ..\src\
+javac ..\src\proto\Proto.java -d . -classpath ..\src\

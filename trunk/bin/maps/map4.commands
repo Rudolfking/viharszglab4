@@ -1,4 +1,4 @@
-loadMap proto/maps/map4.txt
+loadMap maps/map4.txt
 writeMap
 turnOffSpeed
 moveCivil 0 0

@@ -1,4 +1,4 @@
-loadMap proto/maps/map5.txt
+loadMap maps/map5.txt
 writeMap
 turnOffSpeed
 moveRobber 2

@@ -655,10 +655,10 @@ public class Game extends NamedObject {
 			if (c.getCell() == null) {
 				// szabad városhatár lekérése
 				CityEntry e = getEmptyCityEntry();
-				// kötések létrehozása
+				// k�t�sek l�trehoz�sa
 				if (e != null) {
-					e.enter(c);
-					c.setCell(e);
+					e.enter(c);	
+					c.ticksLeft = -1;									
 					
 					INamedObject[] param = {c,e};
 					logger.logEvent("CivilCar $car created at $entry",param);
@@ -673,8 +673,8 @@ public class Game extends NamedObject {
 				CityEntry e = getEmptyCityEntry();
 				// kötések létrehozása
 				if (e != null) {
-					e.enter(p);
-					p.setCell(e);
+					e.enter(p);			
+					p.ticksLeft = -1;		
 					
 					INamedObject[] param = {p,e};
 					logger.logEvent("Policeman $car created at $entry",param);

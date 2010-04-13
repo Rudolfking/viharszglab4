@@ -1,0 +1,10 @@
+E[0]F{R}I[0]
+E[1]FI[0]
+I[0]FX[0]
+o tick 1
+o Event Robber R moved to next cell
+o tick 2
+o Event Robber R moved to cell option 2
+E[0]FI[0]
+E[1]F{R}I[0]
+I[0]FX[0]

@@ -1,0 +1,31 @@
+E[0]F{R}F{U}I[0]
+I[0]F{P[0]}FFFFFFFX[0]
+o tick 1
+o Event Policeman P[0] moved to next cell
+o Event Robber R hits bunny, GodMode activated
+o Event Bunny U dies
+o Event Robber R moved to next cell
+o tick 2
+o Event Policeman P[0] moved to next cell
+o Event Robber R moved to next cell
+o tick 3
+o Event Policeman P[0] moved to next cell
+o Event Robber R moved to cell option 0
+o tick 4
+o Event Policeman P[0] moved to next cell
+o Event Policeman P[0] failed to arrest R
+o Event Robber R moved to next cell
+o tick 5
+o Event Policeman P[0] moved to next cell
+o Event Policeman P[0] failed to arrest R
+o Event Robber R moved to next cell
+o tick 6
+o Event Policeman P[0] moved to next cell
+o Event Policeman P[0] failed to arrest R
+o Event Robber R moved to next cell
+o Event Robber R is no longer in GodMode
+o tick 7
+o Event Policeman P[0] moved to next cell
+o Event Policeman P[0] arrested R
+o Event Robber R dies
+o Game Over

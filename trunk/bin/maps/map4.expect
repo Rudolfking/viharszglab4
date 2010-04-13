@@ -1,0 +1,10 @@
+E[0]F{C[0]}I[0]
+I[0]FX[0]
+I[0]FX[1]
+o tick 1
+o Event CivilCar C[0] moved to next cell
+o tick 2
+o Event CivilCar C[0] moved to cell option 0
+E[0]FI[0]
+I[0]F{C[0]}X[0]
+I[0]FX[1]

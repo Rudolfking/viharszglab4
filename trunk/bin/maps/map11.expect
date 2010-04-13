@@ -1,0 +1,7 @@
+E[0]F{C[0]}F{U}FX[0]
+o tick 1
+o Event CivilCar C[0] hits bunny
+o Event Bunny U dies
+o Event CivilCar C[0] moved to next cell
+o tick 2
+o Event CivilCar C[0] moved to next cell

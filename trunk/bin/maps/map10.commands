@@ -1,4 +1,4 @@
-loadMap proto/maps/map10.txt
+loadMap maps/map10.txt
 writeMap
 setGodModeDuration 5
 moveRobber 0

@@ -1,0 +1,40 @@
+E[0]{P[0]}FB{R}
+E[0]FH
+BFFF{T[0]}I[0]
+HFF{C[0]}I[0]
+I[0]F{C[1]}FF{S[0]}X[0]
+I[0]FFFX[1]
+o tick 1
+o tick 2
+o Event Robber R moved to cell option 0
+o tick 3
+o Event CivilCar C[0] moved to next cell
+o tick 4
+o Event CivilCar C[1] moved to next cell
+o Event Robber R moved to next cell
+o tick 5
+o Event TrafficLight T[0] changed to blocking
+o Event Policeman P[0] moved to cell option 0
+o tick 6
+o Event CivilCar C[0] moved to cell option 1
+o Event Robber R moved to next cell
+o tick 7
+o tick 8
+o Event CivilCar C[1] moved to next cell
+o Event Robber R moved to next cell
+o tick 9
+o Event CivilCar C[0] moved to next cell
+o tick 10
+o Event TrafficLight T[0] changed to non-blocking
+o Event Policeman P[0] moved to next cell
+o Event Robber R moved to cell option 3
+o tick 11
+o tick 12
+o Event CivilCar C[0] moved to next cell
+o Event CivilCar C[1] blocked by S[0]
+o Event Robber R moved to next cell
+o tick 13
+o tick 14
+o Event Robber R moved to next cell
+o Event Robber R hides
+o You won the game!
