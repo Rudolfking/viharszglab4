@@ -1,4 +1,4 @@
-loadMap proto/maps/map3.txt
+loadMap maps/map3.txt
 writeMap
 setInverseSpeed c 0 10
 setInverseSpeed r 0

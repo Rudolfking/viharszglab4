@@ -33,7 +33,7 @@ public class Policeman extends Vehicle {
 						
 		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő        				
 		// ha eltelt, megkísérelünk lépni
-		if (((game != null) && (!game.speed)) || (ticksLeft==0)) {
+		if (((ticksLeft>=0) && (game != null) && (!game.speed)) || (ticksLeft==0)) {
 			// sebesség-számláló újraindítása
 			ticksLeft = inverseSpeed;			
 			// lépés megkísérlése
@@ -42,6 +42,8 @@ public class Policeman extends Vehicle {
     	else
     	if (ticksLeft>0)
 			ticksLeft--;  	
+		else
+			ticksLeft = inverseSpeed;
 	}				
 	
 	/**

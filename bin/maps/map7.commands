@@ -1,4 +1,4 @@
-loadMap proto/maps/map7.txt
+loadMap maps/map7.txt
 writeMap
 movePolice 0 0
 moveCivil 0 1

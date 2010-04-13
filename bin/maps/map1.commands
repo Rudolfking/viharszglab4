@@ -1,4 +1,4 @@
-loadMap proto/maps/map1.txt
+loadMap maps/map1.txt
 writeMap
 setSign 0 true
 turnOffSpeed

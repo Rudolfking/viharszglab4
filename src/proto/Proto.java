@@ -10,28 +10,63 @@ public class Proto {
 	}
 	
 	static Game game;
+	
+	static boolean noGreeting;
 		
 	/**
 	 * 
 	 */ 
 	public static void main(String[] args) {
+		
+		noGreeting = false;
+		for (int i=0; (i<args.length) && (!noGreeting); i++)
+			if (args[i].compareTo("--no-greeting")==0)
+				noGreeting = true;
+		
+		if (!noGreeting) {
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~");
+			System.out.println("Software laboratory 4");
+			System.out.println("team vihar");		
+			System.out.println("Prototype");
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~");
+			System.out.println("Welcome!");
+			System.out.println("Waiting for your commands. (see 7.1.2 in documentation for available instructions)");
+			System.out.println("Type 'exit' to quit program.");
+		}
+		
 		// ezt a loggert használjuk az egész program során
-        Logger logger = new ConsoleLogger();
+        Logger logger = null;
         // saját bemeneti olvasó osztály: konzolról és fájlból is tud sort olvasni, kommenteket (#-val kezdődő sor) nem veszi figyelembe
         CustomReader input = new CustomReader(logger);
-        input.setInput(new BufferedReader(new InputStreamReader(System.in)));
+        input.setInput(new BufferedReader(new InputStreamReader(System.in)));               
         
-        logger.setSuperSilent(true);
-        
-        game = new Game("game",logger,input);               
-        
-        try {			
-			if (args.length>0) {
-				logger.log("Loading commands from file specified as input parameter: " + args[0]);				
-				processCommand("loadCommands "+args[0],logger);
+        try {
+			// parancsori paraméterek alapján kimenet beállítása			
+			if (args.length>0) {				
+				for (int i=0; i<args.length; i++) {
+					if (args[i].compareTo("-o")==0)
+						logger = new FileLogger(args[i+1]);					
+				}
 			}
+			
+			if(logger == null)
+				logger = new ConsoleLogger();
+			
+			// előkészületek	
+			logger.setSuperSilent(true);
+        
+			game = new Game("game",logger,input);               
+				
+			// parancsori paraméterek alapján parancslisták olvasása
+			for (int i=0; i<args.length; i++) {
+				if (args[i].compareTo("-i")==0)						
+					processCommand("loadCommands "+args[i+1],logger);
+			}
+			
+			// főciklus: konzolos bemeneten parancsok olvasása
 			while (!game.gameIsOver() && !game.gameIsWon())
 				processCommand(input.readLineUnsafe(),logger);
+				
 		} catch (MismatchingParametersException e) {
 			logger.logMessage("x Error: MismatchingParameters");
 		} catch (FileNotFoundException e) {
@@ -206,6 +241,9 @@ public class Proto {
 		// -------------------------------------------------------------
 		// kilépés a tesztelésből
 		} else if (command.compareTo("exit")==0) {
+			if (!noGreeting) {
+				System.out.println("Exiting application. Goodbye!");
+			}
 			System.exit(0);
 		// -------------------------------------------------------------
 		// értelmezhetetlen parancs

@@ -118,7 +118,7 @@ public abstract class Vehicle extends NamedObject {
 				
 		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő        				
 		// ha eltelt, megkísérelünk lépni
-		if (((game != null) && (!game.speed)) || (ticksLeft==0)) {
+		if (((ticksLeft>=0) && (game != null) && (!game.speed)) || (ticksLeft==0)) {
 			ticksLeft = inverseSpeed;
 			// aktuális cellán lévő közlekedési jelzés lekérdezése					
 			ISign s = cell.getSign();			
@@ -138,7 +138,9 @@ public abstract class Vehicle extends NamedObject {
     	}  
     	else
     	if (ticksLeft>0)
-			ticksLeft--;			  
+			ticksLeft--;	
+		else
+			ticksLeft = inverseSpeed;
 	}	
 
 	/**

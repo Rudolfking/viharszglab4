@@ -1,0 +1,10 @@
+E[0]F{P[0]}I[0]
+I[0]F{R}FX[0]
+o tick 1
+o Event Policeman P[0] moved to next cell
+o Event Robber R moved to next cell
+o tick 2
+o Event Policeman P[0] moved to cell option 0
+o Event Policeman P[0] arrested R
+o Event Robber R dies
+o Game Over

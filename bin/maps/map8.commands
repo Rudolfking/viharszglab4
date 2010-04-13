@@ -1,4 +1,4 @@
-loadMap proto/maps/map8.txt
+loadMap maps/map8.txt
 writeMap
 turnOffSpeed
 tick 2

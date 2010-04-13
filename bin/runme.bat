@@ -1,1 +1,1 @@
-java skeleton.Skeleton
+java proto.Proto
