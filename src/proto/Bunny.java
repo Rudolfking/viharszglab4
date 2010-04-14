@@ -1,9 +1,8 @@
 package proto;
 /**
- * 
- * @author Bal·zs
+ * A nyuszit megval√≥s√≠t√≥ oszt√°ly, az utakon van jelen.
+ * @author Bal√°zs
  *
- *A nyuszit megvalÛsÌtÛ oszt·ly, az utakon van jelen.
  */
 public class Bunny extends Vehicle {
 	
@@ -36,8 +35,8 @@ public class Bunny extends Vehicle {
 		}
 	}
 	/**
-	 * Kapcsolatba lÈp egy Civil autoval
-	 * @param c a civil auto, mely lÈpett r·
+	 * Kapcsolatba l√©p egy Civil autoval
+	 * @param c a civil auto, mely l√©pett r√°
 	 */
 	public void interact(CivilCar c) {
 		INamedObject[] param = {c};
@@ -47,8 +46,8 @@ public class Bunny extends Vehicle {
 		c.accept(ce,null);		
 	}
 	/**
-	 * Kapcsolatba lÈp egy rendırrel
-	 * @param p a rendır
+	 * Kapcsolatba l√©p egy rend≈ërrel
+	 * @param p a rend≈ër
 	 */
 	public void interact(Policeman p) {
 		INamedObject[] param = {p};
@@ -58,7 +57,7 @@ public class Bunny extends Vehicle {
 		p.accept(c,null);		
 	}
 	/**
-	 * Kapcsolatba lÈp a bankrabloval
+	 * Kapcsolatba l√©p a bankrabl√≥val
 	 * @param r a robber
 	 */
 	public void interact(Robber r) {
@@ -70,7 +69,7 @@ public class Bunny extends Vehicle {
 		r.accept(c,null);
 	}
 	/**
-	 * Kapcsolatba lÈp a nyuszival (egyebekkel)
+	 * Kapcsolatba l√©p a nyuszival (egyebekkel)
 	 * @param b a nyuszi
 	 */
 	public void interact(Bunny b) {

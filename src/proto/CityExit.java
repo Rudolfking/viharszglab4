@@ -14,8 +14,8 @@ public class CityExit extends Intersection {
     }
 
     /**
-     * Lekezeli, ha rendĹ‘r lĂ©p erre a mezĹ‘re.
-     * @param p ide lĂ©pĹ‘ rendĹ‘r
+     * Lekezeli, ha rendőr láp erre a mezőre.
+     * @param p ide lép a rendőr
      */
     public void enter(Policeman p) {        
 		INamedObject[] param = {p};
@@ -24,8 +24,8 @@ public class CityExit extends Intersection {
     }
 
     /**
-     * Lekezeli, ha civil autĂł lĂ©p erre a mezĹ‘re.
-     * @param c ide lĂ©pĹ‘ civil autĂł
+     * Lekezeli, ha civil autó lép erre a mezőre.
+     * @param c ide lépő civil autó
      */
     public void enter(CivilCar c) {    
 		INamedObject[] param = {c};

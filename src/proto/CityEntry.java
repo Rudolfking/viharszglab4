@@ -1,8 +1,8 @@
 //import InitialClassDiagram.*;
 package proto;
 /**
- * A városba a belépési pontot reprezentáló keresztezõdés.
- * @author Balázs
+ * A vÃ¡rosba a belÃ©pÃ©si pontot reprezentÃ¡lÃ³ keresztezÅ‘dÃ©s.
+ * @author BalÃ¡zs
  *  Cell -> Intersection
  */
 public class CityEntry extends Intersection {
