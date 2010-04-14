@@ -2,13 +2,12 @@
 //import RoadCell.*;
 package proto;
 /**
- * Egy cellát reprezentál, ami a pályán helyezkedik el. Absztrakt osztály, de minden cellához szükséges tulajdonsággal fel van ruházva.
- * @author Balázs
- *
+ * Egy cellÃ¡t reprezentÃ¡l, ami a pÃ¡lyÃ¡n helyezkedik el. Absztrakt osztÃ¡ly, de minden cellÃ¡hoz szÃ¼ksÃ©ges tulajdonsÃ¡ggal fel van ruhÃ¡zva.
+ * @author BalÃ¡zs
  */
 public abstract class Cell extends NamedObject {
 	/**
-	 * @param A cellán álló Vehicle referenciája, privát adattag, csak a belsõ függvények látják.
+	 * @param A cellÃ¡n Ã¡llÃ³ Vehicle referenciÃ¡ja, privÃ¡t adattag, csak a belsÅ‘ fÃ¼ggvÃ©nyek lÃ¡tjÃ¡k.
 	 */
     private Vehicle vehicle;
 
@@ -17,24 +16,24 @@ public abstract class Cell extends NamedObject {
     }
 
     /**
-     * @return visszaadja a kovetkezo cellákat, ahova lehet menni innen
+     * @return visszaadja a kÃ¶vetkezÅ‘ cellÃ¡kat, ahova lehet menni innen
      */
     public abstract Cell[] getNextCells();
 
     /**
-     * @return visszaadja az elozo cellákat, ahova lehet menni innen
+     * @return visszaadja az elozo cellÃ¡kat, ahova lehet menni innen
      */
     public abstract Cell[] getPreviousCells();
 
     /**
-     * @return A cellán található jármû referenciájával visszatérõ publikus láthatóságú tagfüggvénye a Cell osztálynak
+     * @return A cellÃ¡n talÃ¡lhatÃ³ jÃ¡rmÅ± referenciÃ¡jÃ¡val visszatÃ©rÅ‘ publikus lÃ¡thatÃ³sÃ¡gÃº tagfÃ¼ggvÃ©nye a Cell osztÃ¡lynak
      */
     public Vehicle getVehicle() {
         return vehicle;
     }
 
     /**
-     * @param v A cellára jármû érkezik, ezt rögzíti és eltárolja
+     * @param v A cellÃ¡ra jÃ¡rmÅ± Ã©rkezik, ezt rÃ¶gzÃ­ti Ã©s eltÃ¡rolja
      * 
      */
     public void setVehicle(Vehicle v) {
@@ -45,7 +44,7 @@ public abstract class Cell extends NamedObject {
     }
 
     /**
-     * @param v civil autó esete
+     * @param v civil autÃ³ esete
      * 
      */
     public void enter(CivilCar c) {		
@@ -53,7 +52,7 @@ public abstract class Cell extends NamedObject {
     }
     
     /**
-     * @param p Rendõr esete
+     * @param p RendÅ‘r esete
      * @return
      */
     public void enter(Policeman p) {		
@@ -61,7 +60,7 @@ public abstract class Cell extends NamedObject {
     }
     
     /**
-     * @param r A cellára érkezõ bankrabló
+     * @param r A cellÃ¡ra Ã©rkezÅ‘ bankrablÃ³
      * @return
      */
     public void enter(Robber r) {		
@@ -69,7 +68,7 @@ public abstract class Cell extends NamedObject {
     }
     
     /**
-     * @param b  A nyuszi beérkezésének esetében
+     * @param b  A nyuszi beÃ©rkezÃ©sÃ©nek esetÃ©ben
      * @return
      */
     public void enter(Bunny b) {		
@@ -77,19 +76,19 @@ public abstract class Cell extends NamedObject {
     }
 
     /**
-     * @return Road A cellához tartozó utat adja vissza
+     * @return Road A cellÃ¡hoz tartozÃ³ utat adja vissza
      */
     public abstract Road getRoad();
 
     /**
-     * @return A cellán található jármû elhagyja a cellát
+     * @return A cellï¿½n talÃ¡lhatÃ³ jÃ¡rmÅ± elhagyja a cellÃ¡t
      */
     public void leave() {
         vehicle = null;
     }
 /**
  * 
- * @return A cellán (esetlegesen) található táblával visszatér
+ * @return A cellÃ¡n (esetlegesen) talÃ¡lhatÃ³ tÃ¡blÃ¡val visszatÃ©r
  */
 	public abstract ISign getSign();
 }

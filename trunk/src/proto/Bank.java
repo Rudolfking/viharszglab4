@@ -1,9 +1,7 @@
 package proto;
 /**
- * 
- * @author Bal·zs
- *
- *A bank reprezent·lja azt az oszt·lyt, ahonnan a rablÛ indul.
+ * A bank reprezent√°lja azt az oszt√°lyt, ahonnan a rabl√≥ indul.
+ * @author Bal√°zs
  */
 public class Bank extends Intersection {
     public Bank(String name, Logger logger, CustomReader input) {
