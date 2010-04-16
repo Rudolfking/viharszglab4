@@ -20,6 +20,6 @@
 
 == Kapcsolat az alk. rendszerrel ==
  * Hogyan rajzolódik ki, stb. Szekvenciadiagramok, ilyesmik kellenek ide
- * Logikusan megcsinált dolgok: nem kellm, hogy látsódjanak
+ * Logikusan megcsinált dolgok: nem kellm, hogy látszódjanak
 
 Hogyan rajzoljuk ki a megfelelő helyre, xy koordinátákkal. Minden osztályhoz külön osztályban a rajzoló függvények. Ha valami változik: Csak a változást rajzoljuk ki. Töröl-visszarajzol-újrakirajzol. Tulajdonképpen ennyi.
