@@ -18,3 +18,11 @@
  * Két hét mulva jáccunk hehe :)
  * Három hét múlva 1 darab leadás: 1 pdf-be _(?)_ *mindent*!
  * Tárgy értékelése, mit változtassanak pontozásban, stb.
+
+== Feladatkiosztás ==
+ * Máté keddre lenyom egy mappot (olyan 15 intersection)
+ * Balázs javadokkol (ha Krisztián kész)
+ * Balázs lenyomja a teljes doksit (fordítás futtatás)
+ * Fájllista Máté feladata
+ * Krisztián csütörtök estére valami működőt rakjon össze
+ * _Szilveszter nem csinál semmit, érzitek?:)_
