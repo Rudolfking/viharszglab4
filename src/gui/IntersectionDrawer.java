@@ -14,9 +14,7 @@ public class IntersectionDrawer implements IDrawer {
 		intersection = i;		
 		this.x = x;
 		this.y = y;
-		borderColor = Color.white;
-		
-		System.out.println("creating IntersectionDrawer");
+		borderColor = Color.yellow;		
 	}
 	
 	public int X() {

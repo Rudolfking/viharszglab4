@@ -7,8 +7,6 @@ public class BankDrawer extends IntersectionDrawer {
 	BankDrawer(Intersection i, int x, int y) {		
 		
 		super(i,x,y);		
-		borderColor = Color.red;
-		
-		System.out.println("creating BankDrawer");
+		borderColor = Color.red;		
 	}
 }

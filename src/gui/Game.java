@@ -709,11 +709,26 @@ public class Game extends NamedObject {
 		}
 	}	
 	
-	private void addDrawer(int i, Intersection in, int x, int y) {
-		if (in.getName().charAt(0) == 'B')
-			drawers[i] = new BankDrawer(in,x,y);
-		else
-			drawers[i] = new IntersectionDrawer(in,x,y);
+	private int[] addDrawer(int i, int[] cols, Intersection in) {
+		
+		
+		if (in.getName().charAt(0) == 'B') {
+			cols[1]++;
+			drawers[i] = new BankDrawer(in,100,cols[1]*50);
+		} else if (in.getName().charAt(0) == 'H') {
+			cols[1]++;
+			drawers[i] = new HidingPlaceDrawer(in,100,cols[1]*50);
+		} else if (in.getName().charAt(0) == 'E') {
+			cols[0]++;
+			drawers[i] = new CityEntryDrawer(in,50,cols[0]*50);
+		} else if (in.getName().charAt(0) == 'X') {
+			cols[2]++;
+			drawers[i] = new CityExitDrawer(in,150,cols[2]*50);
+		} else {
+			cols[1]++;
+			drawers[i] = new IntersectionDrawer(in,100,cols[1]*50);
+		}
+		return cols;
 	}
 	
 	public void createDrawers() {		
@@ -721,9 +736,13 @@ public class Game extends NamedObject {
 		drawers = new IntersectionDrawer[intersections.length];
 		
 		int i = 0;
+		//int entries = 0;
+		//int exits = 0;
+		//int inters = 0;
+		int[] columns = {0,0,0};
 		for(Intersection in : intersections) {
 			logger.logMessage("creating drawer...");
-			addDrawer(i,in,((i%5)+1)*40,((i/5)+1)*40);			
+			columns = addDrawer(i,columns,in);//,((i%5)+1)*40,((i/5)+1)*40);			
 			i++;
 		}
 	}
