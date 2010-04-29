@@ -6,16 +6,17 @@ public class IntersectionDrawer implements IDrawer {
 	
 	protected Intersection intersection;
 	private int x;
-	private int y;
-	private Graphics graphics;
+	private int y;	
 	protected Color borderColor;
 	
-	IntersectionDrawer(Intersection i, Graphics g, int x, int y) {
-		intersection = i;
-		graphics = g;
+	IntersectionDrawer(Intersection i, int x, int y) {		
+		
+		intersection = i;		
 		this.x = x;
 		this.y = y;
 		borderColor = Color.white;
+		
+		System.out.println("creating IntersectionDrawer");
 	}
 	
 	public int X() {
@@ -27,16 +28,19 @@ public class IntersectionDrawer implements IDrawer {
 		return y;
 	}
 	
-	public void draw() {
+	public void draw(Graphics g) {
 		
-		graphics.translate(x,y);
-		graphics.setColor(Color.gray);
-		graphics.fillOval(-20,-20,40,40);
-		graphics.setColor(borderColor);
-		graphics.drawOval(-20,-20,40,40);
-		graphics.translate(-x,-y);
+		System.out.println("drawing intersection to Graphics " + g.hashCode() + " at (" + Integer.toString(x) + "," + Integer.toString(y) + ")");
+		g.translate(x,y);
+		g.setColor(Color.gray);
+		g.fillOval(-20,-20,40,40);
+		g.setColor(borderColor);
+		g.drawOval(-20,-20,40,40);
+		g.drawOval(-19,-19,38,38);
+		g.drawOval(-18,-18,36,36);
+		g.translate(-x,-y);
 	}
 	
-	public void refresh() {
+	public void refresh(Graphics g) {
 	}
 }
