@@ -707,30 +707,38 @@ public class Game extends NamedObject {
 		} else {
 			return null;
 		}
-		
+	}	
+	
+	private void addDrawer(int i, Intersection in, int x, int y) {
+		if (in.getName().charAt(0) == 'B')
+			drawers[i] = new BankDrawer(in,x,y);
+		else
+			drawers[i] = new IntersectionDrawer(in,x,y);
 	}
 	
-	public void createDrawers(Graphics g) {		
+	public void createDrawers() {		
 		
 		drawers = new IntersectionDrawer[intersections.length];
 		
 		int i = 0;
 		for(Intersection in : intersections) {
 			logger.logMessage("creating drawer...");
-			drawers[i] = new IntersectionDrawer(in,g,(i%5)*40,(i/5)*40);
+			addDrawer(i,in,((i%5)+1)*40,((i/5)+1)*40);			
 			i++;
 		}
 	}
 	
-	public void draw() {
+	public void draw(Graphics g) {
 		
-		for(IDrawer d : drawers)
-			d.draw();
+		for(IDrawer d : drawers) {
+			logger.logMessage("drawing drawer...");
+			d.draw(g);
+		}
 	}
 	
-	public void refresh() {
+	public void refresh(Graphics g) {
 		for(IDrawer d : drawers)
-			d.refresh();
+			d.refresh(g);
 	}
 
 }
