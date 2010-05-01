@@ -8,7 +8,7 @@ package gui;
  */
 public class Intersection extends Cell {
 	
-	private IntersectionDrawer drawer;
+	private IntersectionDrawer drawer;	
 	/**
 	 * @param Cell[]  []: A következõ cellák listáját tartalmazó publikus attribútum.
 	 */
@@ -23,6 +23,7 @@ public class Intersection extends Cell {
     }  
     
     public IntersectionDrawer getDrawer() { return drawer; }
+    void setDrawer(IntersectionDrawer i) { drawer = i; }
 
     /**
      * @param c Egy következõ cellát csatol a már meglévõ cellákhoz
