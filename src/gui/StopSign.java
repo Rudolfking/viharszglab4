@@ -13,7 +13,7 @@ public class StopSign extends NamedObject implements ISign {
 	/**
 	 * default várakozási idõ (ha nincs set)
 	 */
-	public static final int default_waitTime = 20;
+	public static final int default_waitTime = 100;
 	/**
 	 * A várakozási idõt deklarálja egy adott STOP táblánál. Így tehát privát belsõ változó.
 	 */

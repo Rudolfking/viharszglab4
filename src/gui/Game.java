@@ -35,7 +35,7 @@ public class Game extends NamedObject {
     public boolean speed;
     
     // autók alapértelmezett inverz sebessége
-    final int def_ispeed = 10;
+    final int def_ispeed = 50;
 
     /**
      * Konstruktor a naplókimenet és felhasználói bemenet beállításával.
@@ -757,7 +757,7 @@ public class Game extends NamedObject {
 		}
 		
 		for(Road ro : roads) {			
-			drawers[i] = new RoadDrawer(ro);
+			drawers[i] = new RoadDrawer(ro,player);
 			i++;
 			Cell lastCell = ro.getCells()[ro.getCells().length-1];
 			ISign sign = lastCell.getSign();

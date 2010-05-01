@@ -15,7 +15,7 @@ public class CivilCar extends Vehicle {
      * @param nextCell a cella, ahova lépni szeretnénk
 	 * @param v a jármű, amit a cellától lekérdeztünk
      */
-	public void accept(Cell nextCell, Vehicle v) {
+	public boolean accept(Cell nextCell, Vehicle v) {
 		// ha üres a cella, léphet
 		if (v == null) {			
 			cell.leave();						
@@ -31,6 +31,7 @@ public class CivilCar extends Vehicle {
 		} else {
 			v.interact(this);
 		}
+		return (cell == nextCell);
 	}	
 	/**
 	 * 

@@ -23,13 +23,17 @@ public class Policeman extends Vehicle {
      * @return Ha egy utc�ra ker�l a rend�r a rabl�val, abban a pillanatban letart�ztatja.
      */
     public boolean onTheSameRoad(Vehicle v) {
-        return ((getCell().getRoad() != null) && (getCell().getRoad() == v.getCell().getRoad()));
+        return ((getCell() != null) && (v.getCell() != null) && 
+			(getCell().getRoad() != null) && (getCell().getRoad() == v.getCell().getRoad()));
     }
 
 	/**
      * @return L�ptet
      */
-    public void tick() {        
+    public void tick() {
+		
+		if(cell == null)
+			return;        
 						
 		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő        				
 		// ha eltelt, megkísérelünk lépni
@@ -53,7 +57,7 @@ public class Policeman extends Vehicle {
      * @param nextCell a cella, ahova lépni szeretnénk
 	 * @param v a jármű, amit a cellától lekérdeztünk
      */
-	public void accept(Cell nextCell, Vehicle v) {
+	public boolean accept(Cell nextCell, Vehicle v) {
 		// ha üres a cella, léphet
 		if (v == null) {			
 			cell.leave();						
@@ -78,6 +82,7 @@ public class Policeman extends Vehicle {
 		} else {
 			v.interact(this);
 		}
+		return (cell == nextCell);
 	}
 	/**
 	 * Sima cell interact
