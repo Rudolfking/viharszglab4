@@ -69,7 +69,7 @@ public class GUI extends Frame {
 				
 				game = new Game("game", game.logger, game.input);
 				canvas.setGame(game);
-				
+								
 				String map = "";
 				boolean fileExists = false;
 				try {
@@ -124,7 +124,7 @@ public class GUI extends Frame {
 				
 				if(!(game.gameIsOver() || game.gameIsWon())) {
 					game.tick();
-					canvas.repaint();
+					game.refresh(canvas.getGraphics());
 				}
 			}
 		}

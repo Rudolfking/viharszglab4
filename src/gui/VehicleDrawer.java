@@ -7,36 +7,38 @@ public class VehicleDrawer implements IDrawer {
 	final int carLength = 20;
 	final int carWidth = 10;
 	
-	protected Vehicle vehicle;
+	protected Vehicle vehicle;	
 	private Cell prevCell;
 	protected Color color;
 	protected Color borderColor;
 	protected double dx;
 	protected double dy;
+	private boolean erasing;	
 	
 	VehicleDrawer(Vehicle v) {
 		
-		vehicle = v;
-		prevCell = null;
+		vehicle = v;		
+		prevCell = vehicle.getCell();
 		color = Color.black;
 		borderColor = Color.gray;
 		dx = 1;
 		dy = 0;
+		erasing = false;
 	}	
 	
 	public void draw(Graphics g) {
 		
-		if(vehicle.getCell() == null)
+		if(prevCell == null)
 			return;
 	
 		double x;
 		double y;		
 		
-		if(vehicle.getCell().getRoad()==null) {
-			x = ((Intersection)(vehicle.getCell())).getDrawer().X();
-			y = ((Intersection)(vehicle.getCell())).getDrawer().Y();						
+		if(prevCell.getRoad()==null) {
+			x = ((Intersection)(prevCell)).getDrawer().X();
+			y = ((Intersection)(prevCell)).getDrawer().Y();						
 		} else {
-			Road road = vehicle.getCell().getRoad();
+			Road road = prevCell.getRoad();
 			
 			double x1 = road.getEntryIntersection().getDrawer().X();
 			double y1 = road.getEntryIntersection().getDrawer().Y();
@@ -47,7 +49,7 @@ public class VehicleDrawer implements IDrawer {
 			dy = (y2 - y1) / length;
 			
 			int i = 0;
-			while(road.getCells()[i] != vehicle.getCell())
+			while(road.getCells()[i] != prevCell)
 				i++;
 				
 			int nCells = road.getCells().length;
@@ -62,9 +64,9 @@ public class VehicleDrawer implements IDrawer {
 		p.addPoint((int)(x-dx*carLength/2-dy*carWidth/2),(int)(y-dy*carLength/2+dx*carWidth/2));
 		p.addPoint((int)(x-dx*carLength/2+dy*carWidth/2),(int)(y-dy*carLength/2-dx*carWidth/2));			
 		
-		g.setColor(color);
+		g.setColor(erasing?Color.gray:color);
 		g.fillPolygon(p);
-		g.setColor(borderColor);
+		g.setColor(erasing?Color.gray:borderColor);
 		g.drawPolygon(p);
 		
 		Polygon p3 = new Polygon();
@@ -74,14 +76,28 @@ public class VehicleDrawer implements IDrawer {
 		p3.addPoint((int)(x-dx*carLength/4+dy*carWidth/2),(int)(y-dy*carLength/4-dx*carWidth/2));
 		g.drawPolygon(p3);
 		
-		g.setColor(Color.yellow);
+		g.setColor(erasing?Color.gray:Color.yellow);
 		g.fillOval(((int)(x+dx*carLength/2+dy*carWidth*0.35))-1,((int)(y+dy*carLength/2-dx*carWidth*0.35))-2,4,4);
 		g.fillOval(((int)(x+dx*carLength/2-dy*carWidth*0.35))-1,((int)(y+dy*carLength/2+dx*carWidth*0.35))-2,4,4);
-		g.setColor(Color.red);
+		g.setColor(erasing?Color.gray:Color.red);
 		g.fillOval(((int)(x-dx*carLength/2-dy*carWidth*0.35))-1,((int)(y-dy*carLength/2+dx*carWidth*0.35))-2,4,4);
 		g.fillOval(((int)(x-dx*carLength/2+dy*carWidth*0.35))-1,((int)(y-dy*carLength/2-dx*carWidth*0.35))-2,4,4);
+		
+		if (erasing && (prevCell.getRoad() != null)) {
+			g.setColor(Color.white);
+			g.drawLine((int)(x+dx*3),(int)(y+dy*3),(int)(x-dy*3-dx*3),(int)(y+dx*3-dy*3));
+			g.drawLine((int)(x+dx*3),(int)(y+dy*3),(int)(x+dy*3-dx*3),(int)(y-dx*3-dy*3));
+		}
 	}
 	
 	public void refresh(Graphics g) {
+		if(vehicle.getCell() != prevCell) {			
+			
+			erasing = true;
+			draw(g);
+			erasing = false;
+			prevCell = vehicle.getCell();			
+			draw(g);
+		}
 	}
 }
