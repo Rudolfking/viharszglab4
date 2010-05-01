@@ -711,39 +711,63 @@ public class Game extends NamedObject {
 	
 	private int[] addDrawer(int i, int[] cols, Intersection in) {
 		
+		final int distance = 100;
+		
 		
 		if (in.getName().charAt(0) == 'B') {
 			cols[1]++;
-			drawers[i] = new BankDrawer(in,100,cols[1]*50);
+			drawers[i] = new BankDrawer(in,distance*2,cols[1]*distance);
 		} else if (in.getName().charAt(0) == 'H') {
 			cols[1]++;
-			drawers[i] = new HidingPlaceDrawer(in,100,cols[1]*50);
+			drawers[i] = new HidingPlaceDrawer(in,distance*2,cols[1]*distance);
 		} else if (in.getName().charAt(0) == 'E') {
 			cols[0]++;
-			drawers[i] = new CityEntryDrawer(in,50,cols[0]*50);
+			drawers[i] = new CityEntryDrawer(in,distance,cols[0]*distance);
 		} else if (in.getName().charAt(0) == 'X') {
 			cols[2]++;
-			drawers[i] = new CityExitDrawer(in,150,cols[2]*50);
+			drawers[i] = new CityExitDrawer(in,distance*3,cols[2]*distance);
 		} else {
 			cols[1]++;
-			drawers[i] = new IntersectionDrawer(in,100,cols[1]*50);
+			drawers[i] = new IntersectionDrawer(in,distance*2,cols[1]*distance);
 		}
 		return cols;
 	}
 	
 	public void createDrawers() {		
 		
-		drawers = new IntersectionDrawer[intersections.length];
+		int nDrawers = intersections.length+roads.length;
 		
-		int i = 0;
-		//int entries = 0;
-		//int exits = 0;
-		//int inters = 0;
+		for(Road ro : roads) {
+			if (ro.getCells()[ro.getCells().length-1].getSign() != null)
+				nDrawers++;
+		}
+		
+		logger.logMessage("number of drawers to create: " + Integer.toString(nDrawers));
+		
+		drawers = new IDrawer[nDrawers];
+		
+		int i = 0;		
 		int[] columns = {0,0,0};
+		
 		for(Intersection in : intersections) {
 			logger.logMessage("creating drawer...");
 			columns = addDrawer(i,columns,in);//,((i%5)+1)*40,((i/5)+1)*40);			
 			i++;
+		}
+		
+		for(Road ro : roads) {
+			logger.logMessage("creating drawer...");
+			drawers[i] = new RoadDrawer(ro);
+			i++;
+			Cell lastCell = ro.getCells()[ro.getCells().length-1];
+			ISign sign = lastCell.getSign();
+			if (sign != null) {
+				if (sign.getName().charAt(0)=='S')
+					drawers[i] = new StopSignDrawer(sign,lastCell);
+				else
+					drawers[i] = new TrafficLightDrawer(sign,lastCell);
+				i++;
+			}
 		}
 	}
 	
