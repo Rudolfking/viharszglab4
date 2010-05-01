@@ -8,12 +8,12 @@ public class VehicleDrawer implements IDrawer {
 	final int carWidth = 10;
 	
 	protected Vehicle vehicle;	
-	private Cell prevCell;
+	protected Cell prevCell;
 	protected Color color;
 	protected Color borderColor;
 	protected double dx;
 	protected double dy;
-	private boolean erasing;	
+	protected boolean erasing;	
 	
 	VehicleDrawer(Vehicle v) {
 		
@@ -96,6 +96,7 @@ public class VehicleDrawer implements IDrawer {
 			erasing = true;
 			draw(g);
 			erasing = false;
+			
 			prevCell = vehicle.getCell();			
 			draw(g);
 		}

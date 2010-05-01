@@ -14,8 +14,8 @@ public class TrafficLight extends NamedObject implements ISign {
 	/**
 	 * Default timing-ek
 	 */
-	public static final int default_redTime = 30;
-	public static final int default_greenTime = 30;
+	public static final int default_redTime = 150;
+	public static final int default_greenTime = 150;
 	
 	/**
 	 * A piros idejét határozza meg ez a privát belsõ tagváltozó

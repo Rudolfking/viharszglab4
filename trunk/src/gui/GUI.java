@@ -61,7 +61,7 @@ public class GUI extends Frame {
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
-		});		
+		});	
 		
 		class StartListener implements ActionListener {			
 			
@@ -129,7 +129,45 @@ public class GUI extends Frame {
 			}
 		}
 		
-		timer = new Timer(500, new TickListener());
+		class RobberControlListener extends KeyAdapter {
+			
+			public void keyPressed(KeyEvent e) {				
+				
+				if ((game.player == null) || (game.player.getCell() == null))
+					return;
+				
+				switch(e.getKeyCode()) {
+					case KeyEvent.VK_LEFT:
+					case KeyEvent.VK_RIGHT:
+						
+						int options = 0;
+						if (game.player.getCell().getRoad() != null) {
+							if(game.player.getIsGoingForward())
+								options = game.player.getCell().getRoad().getExitIntersection().getNextCells().length + game.player.getCell().getRoad().getExitIntersection().getPreviousCells().length;
+							else
+								options = game.player.getCell().getRoad().getEntryIntersection().getNextCells().length + game.player.getCell().getRoad().getEntryIntersection().getPreviousCells().length;
+						}
+						else
+							options = game.player.getCell().getNextCells().length + game.player.getCell().getPreviousCells().length;
+						
+						if(e.getKeyCode() == KeyEvent.VK_LEFT)
+							game.player.setPreferredCell((game.player.getPreferredCell()-1+options) % options);
+						else
+							game.player.setPreferredCell((game.player.getPreferredCell()+1) % options);
+						break;
+						
+					case KeyEvent.VK_UP:
+						game.player.increaseSpeed();
+						break;
+					case KeyEvent.VK_DOWN:
+						game.player.decreaseSpeed();
+						break;
+				}
+			}
+		}
+		newGameButton.addKeyListener(new RobberControlListener());
+		
+		timer = new Timer(100, new TickListener());
 		timer.start();
 	}
 

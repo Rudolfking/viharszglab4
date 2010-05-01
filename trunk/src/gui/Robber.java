@@ -5,10 +5,11 @@ package gui;
  */
 public class Robber extends Vehicle {
     private boolean isGoingForward;
-    private int minimumInverseSpeed;
-    private int maximumInverseSpeed; 
+    public boolean getIsGoingForward() { return isGoingForward; }
+    private final int minimumInverseSpeed = 10;
+    private final int maximumInverseSpeed = 150; 
     
-    final int default_godModeDuration = 5;
+    final int default_godModeDuration = 300;
     
     protected int godModeDuration = default_godModeDuration;
     protected int godModeTicksLeft;
@@ -24,16 +25,20 @@ public class Robber extends Vehicle {
      * Sebesség növelése (ha még lehet)
      */
     public void increaseSpeed() {
-		if(inverseSpeed > minimumInverseSpeed)
+		if(inverseSpeed > minimumInverseSpeed) {
 			inverseSpeed--;
+			ticksLeft--;
+		}
     }
 
     /**
      * Sebesség csökkentése (ha még lehet)
      */
     public void decreaseSpeed() {        
-		if(inverseSpeed < maximumInverseSpeed)
+		if(inverseSpeed < maximumInverseSpeed) {
 			inverseSpeed++;
+			ticksLeft++;
+		}
     }
 
     /**
@@ -94,7 +99,10 @@ public class Robber extends Vehicle {
      * Minden óraléptetéskor végrehajtott függvény: visszaszámlál két lépés
 	 * között, és megpróbál lépni, ha lejárt a számláló.
      */
-    public void tick() {  
+    public void tick() { 
+		
+		if(cell == null)
+			return; 
 						
 		if (godModeTicksLeft > -1)	
 			godModeTicksLeft--;	
@@ -118,7 +126,7 @@ public class Robber extends Vehicle {
 	/**
 	 * Lépés a kövektező cellára.
 	 */
-	public void step() {
+	public boolean step() {
 		
 		// a következő cellák listájának lekérdezése		
 		Cell[] nextCells = cell.getNextCells();
@@ -128,7 +136,7 @@ public class Robber extends Vehicle {
 		// annak a vizsgálata, hogy a kiszemelt cellán tartózkodik-e autó		
 		Vehicle v = nextCell.getVehicle();		
 		// a kapott eredmény elfogadása		
-		accept(nextCell,v);		
+		return accept(nextCell,v);		
 	}
 	
 	/**
@@ -138,7 +146,7 @@ public class Robber extends Vehicle {
      * @param nextCell a cella, ahova lépni szeretnénk
 	 * @param v a jármű, amit a cellától lekérdeztünk
      */
-	public void accept(Cell nextCell, Vehicle v) {
+	public boolean accept(Cell nextCell, Vehicle v) {
 		// ha üres a cella, léphet
 		if (v == null) {			
 			cell.leave();						
@@ -155,6 +163,7 @@ public class Robber extends Vehicle {
 		} else {
 			v.interact(this);
 		}
+		return (cell == nextCell);
 	}	
 	/**
 	 * 

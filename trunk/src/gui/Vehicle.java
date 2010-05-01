@@ -29,7 +29,7 @@ public abstract class Vehicle extends NamedObject {
     /**
      * A j�t�k
      */
-    protected Game game;      
+    protected Game game;     
 
 	/**
 	 * Konstruktor az alaptulajdonságok beállításával.
@@ -49,7 +49,11 @@ public abstract class Vehicle extends NamedObject {
      */
     public void setPreferredCell(int i) {		
 		preferredCell = i;
-    }    
+    }
+    
+    public int getPreferredCell() {
+		return preferredCell;
+	}    
 
     /**
 	 * Választ egyet az átadott cellák közül.
@@ -115,12 +119,14 @@ public abstract class Vehicle extends NamedObject {
      * Minden óraléptetéskor végrehajtott függvény: visszaszámlál két lépés
 	 * között, és megpróbál lépni, ha lejárt a számláló.
      */
-    public void tick() {        
+    public void tick() {  
+		
+		if(cell == null)
+			return;
 				
 		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő        				
 		// ha eltelt, megkísérelünk lépni
-		if (((ticksLeft>=0) && (game != null) && (!game.speed)) || (ticksLeft==0)) {
-			ticksLeft = inverseSpeed;
+		if (((ticksLeft>=0) && (game != null) && (!game.speed)) || (ticksLeft==0)) {			
 			// aktuális cellán lévő közlekedési jelzés lekérdezése					
 			ISign s = cell.getSign();			
 			boolean blocking = false;
@@ -130,7 +136,8 @@ public abstract class Vehicle extends NamedObject {
 			}
 			if (!blocking) {
 				// ha nincs blokkolás, léphetünk a következő cellára				
-				step();				
+				if (step())
+					ticksLeft = inverseSpeed;
 			}
 			else {
 				INamedObject[] param = {this,s};
@@ -147,7 +154,7 @@ public abstract class Vehicle extends NamedObject {
 	/**
 	 * Lépés a kövektező cellára.
 	 */
-	public void step() {
+	public boolean step() {
 		
 		// a következő cellák listájának lekérdezése		
 		Cell[] nextCells = cell.getNextCells();		
@@ -156,7 +163,7 @@ public abstract class Vehicle extends NamedObject {
 		// annak a vizsgálata, hogy a kiszemelt cellán tartózkodik-e autó		
 		Vehicle v = nextCell.getVehicle();		
 		// a kapott eredmény elfogadása		
-		accept(nextCell,v);		
+		return accept(nextCell,v);		
 	}
 		/**
 		 * Ha l�p, itt kezeli le a cell�ra l�p�s 
@@ -166,7 +173,7 @@ public abstract class Vehicle extends NamedObject {
 		 * @param nextCell Az erre l�p� j�rm� fogad�s�nak helye
 		 * @param v A j�rm�, amit fogad
 		 */
-	public abstract void accept(Cell nextCell, Vehicle v);
+	public abstract boolean accept(Cell nextCell, Vehicle v);
 	/**
 	 * 
 	 * @param c Civilt kezel
