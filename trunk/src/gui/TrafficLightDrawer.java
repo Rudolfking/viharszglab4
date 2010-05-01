@@ -35,5 +35,8 @@ public class TrafficLightDrawer extends SignDrawer {
 	}
 	
 	public void refresh(Graphics g) {
+		int currentState = ((TrafficLight)(sign)).isBlocking()? 1 : 0;
+		if (currentState != prevState)
+			draw(g);
 	}
 }

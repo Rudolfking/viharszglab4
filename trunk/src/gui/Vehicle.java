@@ -39,6 +39,7 @@ public abstract class Vehicle extends NamedObject {
         this.game = game;
 		setCell(cell);				
         inverseSpeed=ispeed;
+        ticksLeft=inverseSpeed;
         preferredCell = -1;        
     }  
     
