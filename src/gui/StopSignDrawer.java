@@ -9,8 +9,7 @@ public class StopSignDrawer extends SignDrawer {
 	}	
 	
 	public void draw(Graphics g) {
-		
-		System.out.println("drawing stop sign to Graphics " + g.hashCode() + " at (" + Integer.toString(x) + "," + Integer.toString(y) + ")");
+				
 		g.translate(x,y);
 		g.setColor(Color.gray);
 		g.drawLine(0,0,0,15);
