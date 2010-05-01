@@ -735,28 +735,28 @@ public class Game extends NamedObject {
 	
 	public void createDrawers() {		
 		
-		int nDrawers = intersections.length+roads.length;
+		int nDrawers = intersections.length+roads.length+cars.length+policemen.length;
 		
 		for(Road ro : roads) {
 			if (ro.getCells()[ro.getCells().length-1].getSign() != null)
 				nDrawers++;
 		}
-		
-		logger.logMessage("number of drawers to create: " + Integer.toString(nDrawers));
+		if (player != null)
+			nDrawers++;
+		if (bunny != null)
+			nDrawers++;
 		
 		drawers = new IDrawer[nDrawers];
 		
 		int i = 0;		
 		int[] columns = {0,0,0};
 		
-		for(Intersection in : intersections) {
-			logger.logMessage("creating drawer...");
+		for(Intersection in : intersections) {			
 			columns = addDrawer(i,columns,in);//,((i%5)+1)*40,((i/5)+1)*40);			
 			i++;
 		}
 		
-		for(Road ro : roads) {
-			logger.logMessage("creating drawer...");
+		for(Road ro : roads) {			
 			drawers[i] = new RoadDrawer(ro);
 			i++;
 			Cell lastCell = ro.getCells()[ro.getCells().length-1];
@@ -769,12 +769,29 @@ public class Game extends NamedObject {
 				i++;
 			}
 		}
+		
+		for(CivilCar cc : cars) {
+			drawers[i] = new CivilCarDrawer(cc);
+			i++;
+		}
+		
+		for(Policeman pm : policemen) {
+			drawers[i] = new PolicemanDrawer(pm);
+			i++;
+		}
+		
+		if (player != null) {
+			drawers[i] = new RobberDrawer(player);
+			i++;
+		}
+			
+		if (bunny != null)
+			drawers[i] = new BunnyDrawer(bunny);
 	}
 	
 	public void draw(Graphics g) {
 		
-		for(IDrawer d : drawers) {
-			logger.logMessage("drawing drawer...");
+		for(IDrawer d : drawers) {			
 			d.draw(g);
 		}
 	}

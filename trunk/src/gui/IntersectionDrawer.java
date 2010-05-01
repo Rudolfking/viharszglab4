@@ -28,8 +28,7 @@ public class IntersectionDrawer implements IDrawer {
 	}
 	
 	public void draw(Graphics g) {
-		
-		System.out.println("drawing intersection to Graphics " + g.hashCode() + " at (" + Integer.toString(x) + "," + Integer.toString(y) + ")");
+				
 		g.translate(x,y);
 		g.setColor(Color.gray);
 		g.fillOval(-20,-20,40,40);

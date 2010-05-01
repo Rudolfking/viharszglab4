@@ -11,9 +11,7 @@ public class TrafficLightDrawer extends SignDrawer {
 		prevState = -1;
 	}	
 	
-	public void draw(Graphics g) {
-		
-		System.out.println("drawing traffic light to Graphics " + g.hashCode() + " at (" + Integer.toString(x) + "," + Integer.toString(y) + ")");
+	public void draw(Graphics g) {		
 		
 		if (((TrafficLight)(sign)).isBlocking())
 			prevState = 1;

@@ -4,10 +4,15 @@ import java.awt.*;
 
 public class GUICanvas extends Canvas {
 	
-	Game game;
+	private Game game;
 	
 	public GUICanvas(Game game) {
 		this.game = game;
+	}
+	
+	public void setGame(Game g) {
+		game = g;
+		repaint();
 	}
 	
 	public void paint(Graphics g) {

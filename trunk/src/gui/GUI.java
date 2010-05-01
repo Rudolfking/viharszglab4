@@ -3,19 +3,25 @@ package gui;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.Timer;
 
 public class GUI extends Frame {
 	
 	class WindowCloser extends WindowAdapter {
 		
 	}
-	
+		
 	Game game;
 	GUICanvas canvas;
+	Panel menuPanel;
+	Button newGameButton;
 	Choice mapSelector;
+	Button pauseButton;
+	
+	Timer timer;
 
 	GUI(String name, Logger logger, CustomReader input) {
-		super(name);
+		super(name);		
 		
 		setLayout(new BorderLayout());
 				
@@ -29,11 +35,11 @@ public class GUI extends Frame {
 		
 		add("Center", canvas);
 		
-		Panel menuPanel = new Panel();
+		menuPanel = new Panel();
 		add("South",menuPanel);
 		
 		menuPanel.setLayout(new GridLayout(1,3));
-		Button newGameButton = new Button("New game");
+		newGameButton = new Button("New game");
 		menuPanel.add(newGameButton);
 		mapSelector = new Choice();
 		
@@ -48,18 +54,21 @@ public class GUI extends Frame {
 		}		
 		
 		menuPanel.add(mapSelector);
-		Button pauseButton = new Button("Pause");
+		pauseButton = new Button("Pause");
 		menuPanel.add(pauseButton);
 		
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
-		});
+		});		
 		
 		class StartListener implements ActionListener {			
 			
 			public void actionPerformed(ActionEvent e) {
+				
+				game = new Game("game", game.logger, game.input);
+				canvas.setGame(game);
 				
 				String map = "";
 				boolean fileExists = false;
@@ -79,17 +88,49 @@ public class GUI extends Frame {
 					if (!fileExists) {
 						// nem történik semmi, ez az eset szinte sosem fordulhat elő
 					}
-				} finally {
-					System.out.println(map);
+				} finally {					
 					if(map.length()>0) {
 						game.generateLevel(map);
 						game.createDrawers();
 						canvas.repaint();
 					}
 				}
+				
+				game.logger.logMessage("o New game started.");
 			}
 		}
 		newGameButton.addActionListener(new StartListener());
+		
+		class PauseListener implements ActionListener {
+			
+			public void actionPerformed(ActionEvent e) {
+				
+				if(timer.isRunning()) {
+					timer.stop();
+					pauseButton.setLabel("Continue");
+					game.logger.logMessage("o Game paused.");
+				} else {
+					timer.start();
+					pauseButton.setLabel("Pause");
+					game.logger.logMessage("o Continuing game...");
+				}
+			}			
+		}
+		pauseButton.addActionListener(new PauseListener());
+		
+		class TickListener implements ActionListener {
+			
+			public void actionPerformed(ActionEvent e) {
+				
+				if(!(game.gameIsOver() || game.gameIsWon())) {
+					game.tick();
+					canvas.repaint();
+				}
+			}
+		}
+		
+		timer = new Timer(500, new TickListener());
+		timer.start();
 	}
 
 	public static void main(String[] args) {

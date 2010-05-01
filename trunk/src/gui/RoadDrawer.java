@@ -14,9 +14,7 @@ public class RoadDrawer implements IDrawer {
 		this.road = road;		
 	}
 	
-	public void draw(Graphics g) {
-			
-		System.out.println("drawing road to Graphics " + g.hashCode());	
+	public void draw(Graphics g) {		
 		
 		g.setColor(Color.gray);
 		
