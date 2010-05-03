@@ -749,7 +749,7 @@ public class Game extends NamedObject {
 				nDrawers++;
 		}
 		if (player != null)
-			nDrawers++;
+			nDrawers+=2;
 		if (bunny != null)
 			nDrawers++;
 		
@@ -794,10 +794,14 @@ public class Game extends NamedObject {
 		if (player != null) {
 			drawers[i] = new RobberDrawer(player);
 			i++;
+			drawers[i] = new RobberSpeedDrawer(player,20,350);
+			i++;
 		}
 			
-		if (bunny != null)
+		if (bunny != null) {
 			drawers[i] = new BunnyDrawer(bunny);
+		}
+		
 	}
 	
 	public void draw(Graphics g) {

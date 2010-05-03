@@ -6,8 +6,11 @@ package gui;
 public class Robber extends Vehicle {
     private boolean isGoingForward;
     public boolean getIsGoingForward() { return isGoingForward; }
-    private final int minimumInverseSpeed = 10;
-    private final int maximumInverseSpeed = 150; 
+    
+    private final int[] iSpeedOptions = {1000,30,15,5,2};
+    private int speedLevel;
+    public int getSpeedLevel() { return speedLevel; }
+    public int getMaxSpeedLevel() { return iSpeedOptions.length; }
     
     final int default_godModeDuration = 300;
     
@@ -18,26 +21,32 @@ public class Robber extends Vehicle {
         super(name, game, cell, ispeed, logger, input);	
         preferredCell = 0;
         isGoingForward = true;	
-        godModeTicksLeft = 0;        
+        godModeTicksLeft = 0;
+        speedLevel = 1;
+        inverseSpeed = iSpeedOptions[speedLevel];
     }
 
     /**
-     * SebessÃ©g nÃ¶velÃ©se (ha mÃ©g lehet)
+     * Sebesség növelése (ha még lehet)
      */
     public void increaseSpeed() {
-		if(inverseSpeed > minimumInverseSpeed) {
-			inverseSpeed--;
-			ticksLeft--;
+		if(speedLevel < iSpeedOptions.length-1) {
+			speedLevel++;
+			inverseSpeed = iSpeedOptions[speedLevel];
+			if (ticksLeft > inverseSpeed)
+				ticksLeft = inverseSpeed;
 		}
     }
 
     /**
-     * SebessÃ©g csÃ¶kkentÃ©se (ha mÃ©g lehet)
+     * Sebesség csökkentése (ha még lehet)
      */
     public void decreaseSpeed() {        
-		if(inverseSpeed < maximumInverseSpeed) {
-			inverseSpeed++;
-			ticksLeft++;
+		if(speedLevel > 0) {
+			speedLevel--;
+			inverseSpeed = iSpeedOptions[speedLevel];
+			if (ticksLeft < inverseSpeed)
+				ticksLeft = inverseSpeed;
 		}
     }
 

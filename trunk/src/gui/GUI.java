@@ -21,28 +21,39 @@ public class GUI extends Frame {
 	Timer timer;
 
 	GUI(String name, Logger logger, CustomReader input) {
-		super(name);		
+		super(name);	
 		
-		setLayout(new BorderLayout());
+		TrafficLight.randomOffset = true;	
 				
 		game = new Game("game", logger, input);
 		
 		game.generateLevel("I[0]FFFX[0]\nBFFI[0]");	
 		game.createDrawers("");
 		
+		// ------------------------------------------------------
+		// grafikus felület elemeinek létrehozása
+		// ------------------------------------------------------
+		
+		// a fő ablak elrendezése
+		setLayout(new BorderLayout());
+		
+		// canvas a pálya rajzolásához
 		canvas = new GUICanvas(game);
 		canvas.setSize(1000,700);
-		
 		add("Center", canvas);
 		
+		// panel a gomboknak
 		menuPanel = new Panel();
 		add("South",menuPanel);
-		
 		menuPanel.setLayout(new GridLayout(1,3));
+		
+		// új játék gomb
 		newGameButton = new Button("New game");
 		menuPanel.add(newGameButton);
-		mapSelector = new Choice();
 		
+		// térképválasztó
+		mapSelector = new Choice();
+		// térkép fájlok beolvasása, és felvétele a listába
 		File mapDir = new File("maps");
 		String[] maps = mapDir.list();
 		if (maps == null) {
@@ -50,16 +61,26 @@ public class GUI extends Frame {
 			mapSelector.setEnabled(false);
 		} else {
 			for(String s : maps) {
-				String s2 = "";
-				for (int i = 0; s.charAt(i) != '.'; i++)
-					s2 += s.charAt(i);
-				mapSelector.add(s2);
+				int i;
+				String fname = "";
+				for (i = 0; s.charAt(i) != '.'; i++)
+					fname += s.charAt(i);
+				String fext = "";
+				for (i++; i < s.length(); i++)
+					fext += s.charAt(i);
+				if ((fname.length() > 0) && (fext.compareTo("txt")==0))
+					mapSelector.add(fname);
 			}
 		}		
-		
 		menuPanel.add(mapSelector);
+		
+		// szünet gomb
 		pauseButton = new Button("Pause");
 		menuPanel.add(pauseButton);
+		
+		// ------------------------------------------------------
+		// eseménykezelők
+		// ------------------------------------------------------
 		
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -188,10 +209,15 @@ public class GUI extends Frame {
 					case KeyEvent.VK_DOWN:
 						game.player.decreaseSpeed();
 						break;
+					case KeyEvent.VK_BACK_SPACE:
+						game.player.turnArround();
+						break;
 				}
 			}
 		}
 		newGameButton.addKeyListener(new RobberControlListener());
+		mapSelector.addKeyListener(new RobberControlListener());
+		pauseButton.addKeyListener(new RobberControlListener());
 		
 		timer = new Timer(100, new TickListener());
 		timer.start();
