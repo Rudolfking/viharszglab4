@@ -5,12 +5,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.Timer;
 
+/**
+ * 
+ */ 
 public class GUI extends Frame {
-	
-	class WindowCloser extends WindowAdapter {
 		
-	}
-		
+	Logger logger;
 	Game game;
 	GUICanvas canvas;
 	Panel menuPanel;
@@ -20,15 +20,15 @@ public class GUI extends Frame {
 	
 	Timer timer;
 
-	GUI(String name, Logger logger, CustomReader input) {
+	/**
+	 * Konstruktor, létrehozza a vezérlőket, létrehozza és beköti az eseménykezelőket
+	 * @param logger naplózáshoz használandó objektum
+	 */ 
+	GUI(String name, Logger lgr) {
 		super(name);	
+		this.logger = lgr;
 		
 		TrafficLight.randomOffset = true;	
-				
-		game = new Game("game", logger, input);
-		
-		game.generateLevel("I[0]FFFX[0]\nBFFI[0]");	
-		game.createDrawers("");
 		
 		// ------------------------------------------------------
 		// grafikus felület elemeinek létrehozása
@@ -38,7 +38,7 @@ public class GUI extends Frame {
 		setLayout(new BorderLayout());
 		
 		// canvas a pálya rajzolásához
-		canvas = new GUICanvas(game);
+		canvas = new GUICanvas(null);
 		canvas.setSize(1000,700);
 		add("Center", canvas);
 		
@@ -76,7 +76,10 @@ public class GUI extends Frame {
 		
 		// szünet gomb
 		pauseButton = new Button("Pause");
+		pauseButton.setEnabled(false);
 		menuPanel.add(pauseButton);
+		
+		canvas.displayMessage("Select a map below and click new game!");
 		
 		// ------------------------------------------------------
 		// eseménykezelők
@@ -92,7 +95,9 @@ public class GUI extends Frame {
 			
 			public void actionPerformed(ActionEvent e) {
 				
-				game = new Game("game", game.logger, game.input);
+				canvas.clearMessage();
+				
+				game = new Game("game", logger, null);
 				canvas.setGame(game);
 								
 				String map = "";
@@ -141,7 +146,9 @@ public class GUI extends Frame {
 					game.createDrawers(map);
 				}				
 				
+				pauseButton.setEnabled(true);
 				canvas.repaint();
+				timer.start();
 				
 				game.logger.logMessage("o New game started.");
 			}
@@ -169,13 +176,28 @@ public class GUI extends Frame {
 			
 			public void actionPerformed(ActionEvent e) {
 				
+				if(game == null) {
+					timer.stop();
+					pauseButton.setEnabled(false);
+					return;
+				}
+					
 				if(!(game.gameIsOver() || game.gameIsWon())) {
 					game.tick();
 					game.refresh(canvas.getGraphics());
 				}
+				else {
+					timer.stop();
+					pauseButton.setEnabled(false);
+					if (game.gameIsOver())
+						canvas.displayMessage("GAME OVER");
+					if (game.gameIsWon())
+						canvas.displayMessage("You have won the game!");
+				}
 			}
 		}
 		
+		// bankrabló (billentyűzetes) irányítását végző eseménykezelő
 		class RobberControlListener extends KeyAdapter {
 			
 			public void keyPressed(KeyEvent e) {				
@@ -184,6 +206,7 @@ public class GUI extends Frame {
 					return;
 				
 				switch(e.getKeyCode()) {
+					// bal és jobb nyíl kiválasztott kereszteződést vált
 					case KeyEvent.VK_LEFT:
 					case KeyEvent.VK_RIGHT:
 						
@@ -203,12 +226,15 @@ public class GUI extends Frame {
 							game.player.setPreferredCell((game.player.getPreferredCell()+1) % options);
 						break;
 						
+					// fel nyíl sebességet növel
 					case KeyEvent.VK_UP:
 						game.player.increaseSpeed();
 						break;
+					// le nyíl sebességet csökkent
 					case KeyEvent.VK_DOWN:
 						game.player.decreaseSpeed();
 						break;
+					// backspace megfordul
 					case KeyEvent.VK_BACK_SPACE:
 						game.player.turnArround();
 						break;
@@ -219,17 +245,19 @@ public class GUI extends Frame {
 		mapSelector.addKeyListener(new RobberControlListener());
 		pauseButton.addKeyListener(new RobberControlListener());
 		
+		// időzítő létrehozása és indítása
 		timer = new Timer(100, new TickListener());
 		timer.start();
 	}
 
+	/**
+	 * A GUI program main függvénye: létrehozza az ablakot, elindítja az alkalmazást
+	 */ 
 	public static void main(String[] args) {
 		
 		Logger logger = new ConsoleLogger();
-		CustomReader input = new CustomReader(logger);
-		input.setInput(new BufferedReader(new InputStreamReader(System.in)));
 		
-		GUI mainForm = new GUI("SzoftLab4 beadandó - GUI - vihar",logger,input);
+		GUI mainForm = new GUI("SzoftLab4 beadandó - GUI - vihar",logger);
 		
 		mainForm.pack();
 		//mainForm.show();       // java 1.5-től deprecated
