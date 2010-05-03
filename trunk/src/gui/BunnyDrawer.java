@@ -49,13 +49,13 @@ public class BunnyDrawer extends VehicleDrawer {
 		g.drawOval(x-4,y-4,8,8);
 		
 		g.setColor(color);
-		g.fillOval(x-6,y-4,4,4);
+		g.fillOval(x-5,y-4,4,4);
 		g.setColor(borderColor);
-		g.drawOval(x-6,y-4,4,4);
+		g.drawOval(x-5,y-4,4,4);
 		
 		g.setColor(color);
-		g.fillOval(x+2,y-4,4,4);
+		g.fillOval(x+1,y-4,4,4);
 		g.setColor(borderColor);
-		g.drawOval(x+2,y-4,4,4);		
+		g.drawOval(x+1,y-4,4,4);		
 	}
 }

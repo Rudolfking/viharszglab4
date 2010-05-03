@@ -122,7 +122,9 @@ public class Road extends NamedObject {
 	 * 		A cella sorszáma
 	 */
 	public void placeCar(Vehicle v, int cell) {
-						
+		
+		if(cells[cell].getVehicle() != null)
+			return;
 		cells[cell].setVehicle(v);		
 		v.setCell(cells[cell]);		
 	}

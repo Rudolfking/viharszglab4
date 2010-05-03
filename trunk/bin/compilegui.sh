@@ -1,0 +1,6 @@
+echo Compiling GUI source...
+if javac ../src/gui/*.java -d ./gui -nowarn; then
+	echo Compilation successful!
+else
+	echo There were errors during compilation...
+fi
