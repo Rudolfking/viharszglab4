@@ -5,8 +5,8 @@ import java.util.*;
 import java.awt.Graphics;
 
 /**
- * A j�t�k eg�sz��rt, annak ir�ny�t�s��rt, karban tart�s��rt felel�s oszt�lyt val�s�tja meg.
- * @author Bal�zs
+ * A játék egészéért, annak irányításáért, karban tartásáért felelõs osztályt valósítja meg.
+ * @author Balázs
  *
  */
 public class Game extends NamedObject {
@@ -28,6 +28,8 @@ public class Game extends NamedObject {
     private boolean gameWinFlag;
     public boolean gameIsWon() { return gameWinFlag; }
     
+    private int ticksWithoutBunny;
+    
     private IDrawer[] drawers;
     
     int ticks = 0;
@@ -38,7 +40,7 @@ public class Game extends NamedObject {
     final int def_ispeed = 10;
 
     /**
-     * Konstruktor a naplókimenet és felhasználói bemenet beállításával.
+     * Konstruktor a naplókimenet és felhasználói bemenet beállÃ­tásával.
      */
     public Game(String name, Logger logger, CustomReader input) {
         super(name, logger, input);        
@@ -46,6 +48,8 @@ public class Game extends NamedObject {
         speed = true;
         gameOverFlag = false;
         gameWinFlag = false;
+        ticks = 0;
+        ticksWithoutBunny = 0;
     }
 
     /**
@@ -59,6 +63,19 @@ public class Game extends NamedObject {
 		ticks++;
 		logger.log("o tick "+Integer.toString(ticks));
 		
+		// nyuszi létrehozása véletlenszerűen
+		if (bunny.getCell() == null) {
+			ticksWithoutBunny++;
+			
+			Random r = new Random();
+			int i = r.nextInt(1000);
+			if (i < 10+ticksWithoutBunny)
+				spawnBunny();
+		}
+		else
+			ticksWithoutBunny = 0;
+		
+		// városból kilépett autók visszahozása
 		regenerateKilledVehicles();
 		
 		// utak léptetése (léptetik a rajtuk lévő jelzőlámpákat, táblákat)
@@ -79,7 +96,41 @@ public class Game extends NamedObject {
     }
     
     /**
-     *
+     * Létrehoz egy húsvéti nyuszit valahol véletlenszerűen a pályán
+     */ 
+    private void spawnBunny() {
+		Random r = new Random();
+		int i = r.nextInt(2);
+		// ha i = 0, kereszteződésre rakjuk
+		if (i==0) {
+			// kereszteződés véletlenszerű választása
+			i = r.nextInt(intersections.length);
+			// lineáris keresés az első szabad kereszteződésig, vagy amíg körbe nem érünk
+			int j = (i+1) % intersections.length;			
+			while ((j != i) && (intersections[j].getVehicle() != null)) {
+				j = (j+1) % intersections.length;
+			}
+			// ha találtunk szabad kereszteződést, lerakjuk a nyuszit
+			if (intersections[j].getVehicle() == null) {
+				bunny.setCell(intersections[j]);
+				intersections[j].setVehicle(bunny);
+			}
+		}
+		// ha i = 1, útra rakjuk
+		else {
+			// út véletlenszerű választása
+			i = r.nextInt(roads.length);
+			// cella véletlenszerű választása
+			int j = r.nextInt(roads[i].getCells().length);
+			// nyuszi lerakása (ha lehet)
+			roads[i].placeCar(bunny,j);
+		}
+	}
+    
+    /**
+     * A megadott betűből és számból egy indexelt nevet ("letter[index]") állít elő
+     * @param letter a név betűjele
+     * @param a név indexe
      */ 
     private String indexedName(char letter, int index) {
 		return letter + "[" + Integer.toString(index) + "]";
@@ -87,10 +138,10 @@ public class Game extends NamedObject {
     
     /**
      * A kimeneti nyelvben definiált formulának megfelelő string alapján
-     * építi fel a pályát. A string természetesen több sort is 
+     * épÃ­ti fel a pályát. A string természetesen több sort is 
      * tartalmazhat.
      * 
-     * @param level a pályát leíró string (lásd a dokumentáció 7.1.3 
+     * @param level a pályát leÃ­ró string (lásd a dokumentáció 7.1.3 
      * pontját)
      */ 
     public void generateLevel(String level) {
@@ -118,7 +169,7 @@ public class Game extends NamedObject {
 			
 			i=0;	
 			
-			// a létrehozandó út majdani mezőit tároló változók
+			// a létrehozandó Ãºt majdani mezőit tároló változók
 			Intersection e = null; // bejárat
 			Intersection x = null; // kijárat
 			int nCells = 0;			  // mezők száma
@@ -126,7 +177,7 @@ public class Game extends NamedObject {
 			
 			// végigmegyünk a stringen
 			while (i<road.length()) {
-				// típusjelző karakter beolvasása
+				// tÃ­pusjelző karakter beolvasása
 				type = road.charAt(i);
 				i++;
 				// index beolvasása	
@@ -142,7 +193,7 @@ public class Game extends NamedObject {
 				int j;
 				boolean itemAlreadyExists = false;
 			
-				// mező típusának azonosítása
+				// mező tÃ­pusának azonosÃ­tása
 				switch (type) {
 				// CityEntry
 				case 'E':
@@ -151,12 +202,12 @@ public class Game extends NamedObject {
 					for (j=0; j<ints.size() && !itemAlreadyExists; j++)
 						if (ints.get(j).getName().compareTo(indexedName('E',index))==0)
 							itemAlreadyExists = true;
-					// ha még nincs, felvesszük, és beállítjuk az út bejáratának
+					// ha még nincs, felvesszük, és beállÃ­tjuk az Ãºt bejáratának
 					if (!itemAlreadyExists) {
 						ints.add(new CityEntry(indexedName('E',index), logger, input));					
 						e = ints.get(ints.size()-1);
 					}
-					// ha már van, a meglévőt állítjuk be
+					// ha már van, a meglévőt állÃ­tjuk be
 					else {
 						e = ints.get(j-1);
 					}					
@@ -168,12 +219,12 @@ public class Game extends NamedObject {
 					for (j=0; j<ints.size() && !itemAlreadyExists; j++)
 						if (ints.get(j).getName().compareTo(indexedName('X',index))==0)
 							itemAlreadyExists = true;
-					// ha még nincs, felvesszük, és beállítjuk az út kijáratának
+					// ha még nincs, felvesszük, és beállÃ­tjuk az Ãºt kijáratának
 					if (!itemAlreadyExists) {
 						ints.add(new CityExit(indexedName('X',index), this, logger, input));
 						x = ints.get(ints.size()-1);
 					}
-					// ha már van, a meglévőt állítjuk be
+					// ha már van, a meglévőt állÃ­tjuk be
 					else {
 						x = ints.get(j-1);
 					}					
@@ -185,7 +236,7 @@ public class Game extends NamedObject {
 					for (j=0; j<ints.size() && !itemAlreadyExists; j++)
 						if (ints.get(j).getName().compareTo(indexedName('I',index))==0)
 							itemAlreadyExists = true;
-					// ha még nincs, beállítjuk be- vagy kijáratnak
+					// ha még nincs, beállÃ­tjuk be- vagy kijáratnak
 					if (!itemAlreadyExists) {
 						ints.add(new Intersection(indexedName('I',index), logger, input));
 						if (e == null)
@@ -193,7 +244,7 @@ public class Game extends NamedObject {
 						else
 							x = ints.get(ints.size()-1);
 					}
-					// ha már van, a meglévőt állítjuk be
+					// ha már van, a meglévőt állÃ­tjuk be
 					else {
 						if (e == null)
 							e = ints.get(j-1);
@@ -209,7 +260,7 @@ public class Game extends NamedObject {
 					for (j=0; j<ints.size() && !itemAlreadyExists; j++)
 						if (ints.get(j).getName().compareTo(""+type)==0)
 							itemAlreadyExists = true;
-					// ha még nincs, beállítjuk be- vagy kijáratnak
+					// ha még nincs, beállÃ­tjuk be- vagy kijáratnak
 					if (!itemAlreadyExists) {
 						if (type=='B')
 							ints.add(new Bank("B",logger,input));
@@ -220,7 +271,7 @@ public class Game extends NamedObject {
 						else
 							x = ints.get(ints.size()-1);
 					}
-					// ha már van, a meglévőt állítjuk be
+					// ha már van, a meglévőt állÃ­tjuk be
 					else {
 						if (e == null)
 							e = ints.get(j-1);
@@ -238,7 +289,7 @@ public class Game extends NamedObject {
 				if ((i<road.length()) && (road.charAt(i)=='{')) {
 					i++; 
 					while (road.charAt(i) != '}') {
-						// típuazonosító eltárolása
+						// tÃ­puazonosÃ­tó eltárolása
 						char objType = road.charAt(i);
 						i++;
 						// index beolvasása	
@@ -252,7 +303,7 @@ public class Game extends NamedObject {
 							i++;
 						}
 						
-						// objektum típusának azonosítása
+						// objektum tÃ­pusának azonosÃ­tása
 						switch (objType) {
 						// StopSign
 						case 'S':
@@ -272,7 +323,7 @@ public class Game extends NamedObject {
 									car_road.add(new Integer(-1));
 									car_cell.add(new Integer(-1));
 								}
-								// ha pedig az út egyik cellájára, akkor külön kell elmentei annak az adatait, mivel
+								// ha pedig az Ãºt egyik cellájára, akkor külön kell elmentei annak az adatait, mivel
 								// még nincsenek létrehozva cellák
 								else {
 									crs.add(new CivilCar(indexedName('C',index),this,null,def_ispeed,logger,input));
@@ -291,7 +342,7 @@ public class Game extends NamedObject {
 									pol_road.add(new Integer(-1));
 									pol_cell.add(new Integer(-1));
 								}
-								// ha pedig az út egyik cellájára, akkor külön kell elmentei annak az adatait, mivel
+								// ha pedig az Ãºt egyik cellájára, akkor külön kell elmentei annak az adatait, mivel
 								// még nincsenek létrehozva cellák
 								else {
 									pmn.add(new Policeman(indexedName('P',index),this,null,def_ispeed,logger,input));
@@ -310,7 +361,7 @@ public class Game extends NamedObject {
 									rob_road=-1;
 									rob_cell=-1;
 								}
-								// ha pedig az út egyik cellájára, akkor külön kell elmentei annak az adatait, mivel
+								// ha pedig az Ãºt egyik cellájára, akkor külön kell elmentei annak az adatait, mivel
 								// még nincsenek létrehozva cellák
 								else {
 									player = new Robber("R",this,null,def_ispeed,logger,input);
@@ -329,7 +380,7 @@ public class Game extends NamedObject {
 									bun_road=-1;
 									bun_cell=-1;
 								}
-								// ha pedig az út egyik cellájára, akkor külön kell elmentei annak az adatait, mivel
+								// ha pedig az Ãºt egyik cellájára, akkor külön kell elmentei annak az adatait, mivel
 								// még nincsenek létrehozva cellák
 								else {
 									bunny = new Bunny("U",this,null,logger,input);
@@ -462,7 +513,7 @@ public class Game extends NamedObject {
 	
 	/**
      * A kimeneti nyelvben definiált formulának megfelelő stringet
-     * naplóz, mely a pálya aktuális állapotát írja le.
+     * naplóz, mely a pálya aktuális állapotát Ã­rja le.
      *
      */
     public void writeLevel() {	
@@ -494,7 +545,7 @@ public class Game extends NamedObject {
 	}
 
     /**
-	 * Pálya (úthálózat + járművek) felépítése a megadott paraméterekkel.
+	 * Pálya (Ãºthálózat + járművek) felépÃ­tése a megadott paraméterekkel.
 	 *
      * @param nEntries város bejáratainak száma
 	 * @param nExits város kijáratainak száma
@@ -503,7 +554,7 @@ public class Game extends NamedObject {
 	 * @param nCivilCars civil autók száma (rendőrből és betörőből egy van)
      */
     public void generateLevel(int nEntries, int nExits, int nIntersections, int nRoads, int nCivilCars) {
-		// úthálózat felépítése
+		// Ãºthálózat felépÃ­tése
         logger.logCall(this, this, "generateMap(int nEntries, int nExits, int nIntersections, int nRoads)");
         generateMap(nEntries, nExits, nIntersections, nRoads);
         logger.logReturn(this, this, "generateMap(int nEntries, int nExits, int nIntersections, int nRoads)", null);
@@ -514,7 +565,7 @@ public class Game extends NamedObject {
     }
 
     /**
-     * Úthálózat felépítése a megadott paraméterekkel.
+     * Ãthálózat felépÃ­tése a megadott paraméterekkel.
 	 *
      * @param nEntries város bejáratainak száma
 	 * @param nExits város kijáratainak száma
@@ -539,7 +590,7 @@ public class Game extends NamedObject {
             intersections[i] = new CityExit("cityExit" + Integer.toString(i), this, logger, input);
             logger.logCreated(this, intersections[i]);
         }
-        // útkereszteződések legenerálása
+        // Ãºtkereszteződések legenerálása
         logger.logMessage("Setting bank as intersection at index " + Integer.toString(nEntries + nExits));
         intersections[nEntries + nExits] = bank;
         for (int i = nEntries + nExits + 1; i < nEntries + nExits + nIntersections; i++) {
@@ -595,7 +646,7 @@ public class Game extends NamedObject {
         logger.logCreate(this, "Robber");
         player = new Robber("player", this, null, 10, logger, input); 
         logger.logCreated(this, player);
-		// rendőrök ráállítása a rablóra
+		// rendőrök ráállÃ­tása a rablóra
 		for (Policeman p : policemen) {
 			logger.logCall(this, p, "setWanted(Robber r)");
 			p.setWanted(player);
@@ -608,7 +659,7 @@ public class Game extends NamedObject {
     }
 
     /**
-	 * Győzelmi üzenet megjelenítése.
+	 * Győzelmi üzenet megjelenÃ­tése.
      */
     public void winGame() {
         //logger.logMessage(":):):):):):):):):):):):):):):):):)");
@@ -619,7 +670,7 @@ public class Game extends NamedObject {
     }
 
 	/**
-     * Vereség üzenet megjelenítése.
+     * Vereség üzenet megjelenÃ­tése.
      */
     public void gameOver() {
         //logger.logMessage("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
@@ -630,27 +681,27 @@ public class Game extends NamedObject {
     }
 
     /**
-	 * Ha ezt a függvényt valaki meghívja, tudjuk, hogy egy autóval kevesebb van.
+	 * Ha ezt a függvényt valaki meghÃ­vja, tudjuk, hogy egy autóval kevesebb van.
      * @param c az autó, ami megszűnik     
      */
     public void kill(CivilCar c) {        
     }
 
     /**
-     * Ha ezt a függvényt valaki meghívja, tudjuk, hogy egy rendőrrel kevesebb van.
+     * Ha ezt a függvényt valaki meghÃ­vja, tudjuk, hogy egy rendőrrel kevesebb van.
      * @param p a rendőr, ami megszűnik     
      */
     public void kill(Policeman p) {        
     }
 
     /**
-     * Bankrabló halálakor hívódik meg.     
+     * Bankrabló halálakor hÃ­vódik meg.     
      */
     public void kill(Robber r) {        
     }
 
     /**
-     * Hiányzó autók (rendőrök és civilek) újragenerálását végző metódus
+     * Hiányzó autók (rendőrök és civilek) Ãºjragenerálását végző metódus
      */
     public void regenerateKilledVehicles() {
         
@@ -659,7 +710,7 @@ public class Game extends NamedObject {
 			if (c.getCell() == null) {
 				// szabad városhatár lekérése
 				CityEntry e = getEmptyCityEntry();
-				// k�t�sek l�trehoz�sa
+				// kötések létrehozása
 				if (e != null) {
 					e.enter(c);	
 					c.ticksLeft = -1;									
@@ -750,8 +801,9 @@ public class Game extends NamedObject {
 		}
 		if (player != null)
 			nDrawers+=2;
-		if (bunny != null)
-			nDrawers++;
+		
+		// bunnyhoz mindenképpen kell drawer
+		nDrawers++;
 		
 		drawers = new IDrawer[nDrawers];
 		
@@ -799,6 +851,10 @@ public class Game extends NamedObject {
 		}
 			
 		if (bunny != null) {
+			drawers[i] = new BunnyDrawer(bunny);
+		}
+		else {
+			bunny = new Bunny("U",this,null,logger,input);
 			drawers[i] = new BunnyDrawer(bunny);
 		}
 		
