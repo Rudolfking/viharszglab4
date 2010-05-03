@@ -28,10 +28,10 @@ public class GUI extends Frame {
 		game = new Game("game", logger, input);
 		
 		game.generateLevel("I[0]FFFX[0]\nBFFI[0]");	
-		game.createDrawers();
+		game.createDrawers("");
 		
 		canvas = new GUICanvas(game);
-		canvas.setSize(400,400);
+		canvas.setSize(1000,700);
 		
 		add("Center", canvas);
 		
@@ -49,8 +49,12 @@ public class GUI extends Frame {
 			mapSelector.add("Map directory not found!");
 			mapSelector.setEnabled(false);
 		} else {
-			for(String s : maps)
-				mapSelector.add(s);
+			for(String s : maps) {
+				String s2 = "";
+				for (int i = 0; s.charAt(i) != '.'; i++)
+					s2 += s.charAt(i);
+				mapSelector.add(s2);
+			}
 		}		
 		
 		menuPanel.add(mapSelector);
@@ -74,7 +78,7 @@ public class GUI extends Frame {
 				boolean fileExists = false;
 				try {
 					CustomReader fileInput = new CustomReader(new ConsoleLogger());
-					fileInput.setInput(new BufferedReader(new FileReader("maps/" + mapSelector.getSelectedItem())));					
+					fileInput.setInput(new BufferedReader(new FileReader("maps/" + mapSelector.getSelectedItem() + ".txt")));					
 
 					String s = fileInput.readLineUnsafe();
 					fileExists = (s != null);
@@ -91,10 +95,32 @@ public class GUI extends Frame {
 				} finally {					
 					if(map.length()>0) {
 						game.generateLevel(map);
-						game.createDrawers();
-						canvas.repaint();
 					}
 				}
+				
+				map = "";
+				fileExists = false;
+				try {
+					CustomReader fileInput = new CustomReader(new ConsoleLogger());
+					fileInput.setInput(new BufferedReader(new FileReader("maps/" + mapSelector.getSelectedItem() + ".coords")));					
+
+					String s = fileInput.readLineUnsafe();
+					fileExists = (s != null);
+					while (s != null) {					
+						if (map.compareTo("")!=0)
+							map = map + "\n";
+						map = map + s;
+						s = fileInput.readLineUnsafe();
+					}
+				} catch(IOException ioe) {
+					if (!fileExists) {
+						// nem történik semmi, ez az eset szinte sosem fordulhat elő
+					}
+				} finally {					
+					game.createDrawers(map);
+				}				
+				
+				canvas.repaint();
 				
 				game.logger.logMessage("o New game started.");
 			}

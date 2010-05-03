@@ -35,7 +35,7 @@ public class Game extends NamedObject {
     public boolean speed;
     
     // autók alapértelmezett inverz sebessége
-    final int def_ispeed = 50;
+    final int def_ispeed = 10;
 
     /**
      * Konstruktor a naplókimenet és felhasználói bemenet beállításával.
@@ -692,9 +692,12 @@ public class Game extends NamedObject {
 	 * @result a talált üres bejárat
      */
     public CityEntry getEmptyCityEntry() {
+		
 		Random r = new Random();
+		
 		int index = r.nextInt(intersections.length);
 		int i = (index + 1) % intersections.length;
+		
 		while (!((intersections[i].getNextCells().length>0) && 
 			(intersections[i].getPreviousCells().length==0) &&
 			(intersections[i].getVehicle() == null)) && (i != index)) {
@@ -733,7 +736,11 @@ public class Game extends NamedObject {
 		return cols;
 	}
 	
-	public void createDrawers() {		
+	public void createDrawers(String coords) {		
+		
+		String[] intCoords = null;
+		if (coords != "") 
+			intCoords = coords.split("\r\n|\r|\n");
 		
 		int nDrawers = intersections.length+roads.length+cars.length+policemen.length;
 		
@@ -752,7 +759,11 @@ public class Game extends NamedObject {
 		int[] columns = {0,0,0};
 		
 		for(Intersection in : intersections) {			
-			columns = addDrawer(i,columns,in);//,((i%5)+1)*40,((i/5)+1)*40);			
+			columns = addDrawer(i,columns,in);//,((i%5)+1)*40,((i/5)+1)*40);
+			if (coords != "") {
+				String[] c = intCoords[i].split(" ");
+				((IntersectionDrawer)(drawers[i])).setCoords(Integer.valueOf(c[1]),Integer.valueOf(c[2]));			
+			}
 			i++;
 		}
 		
