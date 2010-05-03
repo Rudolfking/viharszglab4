@@ -2,6 +2,7 @@
 package gui;
 
 import java.io.IOException;
+import java.util.*;
 /**
  * Közlekedési lámpát valósít meg ez az osztály. 
  * Hol zöld, hol piros. Ez utóbbinál a jármûvek 
@@ -29,12 +30,19 @@ public class TrafficLight extends NamedObject implements ISign {
      * Két állapot közötti számláló, ez alapján váltakozik, ld. állapotdiagram
      */
     private int offset;
+    
+    public static boolean randomOffset = false;
 
     public TrafficLight(String name, Logger logger, CustomReader input) {
         super(name, logger, input);
         redTime = default_redTime;
         greenTime = default_greenTime;
-        offset = 0;
+        if (randomOffset) {
+			Random r = new Random();
+			offset = r.nextInt(greenTime+redTime);
+		}
+        else
+			offset = 0;
     }
     /**
      * 
