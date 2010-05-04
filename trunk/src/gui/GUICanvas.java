@@ -1,7 +1,9 @@
 package gui;
 
 import java.awt.*;
-
+/**
+ * A grafikus felület canvas-a, azaz a felület, ahova a pálya kerül
+ */
 /**
  * VÃ¡szon komponens, ami minden ÃºjrarajzolÃ¡skor kirajzol magÃ¡ra egy
  * csatolt Game objektumot, Ã©s Ã¼zenetek megjelenÃ­tÃ©sÃ©re is kÃ©pes.
@@ -10,11 +12,17 @@ public class GUICanvas extends Canvas {
 	
 	private Game game;
 	private String message;	
-	
+	/**
+	 * Konstruktor: játék beállítása
+	 * @param game a játék referenciája
+	 */
 	public GUICanvas(Game game) {
 		this.game = game;		
 	}
-	
+	/**
+	 * Játék hozzárendelése
+	 * @param game a játék referenciája
+	 */
 	/**
 	 * Csatolja a megadott jÃ¡tÃ©k objektumot. EttÅ‘l kezdve ezt rajzolja ki a vÃ¡szonra. 
 	 * RÃ¶gtÃ¶n egy ÃºjrarajzolÃ¡st is hÃ­v.
