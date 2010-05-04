@@ -1,10 +1,9 @@
 package gui;
 
 import java.awt.*;
-
 /**
- * ÃltalÃ¡nos, kocsit rajzolni kÃ©pes osztÃ¡ly.
- */ 
+ * Egy általános jármû kirajzolásárt felelõs.
+ */
 public class VehicleDrawer implements IDrawer {
 	
 	final int carLength = 20;
@@ -17,7 +16,10 @@ public class VehicleDrawer implements IDrawer {
 	protected double dx;
 	protected double dy;
 	protected boolean erasing;	
-	
+	/**
+	 * Konstruktor: beállítja a szükséges állapotokat.
+	 * @param v a jármû referenciája.
+	 */
 	/**
 	 * Konstruktor a rajzolandÃ³ kocsi megadÃ¡sÃ¡val.
 	 * @param v a rajzolandÃ³ kocsi
@@ -32,9 +34,9 @@ public class VehicleDrawer implements IDrawer {
 		dy = 0;
 		erasing = false;
 	}	
-	
 	/**
-	 * Teljes ÃºjrarajzolÃ¡s.
+	 * Kirajzolás
+	 * @param g grafikus felületre rajzolunk.
 	 */
 	public void draw(Graphics g) {
 		
@@ -99,9 +101,9 @@ public class VehicleDrawer implements IDrawer {
 			g.drawLine((int)(x+dx*3),(int)(y+dy*3),(int)(x+dy*3-dx*3),(int)(y-dx*3-dy*3));
 		}
 	}
-	
 	/**
-	 * ÃšjrarajzolÃ¡s csak akkor, ha a tÃ¡rolt informÃ¡ciÃ³hoz kÃ©pest vÃ¡ltozott a kirajzolandÃ³ objektum Ã¡llapota.
+	 * Frissítés: ha kell, frissítjük a megjelenõ jármûvet, ha nem, nem.
+	 * @param g a Graphics objektum
 	 */
 	public void refresh(Graphics g) {
 		if(vehicle.getCell() != prevCell) {			
