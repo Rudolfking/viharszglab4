@@ -1,16 +1,15 @@
 package gui;
 
 import java.awt.*;
-
 /**
- * Civil kocsit rajzolni kÃ©pes osztÃ¡ly.
+ * A civil autó kirajzolásáért felelõs.
  */
 public class CivilCarDrawer extends VehicleDrawer {
 	
 	/**
-	 * Konstruktor a rajzolandÃ³ kocsi megadÃ¡sÃ¡val.
-	 * @param v a rajzolandÃ³ kocsi
-	 */
+	* Kirajzolja a civil autót.
+	* @param v a kirajzolandó jármû.
+	*/
 	CivilCarDrawer(Vehicle v) {
 		
 		super(v);		
