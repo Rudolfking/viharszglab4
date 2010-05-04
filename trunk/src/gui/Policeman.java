@@ -33,7 +33,18 @@ public class Policeman extends Vehicle {
     public void tick() {
 		
 		if(cell == null)
-			return;        
+			return; 
+		
+		// elkapjuk a rabl�t, ha tudjuk	
+		boolean arrest = onTheSameRoad(wanted);
+		if (arrest) {				
+			INamedObject[] param = {this,wanted};					
+			if (!wanted.inGodMode())
+				logger.logEvent("Policeman $name arrested $robber",param);
+			else
+				logger.logEvent("Policeman $name failed to arrest $robber",param);
+			wanted.busted();
+		}	      
 						
 		// ellenőrizzük, hogy eltelt-e a már a sebességnek megfelelő idő        				
 		// ha eltelt, megkísérelünk lépni
@@ -69,16 +80,7 @@ public class Policeman extends Vehicle {
 				INamedObject[] param = {this};
 				logger.logEvent("Policeman $name moved to next cell",param);				
 			}	
-			nextCell.enter(this);						
-			boolean arrest = onTheSameRoad(wanted);
-			if (arrest) {				
-				INamedObject[] param = {this,wanted};					
-				if (!wanted.inGodMode())
-					logger.logEvent("Policeman $name arrested $robber",param);
-				else
-					logger.logEvent("Policeman $name failed to arrest $robber",param);
-				wanted.busted();
-			}			
+			nextCell.enter(this);								
 		} else {
 			v.interact(this);
 		}
