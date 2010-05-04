@@ -1,16 +1,24 @@
 package gui;
 
 import java.awt.*;
-
+/**
+ * A nyuszi kirajzolásáért felel.
+ */
 public class BunnyDrawer extends VehicleDrawer {
-	
+	/**
+	 * Kirajzolja a nyuszit.
+	 * @param v a kirajzolandó nyuszi.
+	 */
 	BunnyDrawer(Vehicle v) {
 		
 		super(v);		
 		color = Color.white;
 		borderColor = Color.black;
 	}
-	
+	/**
+	 * A kirajzoló függvény és a nyuszi alakja.
+	 * @param g a Graphics, amire tudunk rajzolni
+	 */
 	public void draw(Graphics g) {
 		
 		if(vehicle.getCell() == null)

@@ -1,7 +1,9 @@
 package gui;
 
 import java.awt.*;
-
+/**
+ * A közlekedési lámpa kirajzolásáért felelõs.
+ */
 public class TrafficLightDrawer extends SignDrawer {
 	
 	private int prevState;
@@ -10,7 +12,10 @@ public class TrafficLightDrawer extends SignDrawer {
 		super(s,c);
 		prevState = -1;
 	}	
-	
+	/**
+	 * A draw függvény rajzolja ki a lámpát.
+	 * @param g méghozzá a graphics-re.
+	 */
 	public void draw(Graphics g) {		
 		
 		if (((TrafficLight)(sign)).isBlocking())
@@ -33,7 +38,10 @@ public class TrafficLightDrawer extends SignDrawer {
 		g.fillOval(-4,6,8,8);
 		g.translate(-x,-y);
 	}
-	
+	/**
+	 * Frissítés, ha szükséges
+	 * @param g méghozzá a graphics-re.
+	 */
 	public void refresh(Graphics g) {
 		int currentState = ((TrafficLight)(sign)).isBlocking()? 1 : 0;
 		if (currentState != prevState)

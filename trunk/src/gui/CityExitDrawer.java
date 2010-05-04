@@ -1,7 +1,9 @@
 package gui;
 
 import java.awt.*;
-
+/**
+ * A városhatár (kilépés) kirajzolásáért felelõs.
+ */
 public class CityExitDrawer extends IntersectionDrawer {
 	
 	CityExitDrawer(Intersection i, int x, int y) {		
