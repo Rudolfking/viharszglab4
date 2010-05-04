@@ -12,7 +12,7 @@ public class Robber extends Vehicle {
     public int getSpeedLevel() { return speedLevel; }
     public int getMaxSpeedLevel() { return iSpeedOptions.length; }
     
-    final int default_godModeDuration = 300;
+    final int default_godModeDuration = 250;
     
     protected int godModeDuration = default_godModeDuration;
     protected int godModeTicksLeft;
