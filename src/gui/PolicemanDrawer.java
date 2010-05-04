@@ -1,15 +1,14 @@
 package gui;
 
 import java.awt.*;
-
 /**
- * RendÅ‘rautÃ³t rajzolni kÃ©pes osztÃ¡ly.
- */ 
+ * A rendõrt rajzolja ki a megfelelõ helyre.
+ */
 public class PolicemanDrawer extends VehicleDrawer {
 	
 	/**
-	 * Konstruktor a rajzolandÃ³ kocsi megadÃ¡sÃ¡val.
-	 * @param v a rajzolandÃ³ kocsi
+	 * A konstruktor rögzíti a jármûvet. Kirajzolja a rendõrt, más színnel.
+	 * @param v ezt.
 	 */
 	PolicemanDrawer(Vehicle v) {
 		

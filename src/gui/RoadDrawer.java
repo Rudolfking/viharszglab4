@@ -1,7 +1,9 @@
 package gui;
 
 import java.awt.*;
-
+/**
+ * Egy utat kirajzolni képes osztály.
+ */
 public class RoadDrawer implements IDrawer {
 	
 	final int width = 20;
@@ -39,6 +41,11 @@ public class RoadDrawer implements IDrawer {
 			
 	}
 	
+	/**
+	 * A konstruktor rögzíti az utat
+	 * @param road az utat.
+	 * @param player és a játékost ha itt van (útvonalválasztás!)
+	 */
 	RoadDrawer(Road road, Robber player) {
 		
 		this.road = road;	
@@ -46,6 +53,10 @@ public class RoadDrawer implements IDrawer {
 		prevSelected = isSelected();
 	}
 	
+	/**
+	 * A draw függvény rajzolja ki az utat (összeköt).
+	 * @param g A graphics-ra rajzolás.
+	 */
 	public void draw(Graphics g) {		
 		
 		g.setColor(Color.gray);
@@ -87,7 +98,10 @@ public class RoadDrawer implements IDrawer {
 		g.drawLine((int)(x1+dx*length*0.25+dy*(hw+3)),(int)(y1+dy*length*0.25-dx*(hw+3)),
 			(int)(x1+dx*length*0.75+dy*(hw+3)),(int)(y1+dy*length*0.75-dx*(hw+3)));
 	}
-	
+	/**
+	 * A draw függvény refresh-e: Ha kell frissít, ha nem, nem rajzol.
+	 * @param g A graphics-ra rajzolás.
+	 */
 	public void refresh(Graphics g) {
 		
 		if (prevSelected != isSelected()) {

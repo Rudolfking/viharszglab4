@@ -4,7 +4,9 @@ import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.Timer;
-
+/**
+ * A GUI osztály, felel a grafikus felületért.
+ */
 /**
  * 
  */ 
