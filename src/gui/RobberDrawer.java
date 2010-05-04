@@ -1,19 +1,25 @@
 package gui;
 
 import java.awt.*;
-
 /**
- * BankrablÃ³t kirajzolni kÃ©pes osztÃ¡ly.
- */ 
+ * A rablót rajzolja ki.
+ */
 public class RobberDrawer extends VehicleDrawer {
 	
+	/**
+	 * A konstruktor rögzíti a jármûvet.
+	 * @param v ezt.
+	 */
 	RobberDrawer(Vehicle v) {
 		
 		super(v);		
 		color = new Color(255,64,64);
 		borderColor = new Color(192,0,0);
 	}
-	
+	/**
+	 * A draw függvény rajzolja ki a rablót.
+	 * @param g méghozzá a graphics-re.
+	 */
 	/**
 	 * Teljes ÃºjrarajzolÃ¡s.
 	 */
