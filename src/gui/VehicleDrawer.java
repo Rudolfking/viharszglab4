@@ -2,6 +2,9 @@ package gui;
 
 import java.awt.*;
 
+/**
+ * Általános, kocsit rajzolni képes osztály.
+ */ 
 public class VehicleDrawer implements IDrawer {
 	
 	final int carLength = 20;
@@ -15,6 +18,10 @@ public class VehicleDrawer implements IDrawer {
 	protected double dy;
 	protected boolean erasing;	
 	
+	/**
+	 * Konstruktor a rajzolandó kocsi megadásával.
+	 * @param v a rajzolandó kocsi
+	 */ 
 	VehicleDrawer(Vehicle v) {
 		
 		vehicle = v;		
@@ -26,6 +33,9 @@ public class VehicleDrawer implements IDrawer {
 		erasing = false;
 	}	
 	
+	/**
+	 * Teljes újrarajzolás.
+	 */
 	public void draw(Graphics g) {
 		
 		if(prevCell == null)
@@ -90,6 +100,9 @@ public class VehicleDrawer implements IDrawer {
 		}
 	}
 	
+	/**
+	 * Újrarajzolás csak akkor, ha a tárolt információhoz képest változott a kirajzolandó objektum állapota.
+	 */
 	public void refresh(Graphics g) {
 		if(vehicle.getCell() != prevCell) {			
 			

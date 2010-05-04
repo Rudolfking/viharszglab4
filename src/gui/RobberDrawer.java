@@ -2,6 +2,9 @@ package gui;
 
 import java.awt.*;
 
+/**
+ * Bankrablót kirajzolni képes osztály.
+ */ 
 public class RobberDrawer extends VehicleDrawer {
 	
 	RobberDrawer(Vehicle v) {
@@ -11,6 +14,9 @@ public class RobberDrawer extends VehicleDrawer {
 		borderColor = new Color(192,0,0);
 	}
 	
+	/**
+	 * Teljes újrarajzolás.
+	 */
 	public void draw(Graphics g) {
 		
 		if(prevCell == null)
@@ -73,7 +79,14 @@ public class RobberDrawer extends VehicleDrawer {
 		g.fillOval(((int)(x-dx*carLength/2-dy*carWidth*0.35))-1,((int)(y-dy*carLength/2+dx*carWidth*0.35))-2,4,4);
 		g.fillOval(((int)(x-dx*carLength/2+dy*carWidth*0.35))-1,((int)(y-dy*carLength/2-dx*carWidth*0.35))-2,4,4);
 		
+		// letörlés az előző mezőről
 		if (erasing && (prevCell.getRoad() != null)) {
+			
+			if(!((Robber)(vehicle)).getIsGoingForward()) {
+				dx = -dx;
+				dy = -dy;
+			}
+			
 			g.setColor(Color.white);
 			g.drawLine((int)(x+dx*3),(int)(y+dy*3),(int)(x-dy*3-dx*3),(int)(y+dx*3-dy*3));
 			g.drawLine((int)(x+dx*3),(int)(y+dy*3),(int)(x+dy*3-dx*3),(int)(y-dx*3-dy*3));

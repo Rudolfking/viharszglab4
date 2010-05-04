@@ -846,7 +846,7 @@ public class Game extends NamedObject {
 		if (player != null) {
 			drawers[i] = new RobberDrawer(player);
 			i++;
-			drawers[i] = new RobberSpeedDrawer(player,20,350);
+			drawers[i] = new RobberStatusDrawer(player,20,350);
 			i++;
 		}
 			

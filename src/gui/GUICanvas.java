@@ -2,6 +2,10 @@ package gui;
 
 import java.awt.*;
 
+/**
+ * Vászon komponens, ami minden újrarajzoláskor kirajzol magára egy
+ * csatolt Game objektumot, és üzenetek megjelenítésére is képes.
+ */ 
 public class GUICanvas extends Canvas {
 	
 	private Game game;
@@ -11,22 +15,38 @@ public class GUICanvas extends Canvas {
 		this.game = game;		
 	}
 	
+	/**
+	 * Csatolja a megadott játék objektumot. Ettől kezdve ezt rajzolja ki a vászonra. 
+	 * Rögtön egy újrarajzolást is hív.
+	 * @param game a csatolandó játék objektum
+	 */ 
 	public void setGame(Game g) {
 		game = g;
 		repaint();
 	}
 	
+	/**
+	 * Új üzenetet tárol el, és rögtön újra is rajzolja a komponenst.
+	 * @param message a tárolandó üzenet
+	 */ 
 	public void displayMessage(String message) {
 		
 		this.message = message;
 		repaint();
 	}
 	
+	/**
+	 * Törli az eltárolt üzenetet.
+	 */ 
 	public void clearMessage() {
 		
 		this.message = "";
 	}
 	
+	/**
+	 * A komponens paint metódusának felüldefiniálása: kirajzolja a game-et,
+	 * és esetlegesen az eltárolt üzenetet.
+	 */ 
 	public void paint(Graphics g) {
 		
 		Rectangle rect = getBounds();
