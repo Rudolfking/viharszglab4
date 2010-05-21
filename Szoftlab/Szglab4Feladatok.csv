@@ -1,0 +1,140 @@
+Osztályok,Felelőség,ősosztályok,Interfészek,Attribútumok,Metódusok,egyéb comment,enter=cntrl+enter
+Game,"A játékban szereplo osztályokat tartalmazó objektum, ami összefogja
+azokat, lehetové teszi, hogy együttesen is muködoképesek legyenek.",,,"- Clock
+- Roads[0..*]
+- Intersection[0..*]"
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+Road,,,,"- int ID //ez azért kell hogy tudjuk ellenőrizni, hogy egy Road on van a rendor és a bankrabló"
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+Mezo,,,,"- Road Parent
+- KovetkezoMezo
+- ElozoMezo
+- Kresz","- CanLeave() //igazat ad vissza ha egy jármű elhagyhatja e a cellát
+- CanEnter() //igazat ad vissza ha nincsen jármű a cellán
+- Enter(Jarmu) //belerakjuk a Cellába a Jarmu t"
+Szilveszter,,,,,"- CanLeave() az itt anyi lenne, hogy egy jármű elhagyhatja e a cellát e vagy sem, ez mindig igaz kivéve ha stop tábla vagy piros lámpa van"
+Balázs
+Máté 
+Krisztián
+
+Jarmu,,,,"- Mezo TartozkodoMezo
+- int Timer// ha 0 akkor léphet egyet",- OnTick() //csökkenti a timert
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+Bankrablo,,Jarmu,,,"- SebbeségVáltoztat(int Gyorsulas) //gyorsít lasit
+- Megfordul()"
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+Rendor,,Jarmu
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+Clock,Az időzítésért felelős osztály,,,,- Tick() //Az időzítő jelet kiadó függvény
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+Csomopont,,mező,,"- RoadsOut[1..*]
+- RoadsIn[1..*]","- KovetkezoMezoNovelese()
+- KovetkezoMezoCsokkentese()"
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+CsomopontOut,,Csomopont
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+CsomopontIn,,Csomopont
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+Kresz,,,,,"- Enter()
+- Tick()
+- CanLeave()"
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+StopTabla,,Kresz
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+PirosLampa,,Kresz,,- int Timer
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+KreszSemmi,,Kresz
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+
+Szilveszter
+Balázs
+Máté 
+Krisztián
+
+
+Szilveszter
+Balázs
+Máté 
+Krisztián
